@@ -1,0 +1,1145 @@
+MASTER PROJECT PROMPT: WORLD FLIGHT SCHEDULE
+
+Build a Professional Global Aviation Information Website
+
+Act as a senior full-stack software engineer, aviation data integration specialist, UI/UX designer, database architect, SEO specialist, and technical project manager.
+
+Your task is to DESIGN, DEVELOP, TEST, AND COMPLETE a fully functional global flight information website.
+
+Do not create just a landing page, static mockup, or visual prototype. Build a real working application with a scalable architecture, real aviation data integrations, automated data synchronization, database storage, search functionality, filtering, detailed flight information, and SEO-friendly editorial content.
+
+The project must be production-oriented and ready for deployment.
+
+Do not ask me unnecessary questions. Make sensible professional technical decisions and complete the project independently.
+
+---
+
+1. WEBSITE IDENTITY
+
+Website name: WORLD FLIGHT SCHEDULE
+
+Suggested tagline:
+"Global Flight Schedules, Airport Information & Aircraft Tracking."
+
+Main purpose:
+
+Create an international aviation information platform where visitors from anywhere in the world can find flight schedules, departure and arrival information, airline details, airport information, aircraft types, flight numbers, routes, and flight statuses.
+
+The website must serve a worldwide audience.
+
+The primary website language must be ENGLISH.
+
+All public-facing elements must use English, including:
+
+- Navigation menus.
+- Headings and descriptions.
+- Search filters.
+- Airport information.
+- Flight information.
+- Buttons and labels.
+- Articles.
+- Footer.
+- Error messages.
+- Metadata and SEO content.
+
+Do not mix Indonesian into the public interface.
+
+---
+
+2. DESIGN AND VISUAL IDENTITY
+
+Create a premium, modern, professional aviation website.
+
+Main color palette:
+
+- Primary: Deep Maroon (#681C35).
+- Secondary Maroon: (#8A2948).
+- White: (#FFFFFF).
+- Background: (#F8F8FA).
+- Text: (#25232A).
+- Secondary Text: (#777780).
+- Borders: (#E8E5E8).
+- Success: Green.
+- Warning: Amber.
+- Error: Red.
+
+Design direction:
+
+A clean international aviation portal with a sophisticated maroon-and-white identity.
+
+The design must feel like a professional aviation information platform, not a generic AI website builder template.
+
+Avoid excessive rounded cards, unnecessary shadows, oversized empty sections, decorative gradients, and repetitive box layouts.
+
+Use clean spacing, subtle borders, clear typography, professional tables, and carefully organized information.
+
+Use a modern sans-serif font such as Inter.
+
+The website must be fully responsive:
+
+- Desktop.
+- Laptop.
+- Tablet.
+- Android phones.
+- iPhones.
+
+On mobile, tables must become horizontally scrollable or use compact flight information layouts without hiding important data.
+
+Use consistent spacing, typography, icons, and component styles throughout the website.
+
+---
+
+3. HEADER AND AUTOMATIC DATE DISPLAY
+
+Create a professional header.
+
+Top information bar:
+
+- Current day.
+- Current date.
+- Current month.
+- Current year.
+- Automatic time display.
+
+Example:
+
+MONDAY, NOVEMBER 2, 2026
+
+The date must update automatically using the actual current date. Never hardcode example dates.
+
+Use an appropriate timezone configuration. Display airport departure and arrival times in their respective local airport timezones.
+
+Header navigation:
+
+- Home
+- Flight Schedules
+- Departures
+- Arrivals
+- Airports
+- Airlines
+- Aircraft
+- Flight Routes
+- Aviation News
+- About Us
+
+Include a prominent global search feature.
+
+The header must be sticky on desktop where appropriate and optimized for mobile navigation.
+
+---
+
+4. HOMEPAGE: GLOBAL FLIGHT SCHEDULES
+
+The homepage is the most important part of this project.
+
+Visitors must immediately see real flight information without needing to navigate to another page.
+
+Create a professional homepage with the following sections.
+
+A. Main Hero Section
+
+Heading:
+
+"Global Flight Schedules & Airport Information"
+
+Description:
+
+"Explore worldwide flight schedules, airport departures, arrivals, airline information, aircraft types, and flight status updates."
+
+Include a large, functional flight search interface.
+
+Search options:
+
+- Flight Number.
+- Departure Airport.
+- Arrival Airport.
+- Departure City.
+- Arrival City.
+- Airline.
+- Country.
+- Date.
+
+Search must support airport names, IATA codes, ICAO codes, airline names, and flight numbers whenever supported by the data provider.
+
+B. Live Flight Statistics
+
+Display real statistics retrieved from the aviation data provider.
+
+Examples:
+
+- Flights Scheduled Today.
+- Departures.
+- Arrivals.
+- Active Flights.
+- Delayed Flights.
+- Cancelled Flights.
+
+IMPORTANT:
+
+Never invent statistics.
+
+If the provider does not offer reliable worldwide totals, show statistics for the currently selected region or available dataset.
+
+Display the data timestamp and coverage information.
+
+C. Worldwide Flight Schedule Table
+
+This section must appear directly on the homepage.
+
+Heading:
+
+"Worldwide Flight Schedules Today"
+
+Display real flight schedule records from the connected aviation API.
+
+Required columns:
+
+1. Flight Number.
+2. Airline.
+3. Aircraft Type.
+4. Departure Airport.
+5. Departure Time.
+6. Arrival Airport.
+7. Arrival Time.
+8. Flight Status.
+9. Flight Details.
+
+Additional information when available:
+
+- IATA flight code.
+- ICAO flight code.
+- Aircraft registration.
+- Aircraft ICAO type code.
+- Terminal.
+- Gate.
+- Scheduled departure.
+- Estimated departure.
+- Actual departure.
+- Scheduled arrival.
+- Estimated arrival.
+- Actual arrival.
+- Delay duration.
+- Flight duration.
+- Codeshare information.
+
+Provide pagination and sorting.
+
+Allow users to change the number of displayed records.
+
+Default options:
+
+- 10 flights.
+- 25 flights.
+- 50 flights.
+- 100 flights.
+
+Do not load the entire worldwide database into the browser.
+
+Use server-side pagination and filtering.
+
+Display an honest data coverage notice when the API only provides partial coverage.
+
+D. Departure and Arrival Sections
+
+Create two separate sections:
+
+"Latest Departures"
+
+"Latest Arrivals"
+
+Each section must display actual flight information from the API.
+
+Allow visitors to select:
+
+- Country.
+- Airport.
+- Airline.
+- Date.
+- Flight status.
+
+E. Global Airport Search
+
+Create a searchable airport directory.
+
+Include available airports worldwide.
+
+Each airport record should contain:
+
+- Airport name.
+- IATA code.
+- ICAO code.
+- City.
+- Country.
+- Country code.
+- Latitude.
+- Longitude.
+- Airport timezone.
+- Airport type, when available.
+
+Support searches by airport name, city, country, IATA code, and ICAO code.
+
+Use a reliable airport reference dataset to maintain the airport directory.
+
+Do not confuse an airport directory with actual flight schedule coverage.
+
+---
+
+5. ADVANCED FLIGHT FILTERING SYSTEM
+
+Create a powerful and functional filtering system.
+
+Visitors must be able to combine multiple filters.
+
+Required filters:
+
+1. Country.
+2. Departure Airport.
+3. Arrival Airport.
+4. Airline.
+5. Flight Number.
+6. Aircraft Type.
+7. Flight Status.
+8. Departure Date.
+9. Arrival Date.
+10. Departure Time Range.
+11. Arrival Time Range.
+12. Domestic Flights.
+13. International Flights.
+
+Flight status options:
+
+- Scheduled.
+- Active.
+- En Route.
+- Landed.
+- Delayed.
+- Cancelled.
+- Diverted.
+- Unknown.
+
+Only display a status when supported by the source data.
+
+Include:
+
+- Apply Filters button.
+- Reset Filters button.
+- Search input.
+- Sort by departure.
+- Sort by arrival.
+- Sort by airline.
+- Sort by flight number.
+
+All filters must work with real backend queries.
+
+Changing a filter must update the displayed results without unnecessarily reloading the entire website.
+
+On mobile, filters should open in a clean expandable panel.
+
+---
+
+6. FLIGHT DETAILS PAGE
+
+Every flight record must have a dedicated detail page.
+
+Use SEO-friendly URLs where possible.
+
+Example:
+
+/flight/sq-321
+
+The page must display:
+
+- Flight number.
+- Airline name.
+- Airline logo when legally available.
+- Departure airport.
+- Arrival airport.
+- Departure city.
+- Arrival city.
+- Country information.
+- Aircraft manufacturer.
+- Aircraft model.
+- Aircraft type code.
+- Registration when available.
+- Scheduled departure.
+- Estimated departure.
+- Actual departure.
+- Scheduled arrival.
+- Estimated arrival.
+- Actual arrival.
+- Flight status.
+- Delay information.
+- Terminal and gate when available.
+- Flight duration.
+- Last updated timestamp.
+
+Include a flight route visualization when reliable coordinates are available.
+
+IMPORTANT:
+
+Do not invent aircraft models, aircraft registrations, flight routes, or operational status.
+
+If information is missing, display:
+
+"Information currently unavailable."
+
+Do not display placeholder information as real flight data.
+
+---
+
+7. AIRPORT DETAIL PAGES
+
+Create a dedicated page for each airport.
+
+Example:
+
+/airport/singapore-changi-sin
+
+Each page should include:
+
+- Airport name.
+- IATA code.
+- ICAO code.
+- City.
+- Country.
+- Airport timezone.
+- Geographic coordinates.
+- Airport information.
+- Available airlines.
+- Today's departures.
+- Today's arrivals.
+- Upcoming flights.
+- Airport data update timestamp.
+
+Include functional filters for flight schedules.
+
+Generate airport pages from actual airport records.
+
+Do not create thousands of empty or duplicate SEO pages.
+
+Only index pages that contain useful and sufficiently complete information.
+
+---
+
+8. AIRLINE DIRECTORY
+
+Create a global airline directory.
+
+Each airline page should include:
+
+- Official airline name.
+- IATA airline code.
+- ICAO airline code.
+- Country.
+- Available flight schedules.
+- Aircraft information when available.
+- Airline website when verified.
+
+Example URL:
+
+/airline/singapore-airlines
+
+Include airline search and filtering.
+
+Never invent airline codes or official website links.
+
+---
+
+9. AIRCRAFT DIRECTORY
+
+Create an aircraft information directory.
+
+Include aircraft information from verified aviation sources.
+
+Display:
+
+- Aircraft manufacturer.
+- Aircraft model.
+- Aircraft type.
+- ICAO aircraft type designator.
+- Manufacturer information.
+- Aircraft category.
+- Associated flight records when available.
+
+Examples of aircraft manufacturers:
+
+- Airbus.
+- Boeing.
+- Embraer.
+- ATR.
+- Bombardier.
+
+Examples of aircraft models:
+
+- Airbus A320.
+- Airbus A321.
+- Airbus A350.
+- Boeing 737.
+- Boeing 777.
+- Boeing 787.
+- Embraer E190.
+
+Aircraft type must come from verified provider data or an authoritative aircraft reference database.
+
+Never assume that an airline always operates a particular aircraft model on a specific route.
+
+---
+
+10. WORLDWIDE ROUTE INFORMATION
+
+Create a flight route directory.
+
+Visitors should be able to explore:
+
+- Origin airport.
+- Destination airport.
+- Airline.
+- Flight number.
+- Available schedule.
+- Aircraft type.
+- Flight duration when available.
+
+Example:
+
+/route/jakarta-to-singapore
+
+Display route information based on actual schedule records.
+
+Do not generate fictitious routes to fill empty pages.
+
+---
+
+11. AUTOMATIC GLOBAL DATA INTEGRATION
+
+This is one of the most important requirements.
+
+The website must use real external aviation data APIs.
+
+Do not use static hardcoded flight records as the production data source.
+
+Before implementing the integration:
+
+1. Research aviation data providers.
+2. Review their current API documentation.
+3. Compare global airport coverage.
+4. Compare scheduled flight coverage.
+5. Verify aircraft information availability.
+6. Verify airline and airport information.
+7. Review API request limits.
+8. Review commercial usage and redistribution licensing.
+9. Review pricing and free-tier restrictions.
+10. Select the best provider or combination of providers.
+
+Potential providers to evaluate:
+
+- Aviationstack.
+- Cirium.
+- FlightAware AeroAPI.
+- AirLabs.
+- Amadeus for Developers.
+- Other legitimate aviation data providers.
+
+Do not assume all providers offer the same data.
+
+Do not use an aircraft tracking API as the only source of scheduled flight information.
+
+Do not use a static airport directory as a flight schedule source.
+
+Create a modular aviation API integration architecture so additional providers can be connected later.
+
+Implement:
+
+- API adapters.
+- Data normalization.
+- Data validation.
+- Error handling.
+- Retry logic.
+- Rate limiting.
+- API request monitoring.
+- Duplicate detection.
+- Data source tracking.
+- Last successful synchronization timestamp.
+
+Use secure backend functions to communicate with external APIs.
+
+NEVER expose API keys in frontend JavaScript, browser requests, public configuration files, or client-side source code.
+
+Store API credentials in secure environment variables or server-side secrets.
+
+If a paid API is required for adequate global coverage, clearly document the requirement and make the integration configurable.
+
+Do not silently substitute fabricated data when API access fails.
+
+---
+
+12. AUTOMATIC DAILY AND PERIODIC UPDATES
+
+The website must automatically retrieve new and updated flight information.
+
+Implement a scheduled synchronization system.
+
+Recommended architecture:
+
+- Airport reference data: synchronize periodically according to the source's update schedule.
+- Airline reference data: synchronize periodically.
+- Flight schedules: synchronize ahead of the operating date and refresh regularly.
+- Flight status: refresh more frequently for flights approaching departure or currently operating.
+- Aircraft information: update when new verified information becomes available.
+
+Use backend scheduled jobs or a reliable external scheduler.
+
+Do not rely on a visitor opening the website to trigger synchronization.
+
+Store the following:
+
+- Last synchronization time.
+- Last successful API request.
+- Data source.
+- Number of records imported.
+- Number of records updated.
+- Failed synchronization attempts.
+- API quota usage.
+
+Display:
+
+"Last updated: [actual timestamp]"
+
+Use appropriate caching to reduce unnecessary API calls.
+
+Do not repeatedly fetch all worldwide records every few minutes.
+
+Use incremental synchronization wherever possible.
+
+Ensure that failed updates do not delete previously valid records.
+
+Preserve historical flight information when permitted by the data provider's licensing terms.
+
+---
+
+13. DATE, TIME, AND TIMEZONE HANDLING
+
+Implement accurate international time handling.
+
+Requirements:
+
+- Store timestamps in UTC internally.
+- Display local departure time according to departure airport timezone.
+- Display local arrival time according to arrival airport timezone.
+- Handle daylight saving time.
+- Handle flights crossing midnight.
+- Handle flights arriving on a different calendar day.
+- Display the date correctly for each airport.
+- Show UTC time when useful.
+- Never calculate local time using fixed offsets when an official timezone identifier is available.
+
+The homepage date header must automatically display the actual current day, date, month, and year.
+
+Example:
+
+MONDAY, NOVEMBER 2, 2026.
+
+Never hardcode the example.
+
+---
+
+14. FLIGHT TRACKING MAP
+
+Create an interactive global map page.
+
+Show actual aircraft positions only when supported by a legitimate live tracking data source.
+
+When available, display:
+
+- Aircraft position.
+- Flight number.
+- Aircraft type.
+- Airline.
+- Origin.
+- Destination.
+- Altitude.
+- Ground speed.
+- Heading.
+- Last position update.
+
+Allow visitors to search and filter aircraft on the map.
+
+Use a scalable map implementation.
+
+Do not display scheduled flights as if they were live aircraft positions.
+
+Clearly distinguish:
+
+- Scheduled flight.
+- Active flight.
+- Live aircraft position.
+
+If live tracking data is unavailable, explain this clearly rather than showing fake aircraft movements.
+
+---
+
+15. AVIATION ARTICLES AND EDITORIAL CONTENT
+
+The homepage must include an attractive editorial section below the flight schedule sections.
+
+Heading:
+
+"Aviation News & Travel Insights"
+
+Create a professional article listing with:
+
+- Featured image.
+- Article title.
+- Short excerpt.
+- Publication date.
+- Category.
+- Read More link.
+
+Suggested categories:
+
+- Aviation News.
+- Airport Guides.
+- Airline Information.
+- Aircraft Guides.
+- Flight Travel Tips.
+- Aviation Technology.
+- Airport Operations.
+- Global Aviation.
+
+Create a complete article detail page.
+
+Article requirements:
+
+- Original English content.
+- Accurate and useful information.
+- Natural human-readable writing.
+- Clear headings.
+- H2 and H3 hierarchy.
+- Relevant internal links.
+- Appropriate images with permitted usage.
+- Author information.
+- Publication date.
+- Updated date when applicable.
+- Article category.
+- Breadcrumb navigation.
+
+Do not create automatically generated thin articles just to increase the number of pages.
+
+Do not invent aviation news, statistics, official statements, airline announcements, or airport facts.
+
+Use verified sources for factual and time-sensitive content.
+
+If AI-assisted article generation is implemented, require factual source material and editorial review before publication.
+
+Create an admin interface to write, edit, publish, unpublish, and manage articles.
+
+---
+
+16. GOOGLE ADSENSE READINESS
+
+The website must be designed with Google AdSense policy compliance in mind.
+
+IMPORTANT:
+
+No website can guarantee AdSense approval. Build the site to meet quality, usability, content, and policy requirements.
+
+Create these essential pages:
+
+1. About Us.
+2. Contact Us.
+3. Privacy Policy.
+4. Terms and Conditions.
+5. Disclaimer.
+6. Editorial Policy.
+
+The website must provide:
+
+- Original and useful information.
+- Clear website ownership and purpose.
+- Accurate aviation information.
+- Transparent data sources.
+- Easy navigation.
+- Mobile-friendly layouts.
+- Fast loading.
+- Good accessibility.
+- No deceptive buttons.
+- No misleading advertisements.
+- No copied articles.
+- No automatically generated low-value pages.
+- No fake flight information.
+- No fabricated statistics.
+
+Create designated advertisement placements that can be activated after approval.
+
+Suggested ad locations:
+
+- Below the homepage introduction.
+- Between suitable editorial sections.
+- Within article content where permitted.
+- Sidebar on desktop where appropriate.
+- Below flight search results without disrupting usability.
+
+Do not insert fake advertisements.
+
+Do not make advertisements look like navigation buttons.
+
+Do not encourage visitors to click advertisements.
+
+Support responsive ad units.
+
+Provide space for a future Google AdSense publisher ID and ad slot IDs.
+
+Create an ads configuration setting so advertisements can be disabled globally.
+
+---
+
+17. SEO: INTERNATIONAL SEARCH ENGINE OPTIMIZATION
+
+Implement comprehensive technical SEO.
+
+Requirements:
+
+- SEO-friendly URLs.
+- Unique page titles.
+- Unique meta descriptions.
+- Canonical URLs.
+- XML sitemap.
+- robots.txt.
+- Breadcrumbs.
+- Open Graph metadata.
+- Social sharing metadata.
+- Proper heading hierarchy.
+- Semantic HTML.
+- Image alt text.
+- Internal linking.
+- Pagination SEO.
+- Indexing controls.
+- Fast page rendering.
+
+Use appropriate structured data where eligible and accurate:
+
+- Organization.
+- WebSite.
+- BreadcrumbList.
+- Article.
+- NewsArticle when applicable.
+
+Do not mark flight schedules as products or invent structured data.
+
+Avoid duplicate and thin pages.
+
+Create useful indexable pages for airports, airlines, routes, and articles when sufficient information is available.
+
+Use descriptive English URLs.
+
+Example:
+
+/flights
+/departures
+/arrivals
+/airports
+/airlines
+/aircraft
+/routes
+/flight/flight-number
+/airport/airport-name-iata
+/airline/airline-name
+/articles/article-name
+
+Implement appropriate hreflang only if additional language versions are actually created.
+
+---
+
+18. ADMIN DASHBOARD
+
+Create a secure administrator dashboard.
+
+Only authorized administrators can access it.
+
+Features:
+
+- API configuration status.
+- Data provider configuration.
+- Synchronization history.
+- API usage monitoring.
+- Flight records monitoring.
+- Airport database management.
+- Airline database management.
+- Aircraft database management.
+- Article management.
+- SEO configuration.
+- AdSense configuration.
+- Website settings.
+- Error logs.
+
+Include a manual synchronization button for administrators.
+
+Manual synchronization must respect API quotas.
+
+Provide a clear warning when the API key is missing, invalid, expired, or out of quota.
+
+Never expose API credentials in public pages.
+
+---
+
+19. DATABASE ARCHITECTURE
+
+Create a structured database with appropriate relationships.
+
+Suggested entities:
+
+1. Airports.
+2. Airlines.
+3. Aircraft.
+4. Flights.
+5. Flight Status History.
+6. Routes.
+7. Articles.
+8. Article Categories.
+9. Admin Users.
+10. API Providers.
+11. Synchronization Logs.
+12. Website Settings.
+
+Use unique identifiers.
+
+Store provider references and source timestamps.
+
+Prevent duplicate flight records.
+
+Use indexes for frequently searched fields:
+
+- Flight number.
+- IATA airport code.
+- ICAO airport code.
+- Airline code.
+- Departure airport.
+- Arrival airport.
+- Departure date.
+- Flight status.
+
+Implement database access permissions and protect administrator-only operations.
+
+Use scalable server-side queries.
+
+---
+
+20. PERFORMANCE AND SECURITY
+
+Optimize the entire website.
+
+Requirements:
+
+- Fast loading.
+- Responsive images.
+- Lazy loading.
+- Pagination.
+- Efficient database queries.
+- Caching.
+- Server-side filtering.
+- Error boundaries.
+- Input validation.
+- Secure authentication.
+- Rate limiting.
+- Protection against unauthorized API access.
+- Secure environment variables.
+- Safe database access.
+- Proper HTTP security practices.
+
+Do not expose sensitive information.
+
+Do not trust data received directly from the browser.
+
+---
+
+21. TECHNICAL IMPLEMENTATION
+
+Use Google AI Studio's supported full-stack development environment.
+
+Preferred stack:
+
+- React.
+- TypeScript.
+- Modern responsive CSS.
+- Tailwind CSS where appropriate.
+- Secure backend API routes or server functions.
+- A scalable database.
+- Scheduled background synchronization.
+- Reliable aviation API integrations.
+
+Use Firebase or another suitable supported backend if necessary.
+
+Choose the most reliable architecture supported by the actual deployment environment.
+
+Separate frontend, backend, database, API integration, and reusable UI components.
+
+Do not place the entire application in one oversized component.
+
+Create clean, maintainable project files.
+
+---
+
+22. REQUIRED WEBSITE PAGES
+
+Build the following complete pages:
+
+1. Homepage.
+2. Global Flight Schedules.
+3. Departures.
+4. Arrivals.
+5. Airport Directory.
+6. Airport Details.
+7. Airline Directory.
+8. Airline Details.
+9. Aircraft Directory.
+10. Aircraft Details.
+11. Flight Details.
+12. Flight Routes.
+13. Flight Tracking Map.
+14. Aviation Articles.
+15. Article Details.
+16. About Us.
+17. Contact Us.
+18. Privacy Policy.
+19. Terms and Conditions.
+20. Disclaimer.
+21. Editorial Policy.
+22. Custom 404 Page.
+
+Every page must have working navigation and consistent design.
+
+---
+
+23. IMPORTANT DATA ACCURACY RULES
+
+These requirements are mandatory.
+
+1. Never invent flight schedules.
+2. Never invent flight numbers.
+3. Never invent airline codes.
+4. Never invent aircraft types.
+5. Never invent aircraft registrations.
+6. Never invent departure or arrival times.
+7. Never invent airport codes.
+8. Never invent flight status.
+9. Never invent live aircraft positions.
+10. Never claim complete global coverage without verified provider coverage.
+
+Use actual API data.
+
+Validate and normalize records before saving them.
+
+When a source does not provide a field, display "Not available".
+
+If the API is unavailable, show the last verified update time and a clear data availability message.
+
+Do not use fake demo records in production.
+
+If demonstration data is needed during development, clearly label it as "DEMO DATA - NOT REAL FLIGHT INFORMATION" and remove it from production.
+
+The airport directory may contain airports from a separate verified reference dataset, but this must not imply that every airport has live or scheduled flight data.
+
+Distinguish scheduled flight data from live flight tracking data.
+
+---
+
+24. FINAL TESTING AND ACCEPTANCE REQUIREMENTS
+
+Before declaring the project complete, test all major functions.
+
+Test:
+
+- Homepage loading.
+- Current date display.
+- Airport search.
+- Airline search.
+- Flight number search.
+- Country filtering.
+- Departure filtering.
+- Arrival filtering.
+- Aircraft filtering.
+- Date filtering.
+- Flight status filtering.
+- Combined filters.
+- Pagination.
+- Sorting.
+- Flight detail pages.
+- Airport detail pages.
+- Airline detail pages.
+- Aircraft information.
+- Article pages.
+- Mobile navigation.
+- Desktop layout.
+- API connection.
+- API error handling.
+- Database persistence.
+- Automatic synchronization.
+- Admin security.
+- SEO metadata.
+- Sitemap.
+- robots.txt.
+
+Check that every button and search filter works.
+
+Fix all critical errors before completing the project.
+
+Do not claim that automatic synchronization works until it has actually been configured and tested.
+
+Do not claim that global flight data is complete unless coverage has been verified.
+
+---
+
+25. DEVELOPMENT EXECUTION INSTRUCTIONS
+
+Work through the entire project systematically.
+
+PHASE 1:
+Set up the application, architecture, design system, and responsive layout.
+
+PHASE 2:
+Build the database and aviation API integration.
+
+PHASE 3:
+Build the homepage and global flight schedule system.
+
+PHASE 4:
+Build all search filters and detail pages.
+
+PHASE 5:
+Implement automatic data synchronization and timezone handling.
+
+PHASE 6:
+Build the editorial section, article system, and administration dashboard.
+
+PHASE 7:
+Implement SEO and AdSense readiness.
+
+PHASE 8:
+Test, fix, optimize, and prepare for deployment.
+
+Do not stop after producing the homepage.
+
+Do not provide only instructions or code snippets.
+
+Actually implement the application files and working features in the project environment.
+
+If an API key, external account, paid subscription, or deployment credential is required, build the integration completely and identify the exact missing credential or external configuration needed.
+
+Do not substitute a fake implementation when a real integration is required.
+
+If a feature cannot be completed because the external provider does not support it, clearly document the limitation and implement the best verified alternative.
+
+FINAL PROJECT GOAL
+
+Deliver a professional, international aviation information website called WORLD FLIGHT SCHEDULE.
+
+The homepage must immediately show real available worldwide flight schedules.
+
+Visitors must be able to search and filter flights by airport, country, airline, aircraft, flight number, date, and status.
+
+The system must automatically synchronize aviation data using legitimate APIs.
+
+The website must have a beautiful maroon-and-white design, a professional mobile and desktop experience, useful aviation articles, strong technical SEO, transparent data sources, and an architecture prepared for Google AdSense application.
+
+Prioritize data accuracy, useful content, performance, accessibility, reliability, and long-term scalability over decorative design.
+
+BUILD THE COMPLETE PROJECT NOW.

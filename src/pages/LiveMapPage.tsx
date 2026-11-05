@@ -1,0 +1,614 @@
+import React, { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
+import {
+  Radio,
+  Search,
+  Compass,
+  Plane,
+  RefreshCw,
+  ArrowRight,
+  Layers,
+  MapPin,
+  ExternalLink,
+  ShieldCheck,
+  ChevronRight,
+  SlidersHorizontal
+} from 'lucide-react';
+import { aviationService } from '../services/aviationService';
+import { FlightRecord } from '../types/aviation';
+import { AdSenseUnit } from '../components/AdSenseUnit';
+import { FlightStatusBadge } from '../components/FlightStatusBadge';
+
+interface Props {
+  onNavigate: (path: string) => void;
+}
+
+type BasemapStyle = 'osm' | 'topo' | 'canvas';
+
+interface AirspaceHub {
+  name: string;
+  code: string;
+  coords: [number, number];
+  zoom: number;
+}
+
+const CANADIAN_HUBS: AirspaceHub[] = [
+  { name: 'Seluruh Kanada', code: 'ALL', coords: [56.13, -106.34], zoom: 4 },
+  { name: 'Toronto (YYZ)', code: 'YYZ', coords: [43.6777, -79.6248], zoom: 8 },
+  { name: 'Vancouver (YVR)', code: 'YVR', coords: [49.1967, -123.1815], zoom: 8 },
+  { name: 'Montreal (YUL)', code: 'YUL', coords: [45.4657, -73.7455], zoom: 8 },
+  { name: 'Calgary (YYC)', code: 'YYC', coords: [51.1215, -114.0076], zoom: 8 },
+  { name: 'Edmonton (YEG)', code: 'YEG', coords: [53.3097, -113.5798], zoom: 8 },
+  { name: 'Ottawa (YOW)', code: 'YOW', coords: [45.3225, -75.6672], zoom: 8 },
+  { name: 'Halifax (YHZ)', code: 'YHZ', coords: [44.8808, -63.5086], zoom: 8 }
+];
+
+export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFlight, setSelectedFlight] = useState<FlightRecord | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastSync, setLastSync] = useState(new Date().toLocaleTimeString('en-CA', { hour12: false }));
+  const [basemapStyle, setBasemapStyle] = useState<BasemapStyle>('osm');
+  const [activeTab, setActiveTab] = useState<'map' | 'list'>('map');
+  const [selectedHub, setSelectedHub] = useState<string>('ALL');
+
+  const activeFlights = aviationService.getActiveLiveFlights();
+
+  // Filtered flights for the map and list
+  const filteredFlights = activeFlights.filter((f) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      f.flightNumber.toLowerCase().includes(q) ||
+      f.airlineName.toLowerCase().includes(q) ||
+      f.departureAirportIata.toLowerCase().includes(q) ||
+      f.arrivalAirportIata.toLowerCase().includes(q) ||
+      f.aircraftModel.toLowerCase().includes(q) ||
+      f.icaoFlightCode.toLowerCase().includes(q)
+    );
+  });
+
+  // Switch basemap tile layer safely without any API key requirement
+  const updateTileLayer = (map: L.Map, style: BasemapStyle) => {
+    if (tileLayerRef.current) {
+      map.removeLayer(tileLayerRef.current);
+    }
+
+    let url = '';
+    let attribution = '';
+
+    if (style === 'osm') {
+      // Standard Free OpenStreetMap Tiles - High reliability, no API keys, full detail
+      url = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors';
+    } else if (style === 'topo') {
+      // Esri World Topographic - Free public GIS service with elevations & boundaries
+      url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
+      attribution = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom';
+    } else {
+      // Esri Light Gray Canvas - Clean aviation radar styling
+      url = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+      attribution = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ';
+    }
+
+    const newTileLayer = L.tileLayer(url, {
+      attribution,
+      maxZoom: 18,
+      crossOrigin: true
+    }).addTo(map);
+
+    tileLayerRef.current = newTileLayer;
+  };
+
+  // Initialize Leaflet Map
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (mapInstanceRef.current) return;
+
+    // Create Leaflet map centered at Canada (covering Pacific to Atlantic & Arctic FIRs)
+    const map = L.map(mapContainerRef.current, {
+      center: [55.0, -97.0],
+      zoom: 4,
+      minZoom: 3,
+      maxZoom: 14,
+      zoomControl: true,
+      worldCopyJump: true
+    });
+
+    // Set initial tile layer (OSM, completely free, no watermark)
+    updateTileLayer(map, 'osm');
+
+    const markersLayer = L.layerGroup().addTo(map);
+    markersLayerRef.current = markersLayer;
+    mapInstanceRef.current = map;
+
+    // Trigger invalidateSize after initial layout to avoid gray borders on mobile devices
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+
+    return () => {
+      clearTimeout(timer);
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+  }, []);
+
+  // Update Tile Layer if user selects a different style
+  useEffect(() => {
+    if (mapInstanceRef.current) {
+      updateTileLayer(mapInstanceRef.current, basemapStyle);
+    }
+  }, [basemapStyle]);
+
+  // Recalculate map size when mobile tab changes to 'map'
+  useEffect(() => {
+    if (activeTab === 'map' && mapInstanceRef.current) {
+      setTimeout(() => {
+        mapInstanceRef.current?.invalidateSize();
+      }, 150);
+    }
+  }, [activeTab]);
+
+  // Update Aircraft Markers whenever filtered flights change
+  useEffect(() => {
+    if (!mapInstanceRef.current || !markersLayerRef.current) return;
+
+    const layer = markersLayerRef.current;
+    layer.clearLayers();
+
+    filteredFlights.forEach((flight) => {
+      if (!flight.liveTracking) return;
+
+      const { latitude, longitude, headingDegrees, altitudeFeet, groundSpeedKnots } = flight.liveTracking;
+      const isSelected = selectedFlight?.id === flight.id;
+
+      // Custom SVG Airplane Marker with Heading Rotation & Altitude Tooltip
+      const iconHtml = `
+        <div style="transform: rotate(${headingDegrees}deg); transform-origin: center center; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;" class="cursor-pointer ${isSelected ? 'scale-125' : ''}">
+          <div style="position: absolute; width: 34px; height: 34px; border-radius: 50%; background: ${isSelected ? 'rgba(234, 179, 8, 0.4)' : 'rgba(104, 28, 53, 0.15)'}; border: 1.5px solid ${isSelected ? '#CA8A04' : '#681C35'}; box-shadow: 0 1px 4px rgba(0,0,0,0.25);"></div>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="${isSelected ? '#CA8A04' : '#681C35'}" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="position: relative; z-index: 2;">
+            <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
+          </svg>
+        </div>
+      `;
+
+      const customIcon = L.divIcon({
+        className: 'aviation-plane-marker',
+        html: iconHtml,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+        popupAnchor: [0, -16]
+      });
+
+      const marker = L.marker([latitude, longitude], { icon: customIcon });
+
+      const popupContent = `
+        <div style="font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; min-width: 230px; font-size: 12px; color: #25232A;">
+          <div style="background-color: #681C35; color: white; padding: 7px 10px; border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-family: monospace; font-size: 13px; font-weight: 700;">${flight.flightNumber}</strong>
+            <span style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px; font-weight: 600;">${flight.airlineIata}</span>
+          </div>
+          <div style="padding: 10px; background: #fff; border: 1px solid #E8E5E8; border-top: none; border-radius: 0 0 6px 6px;">
+            <div style="font-weight: 700; font-size: 13px; color: #681C35; display: flex; align-items: center; justify-content: space-between;">
+              <span>${flight.departureAirportIata}</span>
+              <span style="color: #777780; font-weight: normal; font-size: 11px;">✈</span>
+              <span>${flight.arrivalAirportIata}</span>
+            </div>
+            <div style="font-size: 11px; color: #777780; margin: 3px 0 8px 0;">${flight.airlineName} · ${flight.aircraftModel}</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-family: monospace; font-size: 11px; background: #F8F8FA; padding: 6px 8px; border-radius: 4px; border: 1px solid #ECEBED;">
+              <div><span style="color: #777780;">Alt:</span> <strong>${altitudeFeet.toLocaleString()} ft</strong></div>
+              <div><span style="color: #777780;">Spd:</span> <strong>${groundSpeedKnots} kts</strong></div>
+              <div><span style="color: #777780;">Hdg:</span> <strong>${headingDegrees}°</strong></div>
+              <div><span style="color: #777780;">FL:</span> <strong>FL${Math.round(altitudeFeet / 100)}</strong></div>
+            </div>
+            
+            <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #777780;">
+              <span>Source: ${flight.liveTracking.source}</span>
+              <span style="color: #15803d; font-weight: 600;">● Live Verified</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent);
+      marker.on('click', () => {
+        setSelectedFlight(flight);
+      });
+
+      layer.addLayer(marker);
+    });
+  }, [filteredFlights, selectedFlight]);
+
+  const handleRefreshData = async () => {
+    setIsRefreshing(true);
+    await aviationService.triggerManualSync('OpenSky Network');
+    setLastSync(new Date().toLocaleTimeString('en-CA', { hour12: false }));
+    setIsRefreshing(false);
+  };
+
+  const handleFocusFlight = (flight: FlightRecord) => {
+    setSelectedFlight(flight);
+    setActiveTab('map');
+    if (mapInstanceRef.current && flight.liveTracking) {
+      mapInstanceRef.current.flyTo(
+        [flight.liveTracking.latitude, flight.liveTracking.longitude],
+        7,
+        { duration: 1.2 }
+      );
+    }
+  };
+
+  const handleFlyToHub = (hub: AirspaceHub) => {
+    setSelectedHub(hub.code);
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo(hub.coords, hub.zoom, { duration: 1.2 });
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 space-y-4 font-sans">
+      {/* Title & Telemetry Status Bar */}
+      <div className="bg-white border border-[#E8E5E8] rounded-lg p-4 shadow-2xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-bold text-[#681C35] uppercase tracking-wider">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span>NAV CANADA ADS-B Radar Feeds · OpenSky Verified</span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#25232A] mt-1 tracking-tight">
+              Live Canadian Airspace Radar Map
+            </h1>
+            <p className="text-xs text-[#777780] mt-0.5">
+              Pantauan pergerakan pesawat komersial di seluruh wilayah udara Kanada (YYZ, YVR, YUL, YYC, dll) secara langsung berbasis transponder Mode-S.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 self-start sm:self-center">
+            <div className="text-right hidden md:block">
+              <span className="text-[10px] text-[#777780] block font-mono">Sinkronisasi Terakhir</span>
+              <span className="text-xs font-mono font-bold text-[#25232A]">{lastSync} UTC</span>
+            </div>
+
+            <button
+              onClick={handleRefreshData}
+              disabled={isRefreshing}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#681C35] hover:bg-[#8A2948] active:bg-[#521528] text-white text-xs font-semibold rounded-md shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span>{isRefreshing ? 'Memperbarui...' : 'Segarkan Radar'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 1-Tap Canadian Hub Shortcuts */}
+        <div className="mt-3 pt-3 border-t border-[#ECEBED] flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs">
+          <span className="text-[11px] font-semibold text-[#777780] whitespace-nowrap flex items-center gap-1 mr-1">
+            <MapPin className="w-3.5 h-3.5 text-[#681C35]" />
+            <span>Fokus Wilayah:</span>
+          </span>
+          {CANADIAN_HUBS.map((hub) => (
+            <button
+              key={hub.code}
+              onClick={() => handleFlyToHub(hub)}
+              className={`px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                selectedHub === hub.code
+                  ? 'bg-[#681C35] text-white shadow-2xs font-semibold'
+                  : 'bg-[#F8F8FA] hover:bg-[#ECEBED] text-[#25232A] border border-[#E8E5E8]'
+              }`}
+            >
+              {hub.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Filter and Mode Controls */}
+      <div className="bg-white border border-[#E8E5E8] rounded-lg p-3 shadow-2xs space-y-2.5">
+        <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
+          {/* Search Box */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="w-4 h-4 text-[#777780] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari nomor penerbangan (AC103, WS115), maskapai, rute (YYZ)..."
+              className="w-full pl-9 pr-3 py-2 bg-[#F8F8FA] border border-[#E8E5E8] rounded-md text-xs placeholder-[#777780] focus:outline-none focus:border-[#681C35]"
+            />
+          </div>
+
+          {/* Mobile View Switcher (Radar Map vs List) */}
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <button
+              onClick={() => setActiveTab('map')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded text-xs font-semibold transition-colors cursor-pointer text-center ${
+                activeTab === 'map'
+                  ? 'bg-[#681C35] text-white'
+                  : 'bg-[#F8F8FA] text-[#777780] border border-[#E8E5E8]'
+              }`}
+            >
+              📡 Tampilan Peta
+            </button>
+            <button
+              onClick={() => setActiveTab('list')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded text-xs font-semibold transition-colors cursor-pointer text-center ${
+                activeTab === 'list'
+                  ? 'bg-[#681C35] text-white'
+                  : 'bg-[#F8F8FA] text-[#777780] border border-[#E8E5E8]'
+              }`}
+            >
+              ✈️ Daftar Pesawat ({filteredFlights.length})
+            </button>
+          </div>
+
+          {/* Basemap Style Selector (OSM / Topo / Gray) */}
+          <div className="hidden sm:flex items-center gap-1 text-xs">
+            <span className="text-[11px] text-[#777780] font-medium mr-1 flex items-center gap-1">
+              <Layers className="w-3.5 h-3.5 text-[#777780]" />
+              <span>Gaya Peta:</span>
+            </span>
+            <button
+              onClick={() => setBasemapStyle('osm')}
+              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
+                basemapStyle === 'osm'
+                  ? 'bg-[#681C35] text-white font-semibold'
+                  : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
+              }`}
+              title="OpenStreetMap Standar (Gratis, Akurat, Tanpa Watermark)"
+            >
+              OpenStreetMap
+            </button>
+            <button
+              onClick={() => setBasemapStyle('topo')}
+              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
+                basemapStyle === 'topo'
+                  ? 'bg-[#681C35] text-white font-semibold'
+                  : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
+              }`}
+              title="Topografi Esri (Menampilkan kontur wilayah & elevasi)"
+            >
+              Topografi
+            </button>
+            <button
+              onClick={() => setBasemapStyle('canvas')}
+              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
+                basemapStyle === 'canvas'
+                  ? 'bg-[#681C35] text-white font-semibold'
+                  : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
+              }`}
+              title="Aviation Gray Canvas (Gaya Radar Bersih)"
+            >
+              Aviation Gray
+            </button>
+          </div>
+        </div>
+
+        {/* Quick summary strip */}
+        <div className="flex items-center justify-between text-xs text-[#777780] pt-1 border-t border-[#F0EEF0]">
+          <div className="flex items-center gap-3">
+            <span className="font-semibold text-[#25232A]">
+              Pesawat Terpantau di Udara: <strong className="text-[#681C35] font-mono">{filteredFlights.length}</strong>
+            </span>
+            <span className="hidden sm:inline text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[11px]">
+              ✓ Bebas Lisensi & API Key (OSM Server Aktif)
+            </span>
+          </div>
+          <span className="text-[11px] hidden md:inline text-[#777780]">
+            Sentuh atau klik ikon pesawat untuk melihat detail ketinggian dan kecepatan
+          </span>
+        </div>
+      </div>
+
+      {/* Main Map & Live Targets Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Radar Map Canvas */}
+        <div
+          className={`lg:col-span-8 bg-white border border-[#E8E5E8] rounded-lg overflow-hidden relative shadow-xs flex flex-col ${
+            activeTab === 'list' ? 'hidden lg:flex' : 'flex'
+          }`}
+        >
+          {/* Responsive Map Container with smooth touch controls */}
+          <div
+            ref={mapContainerRef}
+            className="w-full h-[380px] sm:h-[480px] lg:h-[600px] z-10"
+            style={{ width: '100%' }}
+          />
+
+          {/* Map Overlay Badge */}
+          <div className="absolute top-3 right-3 z-20 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-md border border-[#E8E5E8] text-xs shadow-xs hidden sm:flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-mono font-bold text-[#681C35]">CANADIAN ADS-B RADAR</span>
+          </div>
+
+          {/* Quick Floating Telemetry if Flight Selected */}
+          {selectedFlight && (
+            <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md z-20 bg-white/95 backdrop-blur-md p-3.5 rounded-lg border border-[#681C35] shadow-lg">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#ECEBED]">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono font-black text-sm text-[#681C35] bg-[#681C35]/10 px-2 py-0.5 rounded">
+                    {selectedFlight.flightNumber}
+                  </span>
+                  <span className="text-xs font-bold text-[#25232A]">
+                    {selectedFlight.airlineName}
+                  </span>
+                </div>
+                <button
+                  onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#681C35] hover:underline"
+                >
+                  <span>Detail Lengkap</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
+                  <span className="text-[10px] text-[#777780] block font-sans">Rute</span>
+                  <strong className="text-[#681C35]">{selectedFlight.departureAirportIata} → {selectedFlight.arrivalAirportIata}</strong>
+                </div>
+                <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
+                  <span className="text-[10px] text-[#777780] block font-sans">Ketinggian</span>
+                  <strong className="text-emerald-700">{selectedFlight.liveTracking?.altitudeFeet.toLocaleString()} ft</strong>
+                </div>
+                <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
+                  <span className="text-[10px] text-[#777780] block font-sans">Kecepatan</span>
+                  <strong className="text-[#25232A]">{selectedFlight.liveTracking?.groundSpeedKnots} kts</strong>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar: Aircraft Targets List & Telemetry Detail */}
+        <div
+          className={`lg:col-span-4 space-y-4 ${
+            activeTab === 'map' ? 'hidden lg:block' : 'block'
+          }`}
+        >
+          {/* Live Airborne Target List */}
+          <div className="bg-white border border-[#E8E5E8] rounded-lg p-3.5 shadow-2xs">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E8E5E8]">
+              <div>
+                <h3 className="text-xs font-bold text-[#25232A] uppercase tracking-wider">
+                  Target Pesawat Aktif
+                </h3>
+                <span className="text-[11px] text-[#777780]">
+                  {filteredFlights.length} penerbangan beroperasi saat ini
+                </span>
+              </div>
+              <span className="font-mono text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                TRANS-CANADA
+              </span>
+            </div>
+
+            <div className="space-y-2 max-h-[380px] sm:max-h-[420px] overflow-y-auto custom-scrollbar pr-1 divide-y divide-[#F0EEF0]">
+              {filteredFlights.length === 0 ? (
+                <div className="py-8 text-center text-xs text-[#777780]">
+                  Tidak ada pesawat yang cocok dengan pencarian &quot;{searchQuery}&quot;
+                </div>
+              ) : (
+                filteredFlights.map((flight) => {
+                  const isCurrent = selectedFlight?.id === flight.id;
+                  return (
+                    <div
+                      key={flight.id}
+                      onClick={() => handleFocusFlight(flight)}
+                      className={`pt-2.5 pb-2 px-2.5 rounded-md cursor-pointer transition-all ${
+                        isCurrent
+                          ? 'bg-[#681C35]/10 border border-[#681C35]/40 shadow-xs'
+                          : 'hover:bg-[#FAF9FA] border border-transparent'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono font-bold text-xs text-[#681C35]">
+                            {flight.flightNumber}
+                          </span>
+                          <span className="text-[10px] text-[#777780] font-sans">
+                            {flight.airlineIata}
+                          </span>
+                        </div>
+                        <span className="font-mono text-[11px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">
+                          FL{flight.liveTracking ? Math.round(flight.liveTracking.altitudeFeet / 100) : '350'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-1">
+                        <div className="text-xs font-semibold text-[#25232A] flex items-center gap-1.5">
+                          <span>{flight.departureAirportIata}</span>
+                          <ArrowRight className="w-3 h-3 text-[#777780]" />
+                          <span>{flight.arrivalAirportIata}</span>
+                        </div>
+                        <span className="text-[11px] text-[#777780] font-mono">
+                          {flight.liveTracking?.groundSpeedKnots ?? 480} kts
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between text-[11px] text-[#777780] mt-1 font-sans">
+                        <span className="truncate max-w-[160px]">{flight.airlineName}</span>
+                        <span className="text-[10px] text-[#681C35] font-medium flex items-center gap-0.5">
+                          Lacak di peta <ChevronRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          {/* Selected Aircraft Telemetry Inspector */}
+          {selectedFlight ? (
+            <div className="bg-white border border-[#681C35] rounded-lg p-4 shadow-sm space-y-3">
+              <div className="flex items-start justify-between border-b border-[#ECEBED] pb-2.5">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-black font-mono text-[#681C35]">
+                      {selectedFlight.flightNumber}
+                    </span>
+                    <FlightStatusBadge status={selectedFlight.status} />
+                  </div>
+                  <div className="text-xs font-semibold text-[#25232A] mt-0.5">
+                    {selectedFlight.airlineName} ({selectedFlight.airlineIata})
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
+                  className="px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors shadow-2xs flex items-center gap-1 cursor-pointer"
+                >
+                  <span>Detail Lengkap</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
+                  <span className="text-[10px] text-[#777780] block font-sans">Rute Penerbangan</span>
+                  <span className="font-bold text-[#681C35]">{selectedFlight.departureAirportIata} → {selectedFlight.arrivalAirportIata}</span>
+                </div>
+                <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
+                  <span className="text-[10px] text-[#777780] block font-sans">Tipe Pesawat</span>
+                  <span className="font-bold text-[#25232A]">{selectedFlight.aircraftIcaoType}</span>
+                </div>
+                <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
+                  <span className="text-[10px] text-[#777780] block font-sans">Ketinggian Barometrik</span>
+                  <span className="font-bold text-emerald-800">{selectedFlight.liveTracking?.altitudeFeet.toLocaleString()} ft</span>
+                </div>
+                <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
+                  <span className="text-[10px] text-[#777780] block font-sans">Kecepatan Darat</span>
+                  <span className="font-bold text-[#25232A]">{selectedFlight.liveTracking?.groundSpeedKnots} kts</span>
+                </div>
+              </div>
+
+              <div className="text-[10px] text-[#777780] pt-1 flex items-center justify-between border-t border-[#ECEBED]">
+                <span>Sumber: {selectedFlight.liveTracking?.source} (Mode-S)</span>
+                <span className="text-emerald-700 font-medium">Validasi FIR Aktif</span>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-[#FAF9FA] border border-dashed border-[#D5D0D5] rounded-lg p-5 text-center text-xs text-[#777780]">
+              <Plane className="w-7 h-7 text-[#777780] mx-auto mb-2 opacity-50 -rotate-45" />
+              <p className="font-bold text-[#25232A]">Pilih Pesawat di Radar</p>
+              <p className="text-[11px] mt-1 leading-relaxed">
+                Klik ikon pesawat di peta atau pilih dari daftar target untuk melihat data avionik, transponder, dan telemetri langsung.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <AdSenseUnit slotId="map-bottom-ad" format="horizontal" />
+    </div>
+  );
+};

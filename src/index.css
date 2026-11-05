@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-maroon-primary: #681C35;
+    --color-maroon-secondary: #8A2948;
+    --color-maroon-dark: #4e1327;
+    --color-bg-base: #F8F8FA;
+    --color-text-main: #25232A;
+    --color-text-muted: #777780;
+    --color-border-subtle: #E8E5E8;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: var(--color-text-main);
+    background-color: var(--color-bg-base);
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Custom scrollbar for data tables */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f0f2;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d4cfd4;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #8A2948;
+}

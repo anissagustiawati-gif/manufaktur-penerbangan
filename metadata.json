@@ -1,0 +1,6 @@
+{
+  "name": "World Flight Schedule",
+  "description": "Global Flight Schedules, Airport Information & Aircraft Tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

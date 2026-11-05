@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Canada Flight Schedules - Canadian Aviation News &amp; Flight Operations</title>
+    <link>https://manufaktur.biz.id</link>
+    <description>Daily updated Canadian civil aviation schedules, operational safety briefings, aerodrome procedures, and airline fleet telemetry.</description>
+    <language>en-ca</language>
+    <lastBuildDate>Wed, 04 Nov 2026 17:44:11 GMT</lastBuildDate>
+    <atom:link href="https://manufaktur.biz.id/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title><![CDATA[The Anatomy of Winter Flight Operations in Canada: De-Icing Holdover Times, Runway Friction, and Transport Canada Directives]]></title>
+      <link>https://manufaktur.biz.id/articles/cold-weather-flight-operations-canadian-airspace-deicing</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/cold-weather-flight-operations-canadian-airspace-deicing</guid>
+      <description><![CDATA[An exhaustive 1,000-word operational analysis of cold-weather airline dispatch across Canadian aerodromes, detailing Type I and Type IV glycol chemistry, Canadian Runway Friction Index (CRFI) deceleration metrics, and NAV CANADA slot management during major blizzard events.]]></description>
+      <category>Airport Operations</category>
+      <author>anissagustiawati@gmail.com (Capt. Robert McAllister, FRAeS)</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[NAV CANADA and the Space-Based ADS-B Revolution: How Satellite Surveillance Transformed Canadian Flight Routes]]></title>
+      <link>https://manufaktur.biz.id/articles/nav-canada-space-based-ads-b-polar-airspace-revolution</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/nav-canada-space-based-ads-b-polar-airspace-revolution</guid>
+      <description><![CDATA[An authoritative 1,000-word investigative report detailing how Ottawa-based NAV CANADA co-founded the Aireon space-based ADS-B constellation, eliminating radar blind spots across the High Arctic, North Atlantic, and Canadian domestic trunk routes.]]></description>
+      <category>Aviation Technology</category>
+      <author>anissagustiawati@gmail.com (Dr. Jean-Marc Tremblay, P.Eng.)</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Naviguer dans les grands aéroports canadiens : Guide logistique des correspondances à Toronto-Pearson (YYZ), Montréal-Trudeau (YUL) et Vancouver (YVR)]]></title>
+      <link>https://manufaktur.biz.id/articles/guide-aeroports-canadiens-correspondances-yyz-yul-yvr</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/guide-aeroports-canadiens-correspondances-yyz-yul-yvr</guid>
+      <description><![CDATA[Un guide opérationnel exhaustif de plus de 1 000 mots décrivant les procédures aéroportuaires canadiennes, les temps minimaux de correspondance (MCT), les contrôles de sécurité de l’ACSTA, les bornes de l’ASFC et le pré-dédouanement américain (CBP).]]></description>
+      <category>Airport Guides</category>
+      <author>anissagustiawati@gmail.com (Mélanie Bouchard, Adm.A.)</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[The Arctic Lifeline: How Gravel Kits, Combi Jets, and Sub-Zero Logistics Keep Canada's North Connected]]></title>
+      <link>https://manufaktur.biz.id/articles/arctic-lifeline-flight-corridors-canadian-north</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/arctic-lifeline-flight-corridors-canadian-north</guid>
+      <description><![CDATA[A comprehensive 1,000-word field examination of commercial aviation in Nunavut, the Northwest Territories, and the Yukon, exploring how airlines like Canadian North and Air Tindi battle -50°C weather, permafrost runway heave, and isolated medevac emergencies.]]></description>
+      <category>Global Aviation</category>
+      <author>anissagustiawati@gmail.com (Capt. Alistair MacIntyre)</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Inside the Cockpit Over the Canadian Rockies: A Chief Pilot and Flight Dispatcher on Mountain Waves, RNAV-RNP, and Cold-Temperature Corrections]]></title>
+      <link>https://manufaktur.biz.id/articles/inside-the-cockpit-canadian-rockies-flight-dispatch-qa</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/inside-the-cockpit-canadian-rockies-flight-dispatch-qa</guid>
+      <description><![CDATA[An exclusive 1,100-word transcribed technical dialogue and roundtable interview between an Air Canada Airbus A220 line captain and a WestJet flight dispatch coordinator, detailing mountain wave rotor turbulence, RNP-AR curved approaches into Kelowna, and critical barometric altitude temperature compensation in Canadian winter airspace.]]></description>
+      <category>Aviation Technology</category>
+      <author>anissagustiawati@gmail.com (Editorial Desk (Moderated by Capt. Robert McAllister))</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[The Great Canadian Transcontinental Airline War: How Porter’s Embraer E195-E2 Fleet Is Challenging the Air Canada & WestJet Duopoly]]></title>
+      <link>https://manufaktur.biz.id/articles/canadian-transcontinental-airline-war-porter-e2-disruption</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/canadian-transcontinental-airline-war-porter-e2-disruption</guid>
+      <description><![CDATA[An exhaustive 1,150-word economic, aerodynamic, and market analysis examining how Toronto-based Porter Airlines transitioned from regional turboprops into a nationwide transcontinental carrier, deploying Pratt & Whitney GTF engines, no-middle-seat 2x2 cabin layouts, and high-frequency hub routes across Canada.]]></description>
+      <category>Airline Information</category>
+      <author>anissagustiawati@gmail.com (Mélanie Bouchard, Adm.A.)</author>
+      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

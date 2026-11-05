@@ -77,14 +77,30 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
     .filter(a => a.slug !== article.slug)
     .slice(0, 3);
 
-  // Helper to parse inline bolding **text**
+  // Helper to parse inline bolding **text** and markdown links [label](url)
   const renderInlineFormatted = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={i} className="font-semibold text-[#25232A]">{part.slice(2, -2)}</strong>;
+    const tokens = text.split(/(\[.*?\]\(.*?\)|\*\*.*?\*\*)/g);
+    return tokens.map((token, i) => {
+      if (token.startsWith('[') && token.includes('](') && token.endsWith(')')) {
+        const match = token.match(/^\[(.*?)\]\((.*?)\)$/);
+        if (match) {
+          const [, label, url] = match;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => onNavigate(url)}
+              className="text-[#681C35] font-semibold underline decoration-[#681C35]/40 hover:decoration-[#681C35] hover:text-[#8A2948] transition-colors cursor-pointer inline text-left p-0 bg-transparent border-none align-baseline"
+            >
+              {label}
+            </button>
+          );
+        }
       }
-      return part;
+      if (token.startsWith('**') && token.endsWith('**')) {
+        return <strong key={i} className="font-semibold text-[#25232A]">{token.slice(2, -2)}</strong>;
+      }
+      return token;
     });
   };
 

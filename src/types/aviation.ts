@@ -147,7 +147,16 @@ export interface AviationArticle {
     | 'Flight Travel Tips'
     | 'Aviation Technology'
     | 'Airport Operations'
-    | 'Global Aviation';
+    | 'Global Aviation'
+    | 'Air Traffic Control'
+    | 'Travel Logistics'
+    | 'Regional Aviation'
+    | 'Cockpit Operations'
+    | 'Airline Industry'
+    | 'Passenger Rights'
+    | 'Aircraft Technology'
+    | 'Aviation Meteorology'
+    | 'Aviation Infrastructure';
   featuredImage: string;
   author: {
     name: string;

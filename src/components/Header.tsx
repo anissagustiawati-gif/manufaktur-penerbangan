@@ -74,18 +74,10 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
           </div>
 
           <div className="flex items-center gap-4 text-white/80">
-            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-white/70">
+            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-white/80">
               <Globe className="w-3 h-3 text-emerald-300" />
               Global Aviation Network Data
             </span>
-            <button
-              onClick={() => onNavigate('/admin')}
-              className="inline-flex items-center gap-1 text-[11px] hover:text-white transition-colors cursor-pointer text-white/85"
-              title="Aviation Administration Console"
-            >
-              <Shield className="w-3 h-3 text-amber-300" />
-              <span>Admin Console</span>
-            </button>
           </div>
         </div>
       </div>
@@ -231,15 +223,7 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
 
           <div className="pt-2 border-t border-[#E8E5E8] flex justify-between items-center text-xs text-[#777780]">
             <span>UTC: {formattedUtcTime}</span>
-            <button
-              onClick={() => {
-                onNavigate('/admin');
-                setMobileMenuOpen(false);
-              }}
-              className="text-[#681C35] font-medium"
-            >
-              Admin Dashboard
-            </button>
+            <span className="font-mono">{formattedLocalTime} Local</span>
           </div>
         </div>
       )}

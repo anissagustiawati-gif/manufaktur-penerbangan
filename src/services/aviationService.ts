@@ -152,7 +152,24 @@ class AviationService {
       }
 
       const storedArticles = localStorage.getItem(STORAGE_KEYS.ARTICLES);
-      this.articles = storedArticles ? JSON.parse(storedArticles) : [...CANADIAN_EDITORIAL_ARTICLES];
+      let loadedArticles: AviationArticle[] = storedArticles ? JSON.parse(storedArticles) : [];
+      const existingSlugs = new Set(loadedArticles.map((a: AviationArticle) => a.slug));
+      CANADIAN_EDITORIAL_ARTICLES.forEach((canonical) => {
+        if (!existingSlugs.has(canonical.slug)) {
+          loadedArticles.push(canonical);
+        } else {
+          const idx = loadedArticles.findIndex((a: AviationArticle) => a.slug === canonical.slug);
+          if (idx >= 0) {
+            loadedArticles[idx] = {
+              ...canonical,
+              views: loadedArticles[idx].views || canonical.views,
+              uniqueVisitors: loadedArticles[idx].uniqueVisitors || canonical.uniqueVisitors
+            };
+          }
+        }
+      });
+      this.articles = loadedArticles.length > 0 ? loadedArticles : [...CANADIAN_EDITORIAL_ARTICLES];
+      localStorage.setItem(STORAGE_KEYS.ARTICLES, JSON.stringify(this.articles));
 
       const storedSettings = localStorage.getItem(STORAGE_KEYS.SETTINGS);
       this.settings = storedSettings ? { ...DEFAULT_SETTINGS, ...JSON.parse(storedSettings) } : DEFAULT_SETTINGS;
@@ -570,7 +587,7 @@ class AviationService {
   // --- CANADIAN ARTICLES ---
 
   public getArticles(category?: string, search?: string): AviationArticle[] {
-    let list = this.articles.filter(a => a.isPublished);
+    let list = this.articles.filter(a => a.isPublished !== false);
     if (category && category !== 'ALL') {
       list = list.filter(a => a.category.toLowerCase() === category.toLowerCase());
     }

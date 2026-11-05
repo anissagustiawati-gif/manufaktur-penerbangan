@@ -546,6 +546,38 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
               </article>
             ))}
           </div>
+
+          {/* Homepage Articles Numbered Pagination & Quick Access */}
+          <div className="mt-6 bg-[#FAF9FA] border border-[#E8E5E8] rounded-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-xs text-[#777780]">
+              Showing <strong className="text-[#25232A]">Top 4</strong> of <strong className="text-[#25232A]">11</strong> Aviation Research Guides &mdash; Explore next articles:
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-[#777780] mr-1">Pages:</span>
+              <button
+                onClick={() => onNavigate('/articles')}
+                className="w-7 h-7 rounded text-xs font-bold bg-[#681C35] text-white shadow-xs cursor-pointer flex items-center justify-center"
+                title="Page 1 (Recent Articles)"
+              >
+                1
+              </button>
+              <button
+                onClick={() => onNavigate('/articles')}
+                className="w-7 h-7 rounded text-xs font-bold bg-white border border-[#E8E5E8] text-[#25232A] hover:border-[#681C35] cursor-pointer flex items-center justify-center transition-colors"
+                title="Page 2 (More Aviation Insights)"
+              >
+                2
+              </button>
+              <button
+                onClick={() => onNavigate('/articles')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer ml-1"
+              >
+                <span>Browse All 11 Guides</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
         </section>
 
         {/* AdSense Unit Bottom */}

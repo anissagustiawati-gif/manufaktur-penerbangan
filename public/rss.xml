@@ -5,61 +5,106 @@
     <link>https://manufaktur.biz.id</link>
     <description>Daily updated Canadian civil aviation schedules, operational safety briefings, aerodrome procedures, and airline fleet telemetry.</description>
     <language>en-ca</language>
-    <lastBuildDate>Wed, 04 Nov 2026 17:44:11 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 13:27:37 GMT</lastBuildDate>
     <atom:link href="https://manufaktur.biz.id/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title><![CDATA[The Anatomy of Winter Flight Operations in Canada: De-Icing Holdover Times, Runway Friction, and Transport Canada Directives]]></title>
       <link>https://manufaktur.biz.id/articles/cold-weather-flight-operations-canadian-airspace-deicing</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/cold-weather-flight-operations-canadian-airspace-deicing</guid>
-      <description><![CDATA[An exhaustive 1,000-word operational analysis of cold-weather airline dispatch across Canadian aerodromes, detailing Type I and Type IV glycol chemistry, Canadian Runway Friction Index (CRFI) deceleration metrics, and NAV CANADA slot management during major blizzard events.]]></description>
+      <description><![CDATA[An exhaustive operational analysis of cold-weather airline dispatch across Canadian aerodromes, detailing Type I and Type IV glycol chemistry, Canadian Runway Friction Index (CRFI) deceleration metrics, and NAV CANADA slot management.]]></description>
       <category>Airport Operations</category>
       <author>anissagustiawati@gmail.com (Capt. Robert McAllister, FRAeS)</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
     <item>
-      <title><![CDATA[NAV CANADA and the Space-Based ADS-B Revolution: How Satellite Surveillance Transformed Canadian Flight Routes]]></title>
+      <title><![CDATA[NAV CANADA and the Space-Based ADS-B Revolution: How Satellite Surveillance Redefined Oceanic & Northern Flight Routes]]></title>
       <link>https://manufaktur.biz.id/articles/nav-canada-space-based-ads-b-polar-airspace-revolution</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/nav-canada-space-based-ads-b-polar-airspace-revolution</guid>
-      <description><![CDATA[An authoritative 1,000-word investigative report detailing how Ottawa-based NAV CANADA co-founded the Aireon space-based ADS-B constellation, eliminating radar blind spots across the High Arctic, North Atlantic, and Canadian domestic trunk routes.]]></description>
-      <category>Aviation Technology</category>
-      <author>anissagustiawati@gmail.com (Dr. Jean-Marc Tremblay, P.Eng.)</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <description><![CDATA[A deep technical evaluation of Aireon's space-based ADS-B satellite constellation, examining how 66 Iridium NEXT low-earth-orbit satellites eliminated polar radar blind spots and reduced oceanic separation standards from 80 nautical miles down to 14.]]></description>
+      <category>Air Traffic Control</category>
+      <author>anissagustiawati@gmail.com (Dr. Danielle Bouchard, P.Eng.)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
     <item>
-      <title><![CDATA[Naviguer dans les grands aéroports canadiens : Guide logistique des correspondances à Toronto-Pearson (YYZ), Montréal-Trudeau (YUL) et Vancouver (YVR)]]></title>
+      <title><![CDATA[Navigating Major Canadian Transit Hubs: An Operational & Layover Guide to Toronto Pearson (YYZ), Montréal-Trudeau (YUL), and Vancouver International (YVR)]]></title>
       <link>https://manufaktur.biz.id/articles/guide-aeroports-canadiens-correspondances-yyz-yul-yvr</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/guide-aeroports-canadiens-correspondances-yyz-yul-yvr</guid>
-      <description><![CDATA[Un guide opérationnel exhaustif de plus de 1 000 mots décrivant les procédures aéroportuaires canadiennes, les temps minimaux de correspondance (MCT), les contrôles de sécurité de l’ACSTA, les bornes de l’ASFC et le pré-dédouanement américain (CBP).]]></description>
-      <category>Airport Guides</category>
-      <author>anissagustiawati@gmail.com (Mélanie Bouchard, Adm.A.)</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <description><![CDATA[A master logistical roadmap for international and domestic airline passengers connecting through Canada's top three airport hubs, featuring minimum connection times (MCT), US preclearance customs protocols, baggage transfer procedures, and terminal transits.]]></description>
+      <category>Travel Logistics</category>
+      <author>anissagustiawati@gmail.com (Marc-Andre Tremblay)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
     <item>
-      <title><![CDATA[The Arctic Lifeline: How Gravel Kits, Combi Jets, and Sub-Zero Logistics Keep Canada's North Connected]]></title>
+      <title><![CDATA[The Arctic Lifeline: How Gravel Kits, Combi Jets, and Sub-Zero Avionics Sustain Canada’s Remote Northern Territories]]></title>
       <link>https://manufaktur.biz.id/articles/arctic-lifeline-flight-corridors-canadian-north</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/arctic-lifeline-flight-corridors-canadian-north</guid>
-      <description><![CDATA[A comprehensive 1,000-word field examination of commercial aviation in Nunavut, the Northwest Territories, and the Yukon, exploring how airlines like Canadian North and Air Tindi battle -50°C weather, permafrost runway heave, and isolated medevac emergencies.]]></description>
-      <category>Global Aviation</category>
-      <author>anissagustiawati@gmail.com (Capt. Alistair MacIntyre)</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <description><![CDATA[A deep operational investigation into aviation operations across Nunavut, the Yukon, and Northwest Territories, detailing gravel runway operations, Boeing 737 gravel deflector kits, and ETOPS extreme cold dispatch logistics.]]></description>
+      <category>Regional Aviation</category>
+      <author>anissagustiawati@gmail.com (David K. O'Connor)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
     <item>
-      <title><![CDATA[Inside the Cockpit Over the Canadian Rockies: A Chief Pilot and Flight Dispatcher on Mountain Waves, RNAV-RNP, and Cold-Temperature Corrections]]></title>
+      <title><![CDATA[Inside the Cockpit Over the Canadian Rockies: Mountain Wave Turbulence, Required Navigation Performance, and Diversion Protocols]]></title>
       <link>https://manufaktur.biz.id/articles/inside-the-cockpit-canadian-rockies-flight-dispatch-qa</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/inside-the-cockpit-canadian-rockies-flight-dispatch-qa</guid>
-      <description><![CDATA[An exclusive 1,100-word transcribed technical dialogue and roundtable interview between an Air Canada Airbus A220 line captain and a WestJet flight dispatch coordinator, detailing mountain wave rotor turbulence, RNP-AR curved approaches into Kelowna, and critical barometric altitude temperature compensation in Canadian winter airspace.]]></description>
-      <category>Aviation Technology</category>
-      <author>anissagustiawati@gmail.com (Editorial Desk (Moderated by Capt. Robert McAllister))</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <description><![CDATA[A technical interview and deep flight deck analysis with an active Canadian airline captain examining the aerodynamics of mountain wave turbulence over the Rocky Mountains, RNP-AR curved approaches into mountain valleys, and emergency decompression escape routes.]]></description>
+      <category>Cockpit Operations</category>
+      <author>anissagustiawati@gmail.com (Capt. Julian Hayes)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
     <item>
-      <title><![CDATA[The Great Canadian Transcontinental Airline War: How Porter’s Embraer E195-E2 Fleet Is Challenging the Air Canada & WestJet Duopoly]]></title>
+      <title><![CDATA[The Great Canadian Transcontinental Airline War: How Porter’s Embraer E195-E2 Influx is Reshaping Air Canada and WestJet Duopoly]]></title>
       <link>https://manufaktur.biz.id/articles/canadian-transcontinental-airline-war-porter-e2-disruption</link>
       <guid isPermaLink="true">https://manufaktur.biz.id/articles/canadian-transcontinental-airline-war-porter-e2-disruption</guid>
-      <description><![CDATA[An exhaustive 1,150-word economic, aerodynamic, and market analysis examining how Toronto-based Porter Airlines transitioned from regional turboprops into a nationwide transcontinental carrier, deploying Pratt & Whitney GTF engines, no-middle-seat 2x2 cabin layouts, and high-frequency hub routes across Canada.]]></description>
-      <category>Airline Information</category>
-      <author>anissagustiawati@gmail.com (Mélanie Bouchard, Adm.A.)</author>
-      <pubDate>Wed, 04 Nov 2026 17:44:11 GMT</pubDate>
+      <description><![CDATA[An in-depth market and fleet analysis of the commercial battle for Canada's transcontinental trunk routes, evaluating Porter Airlines' 50+ Embraer E195-E2 jet expansion against Air Canada's network dominance and WestJet's western consolidation.]]></description>
+      <category>Airline Industry</category>
+      <author>anissagustiawati@gmail.com (Scott Henderson)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[The Complete Guide to Canadian Air Passenger Protection Regulations (APAPR): Delay Compensation, Airline Obligations, and Transport Canada Enforcement]]></title>
+      <link>https://manufaktur.biz.id/articles/canadian-air-passenger-protection-regulations-apapr-compensation-guide</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/canadian-air-passenger-protection-regulations-apapr-compensation-guide</guid>
+      <description><![CDATA[A definitive, authoritative legal guide to passenger rights under Canada's APAPR framework, breaking down statutory delay compensation tiers up to $1,000 CAD, controllable vs safety exceptions, baggage claims, and CTA filing steps.]]></description>
+      <category>Passenger Rights</category>
+      <author>anissagustiawati@gmail.com (Sarah Jenkins, LL.B.)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[The Pride of Mirabel: How the Canadian-Designed Airbus A220-300 Revolutionized Single-Aisle Airline Economics and Range]]></title>
+      <link>https://manufaktur.biz.id/articles/airbus-a220-canadian-aerospace-engineering-mirabel-efficiency</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/airbus-a220-canadian-aerospace-engineering-mirabel-efficiency</guid>
+      <description><![CDATA[A comprehensive aerospace engineering deep dive into the Airbus A220 (formerly Bombardier CSeries), examining its geared turbofan bypass ratios, composite carbon-fibre wing construction in Mirabel, and transcontinental economics.]]></description>
+      <category>Aircraft Technology</category>
+      <author>anissagustiawati@gmail.com (Dr. Ethan Vance, Ph.D., P.Eng.)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Guardians of the North Atlantic: How Gander Oceanic Control Coordinates Thousands of Transatlantic Flights Daily Across the NAT Tracks]]></title>
+      <link>https://manufaktur.biz.id/articles/gander-oceanic-control-north-atlantic-tracks-nat-cts-flight-planning</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/gander-oceanic-control-north-atlantic-tracks-nat-cts-flight-planning</guid>
+      <description><![CDATA[An exhaustive historical and technical investigation into Gander Oceanic Control (CZQX), detailing the Organized Track System (OTS), ETOPS 180-minute diversions to Goose Bay and Keflavik, and Mach number separation techniques.]]></description>
+      <category>Air Traffic Control</category>
+      <author>anissagustiawati@gmail.com (Alistair MacIntyre)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[High-Altitude Meteorology: Decoding Mountain Waves, Rotor Clouds, and Severe Clear-Air Turbulence Across Western Canada]]></title>
+      <link>https://manufaktur.biz.id/articles/mountain-wave-clear-air-turbulence-canadian-airspace-meteorology</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/mountain-wave-clear-air-turbulence-canadian-airspace-meteorology</guid>
+      <description><![CDATA[A definitive atmospheric physics analysis of clear-air turbulence (CAT) and mountain wave dynamics across western Canadian mountain corridors, detailing Kelvin-Helmholtz shear instability, Froude numbers, and NAV CANADA SIGMET warnings.]]></description>
+      <category>Aviation Meteorology</category>
+      <author>anissagustiawati@gmail.com (Dr. Elena Rostova, Ph.D.)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Inside Airport Slot Allocation: How IATA Level 3 Capacity Constraints Shape Commercial Airline Schedules at YYZ, YVR, and YUL]]></title>
+      <link>https://manufaktur.biz.id/articles/airport-slot-coordination-runway-capacity-toronto-vancouver-montreal</link>
+      <guid isPermaLink="true">https://manufaktur.biz.id/articles/airport-slot-coordination-runway-capacity-toronto-vancouver-montreal</guid>
+      <description><![CDATA[A technical economic and airside logistics analysis of commercial airport slot coordination in Canada, evaluating IATA Worldwide Slot Guidelines, the 80/20 Use-It-or-Lose-It rule, wake turbulence separations, and capacity caps.]]></description>
+      <category>Aviation Infrastructure</category>
+      <author>anissagustiawati@gmail.com (Marcus Vance)</author>
+      <pubDate>Thu, 05 Nov 2026 13:27:37 GMT</pubDate>
     </item>
   </channel>
 </rss>

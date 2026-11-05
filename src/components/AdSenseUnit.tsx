@@ -77,7 +77,7 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
               <span className="text-emerald-700 font-bold">● Adsterra Live</span>
             ) : (
               <span className="text-amber-600 font-bold">
-                Memuat ({countdown}s)
+                Loading ({countdown}s)
               </span>
             )}
           </span>
@@ -100,10 +100,10 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
               </div>
 
               <div className="text-xs font-bold text-[#25232A]">
-                Menyiapkan Iklan Sponsor...
+                Preparing Sponsor Placement...
               </div>
               <p className="text-[10px] text-[#777780] mt-0.5 font-mono">
-                Tampil dalam {countdown} detik
+                Displaying in {countdown} seconds
               </p>
 
               {/* Progress Bar for 8 Seconds */}
@@ -122,7 +122,7 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
                 }}
                 className="mt-3 text-[10px] text-[#681C35] hover:text-[#8A2948] underline font-medium cursor-pointer"
               >
-                Lewati &amp; Tampilkan Iklan Sekarang
+                Skip countdown &amp; display now
               </button>
             </div>
           )}

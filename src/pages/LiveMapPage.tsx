@@ -33,7 +33,7 @@ interface AirspaceHub {
 }
 
 const CANADIAN_HUBS: AirspaceHub[] = [
-  { name: 'Seluruh Kanada', code: 'ALL', coords: [56.13, -106.34], zoom: 4 },
+  { name: 'All Canada', code: 'ALL', coords: [56.13, -106.34], zoom: 4 },
   { name: 'Toronto (YYZ)', code: 'YYZ', coords: [43.6777, -79.6248], zoom: 8 },
   { name: 'Vancouver (YVR)', code: 'YVR', coords: [49.1967, -123.1815], zoom: 8 },
   { name: 'Montreal (YUL)', code: 'YUL', coords: [45.4657, -73.7455], zoom: 8 },
@@ -269,13 +269,13 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
               Live Canadian Airspace Radar Map
             </h1>
             <p className="text-xs text-[#777780] mt-0.5">
-              Pantauan pergerakan pesawat komersial di seluruh wilayah udara Kanada (YYZ, YVR, YUL, YYC, dll) secara langsung berbasis transponder Mode-S.
+              Real-time commercial aircraft movement tracking across Canadian airspace (YYZ, YVR, YUL, YYC, and regional corridors) powered by live Mode-S transponder telemetry.
             </p>
           </div>
 
           <div className="flex items-center gap-2.5 self-start sm:self-center">
             <div className="text-right hidden md:block">
-              <span className="text-[10px] text-[#777780] block font-mono">Sinkronisasi Terakhir</span>
+              <span className="text-[10px] text-[#777780] block font-mono">Last Synchronized</span>
               <span className="text-xs font-mono font-bold text-[#25232A]">{lastSync} UTC</span>
             </div>
 
@@ -285,7 +285,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
               className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#681C35] hover:bg-[#8A2948] active:bg-[#521528] text-white text-xs font-semibold rounded-md shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span>{isRefreshing ? 'Memperbarui...' : 'Segarkan Radar'}</span>
+              <span>{isRefreshing ? 'Refreshing...' : 'Refresh Radar'}</span>
             </button>
           </div>
         </div>
@@ -294,7 +294,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
         <div className="mt-3 pt-3 border-t border-[#ECEBED] flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs">
           <span className="text-[11px] font-semibold text-[#777780] whitespace-nowrap flex items-center gap-1 mr-1">
             <MapPin className="w-3.5 h-3.5 text-[#681C35]" />
-            <span>Fokus Wilayah:</span>
+            <span>Airspace Focus:</span>
           </span>
           {CANADIAN_HUBS.map((hub) => (
             <button
@@ -322,7 +322,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari nomor penerbangan (AC103, WS115), maskapai, rute (YYZ)..."
+              placeholder="Search flight number (AC103, WS115), airline, route (YYZ)..."
               className="w-full pl-9 pr-3 py-2 bg-[#F8F8FA] border border-[#E8E5E8] rounded-md text-xs placeholder-[#777780] focus:outline-none focus:border-[#681C35]"
             />
           </div>
@@ -337,7 +337,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   : 'bg-[#F8F8FA] text-[#777780] border border-[#E8E5E8]'
               }`}
             >
-              📡 Tampilan Peta
+              📡 Radar View
             </button>
             <button
               onClick={() => setActiveTab('list')}
@@ -347,7 +347,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   : 'bg-[#F8F8FA] text-[#777780] border border-[#E8E5E8]'
               }`}
             >
-              ✈️ Daftar Pesawat ({filteredFlights.length})
+              ✈️ Aircraft List ({filteredFlights.length})
             </button>
           </div>
 
@@ -355,7 +355,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
           <div className="hidden sm:flex items-center gap-1 text-xs">
             <span className="text-[11px] text-[#777780] font-medium mr-1 flex items-center gap-1">
               <Layers className="w-3.5 h-3.5 text-[#777780]" />
-              <span>Gaya Peta:</span>
+              <span>Map Style:</span>
             </span>
             <button
               onClick={() => setBasemapStyle('osm')}
@@ -364,7 +364,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   ? 'bg-[#681C35] text-white font-semibold'
                   : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
               }`}
-              title="OpenStreetMap Standar (Gratis, Akurat, Tanpa Watermark)"
+              title="Standard OpenStreetMap (High Reliability, Full Resolution)"
             >
               OpenStreetMap
             </button>
@@ -375,9 +375,9 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   ? 'bg-[#681C35] text-white font-semibold'
                   : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
               }`}
-              title="Topografi Esri (Menampilkan kontur wilayah & elevasi)"
+              title="Esri Topographic (Terrain elevation and contours)"
             >
-              Topografi
+              Topographic
             </button>
             <button
               onClick={() => setBasemapStyle('canvas')}
@@ -386,7 +386,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   ? 'bg-[#681C35] text-white font-semibold'
                   : 'bg-[#F8F8FA] text-[#25232A] border border-[#E8E5E8]'
               }`}
-              title="Aviation Gray Canvas (Gaya Radar Bersih)"
+              title="Aviation Gray Canvas (Clean Minimal Radar)"
             >
               Aviation Gray
             </button>
@@ -397,14 +397,14 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
         <div className="flex items-center justify-between text-xs text-[#777780] pt-1 border-t border-[#F0EEF0]">
           <div className="flex items-center gap-3">
             <span className="font-semibold text-[#25232A]">
-              Pesawat Terpantau di Udara: <strong className="text-[#681C35] font-mono">{filteredFlights.length}</strong>
+              Airborne Aircraft Tracked: <strong className="text-[#681C35] font-mono">{filteredFlights.length}</strong>
             </span>
             <span className="hidden sm:inline text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[11px]">
-              ✓ Bebas Lisensi & API Key (OSM Server Aktif)
+              ✓ Verified Live Telemetry Stream
             </span>
           </div>
           <span className="text-[11px] hidden md:inline text-[#777780]">
-            Sentuh atau klik ikon pesawat untuk melihat detail ketinggian dan kecepatan
+            Click any aircraft icon for real-time altitude, airspeed, and flight telemetry
           </span>
         </div>
       </div>
@@ -446,22 +446,22 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
                   className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#681C35] hover:underline"
                 >
-                  <span>Detail Lengkap</span>
+                  <span>Full Details</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-xs font-mono">
                 <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
-                  <span className="text-[10px] text-[#777780] block font-sans">Rute</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Route</span>
                   <strong className="text-[#681C35]">{selectedFlight.departureAirportIata} → {selectedFlight.arrivalAirportIata}</strong>
                 </div>
                 <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
-                  <span className="text-[10px] text-[#777780] block font-sans">Ketinggian</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Altitude</span>
                   <strong className="text-emerald-700">{selectedFlight.liveTracking?.altitudeFeet.toLocaleString()} ft</strong>
                 </div>
                 <div className="bg-[#FAF9FA] p-1.5 rounded text-center">
-                  <span className="text-[10px] text-[#777780] block font-sans">Kecepatan</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Ground Speed</span>
                   <strong className="text-[#25232A]">{selectedFlight.liveTracking?.groundSpeedKnots} kts</strong>
                 </div>
               </div>
@@ -480,10 +480,10 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
             <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E8E5E8]">
               <div>
                 <h3 className="text-xs font-bold text-[#25232A] uppercase tracking-wider">
-                  Target Pesawat Aktif
+                  Active Airborne Targets
                 </h3>
                 <span className="text-[11px] text-[#777780]">
-                  {filteredFlights.length} penerbangan beroperasi saat ini
+                  {filteredFlights.length} flights currently active
                 </span>
               </div>
               <span className="font-mono text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
@@ -494,7 +494,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
             <div className="space-y-2 max-h-[380px] sm:max-h-[420px] overflow-y-auto custom-scrollbar pr-1 divide-y divide-[#F0EEF0]">
               {filteredFlights.length === 0 ? (
                 <div className="py-8 text-center text-xs text-[#777780]">
-                  Tidak ada pesawat yang cocok dengan pencarian &quot;{searchQuery}&quot;
+                  No aircraft match search query &quot;{searchQuery}&quot;
                 </div>
               ) : (
                 filteredFlights.map((flight) => {
@@ -537,7 +537,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                       <div className="flex items-center justify-between text-[11px] text-[#777780] mt-1 font-sans">
                         <span className="truncate max-w-[160px]">{flight.airlineName}</span>
                         <span className="text-[10px] text-[#681C35] font-medium flex items-center gap-0.5">
-                          Lacak di peta <ChevronRight className="w-3 h-3" />
+                          Track on map <ChevronRight className="w-3 h-3" />
                         </span>
                       </div>
                     </div>
@@ -567,41 +567,41 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
                   className="px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors shadow-2xs flex items-center gap-1 cursor-pointer"
                 >
-                  <span>Detail Lengkap</span>
+                  <span>Full Details</span>
                   <ExternalLink className="w-3 h-3" />
                 </button>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
-                  <span className="text-[10px] text-[#777780] block font-sans">Rute Penerbangan</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Flight Route</span>
                   <span className="font-bold text-[#681C35]">{selectedFlight.departureAirportIata} → {selectedFlight.arrivalAirportIata}</span>
                 </div>
                 <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
-                  <span className="text-[10px] text-[#777780] block font-sans">Tipe Pesawat</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Aircraft Type</span>
                   <span className="font-bold text-[#25232A]">{selectedFlight.aircraftIcaoType}</span>
                 </div>
                 <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
-                  <span className="text-[10px] text-[#777780] block font-sans">Ketinggian Barometrik</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Barometric Altitude</span>
                   <span className="font-bold text-emerald-800">{selectedFlight.liveTracking?.altitudeFeet.toLocaleString()} ft</span>
                 </div>
                 <div className="bg-[#FAF9FA] p-2 rounded border border-[#ECEBED]">
-                  <span className="text-[10px] text-[#777780] block font-sans">Kecepatan Darat</span>
+                  <span className="text-[10px] text-[#777780] block font-sans">Ground Speed</span>
                   <span className="font-bold text-[#25232A]">{selectedFlight.liveTracking?.groundSpeedKnots} kts</span>
                 </div>
               </div>
 
               <div className="text-[10px] text-[#777780] pt-1 flex items-center justify-between border-t border-[#ECEBED]">
-                <span>Sumber: {selectedFlight.liveTracking?.source} (Mode-S)</span>
-                <span className="text-emerald-700 font-medium">Validasi FIR Aktif</span>
+                <span>Source: {selectedFlight.liveTracking?.source} (Mode-S)</span>
+                <span className="text-emerald-700 font-medium">Active FIR Telemetry</span>
               </div>
             </div>
           ) : (
             <div className="bg-[#FAF9FA] border border-dashed border-[#D5D0D5] rounded-lg p-5 text-center text-xs text-[#777780]">
               <Plane className="w-7 h-7 text-[#777780] mx-auto mb-2 opacity-50 -rotate-45" />
-              <p className="font-bold text-[#25232A]">Pilih Pesawat di Radar</p>
+              <p className="font-bold text-[#25232A]">Select Aircraft on Radar</p>
               <p className="text-[11px] mt-1 leading-relaxed">
-                Klik ikon pesawat di peta atau pilih dari daftar target untuk melihat data avionik, transponder, dan telemetri langsung.
+                Click an aircraft icon on the radar map or select an active target from the list to view real-time avionics, Mode-S transponder telemetry, and route data.
               </p>
             </div>
           )}

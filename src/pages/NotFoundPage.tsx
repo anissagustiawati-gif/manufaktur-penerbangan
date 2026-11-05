@@ -6,6 +6,18 @@ interface Props {
 }
 
 export const NotFoundPage: React.FC<Props> = ({ onNavigate }) => {
+  React.useEffect(() => {
+    const meta = document.querySelector('meta[name="robots"]');
+    if (meta) {
+      meta.setAttribute('content', 'noindex, nofollow');
+    }
+    return () => {
+      if (meta) {
+        meta.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+      }
+    };
+  }, []);
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center font-sans space-y-4">
       <div className="w-16 h-16 rounded-full bg-[#681C35]/10 text-[#681C35] flex items-center justify-center mx-auto mb-2">

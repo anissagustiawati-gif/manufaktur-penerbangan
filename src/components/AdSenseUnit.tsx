@@ -7,15 +7,15 @@ interface Props {
 }
 
 export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
-  const [countdown, setCountdown] = useState<number>(8);
+  // Balanced 3-second countdown: neither too fast nor too slow
+  const [countdown, setCountdown] = useState<number>(3);
   const [isReady, setIsReady] = useState<boolean>(false);
 
-  // Normal 1-second countdown from 8 to 0 as requested by user
   useEffect(() => {
-    setCountdown(8);
+    setCountdown(3);
     setIsReady(false);
 
-    // Normal countdown interval: 1000ms (1 second per tick, 8s total)
+    // 1-second interval: 3s total
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -29,42 +29,6 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
 
     return () => clearInterval(interval);
   }, [slotId]);
-
-  // HTML content for Adsterra 300x250 banner
-  const adsterraHtml = `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=300, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer-when-downgrade">
-    <style>
-      * { box-sizing: border-box; }
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 300px;
-        height: 250px;
-        background: transparent;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    </style>
-  </head>
-  <body>
-    <script type="text/javascript">
-      atOptions = {
-        'key' : 'dadc3184f70b3e4ec47ba368b8321549',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="https://bicea.org/22/dadc3184f70b3e4ec47ba368b8321549"></script>
-  </body>
-</html>`;
 
   return (
     <div className={`my-6 mx-auto w-full flex flex-col items-center justify-center ${className}`}>
@@ -85,12 +49,12 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
 
         {/* 300x250 Ad Display Box */}
         <div className="relative w-[300px] h-[250px] mx-auto bg-[#F8F8FA] rounded border border-[#E8E5E8] overflow-hidden flex items-center justify-center">
-          {/* Normal 8s Countdown Animation */}
+          {/* Moderate 4s Countdown Animation */}
           {!isReady && (
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-[#FDFCFC] to-[#F5F4F7] p-4 text-center">
               {/* Circular Countdown Badge */}
-              <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-white border-2 border-[#681C35] shadow-xs mb-3">
-                <span className="font-mono text-2xl font-black text-[#681C35]">
+              <div className="relative flex items-center justify-center w-14 h-14 rounded-full bg-white border-2 border-[#681C35] shadow-xs mb-2.5">
+                <span className="font-mono text-xl font-black text-[#681C35]">
                   {countdown}
                 </span>
                 <div
@@ -100,17 +64,17 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
               </div>
 
               <div className="text-xs font-bold text-[#25232A]">
-                Preparing Sponsor Placement...
+                Loading Sponsor Placement...
               </div>
               <p className="text-[10px] text-[#777780] mt-0.5 font-mono">
-                Displaying in {countdown} seconds
+                Ready in {countdown}s
               </p>
 
-              {/* Progress Bar for 8 Seconds */}
-              <div className="w-44 h-1.5 bg-[#E8E5E8] rounded-full mt-3 overflow-hidden">
+              {/* Progress Bar for 3 Seconds */}
+              <div className="w-36 h-1.5 bg-[#E8E5E8] rounded-full mt-2.5 overflow-hidden">
                 <div
                   className="h-full bg-[#681C35] transition-all duration-1000 ease-linear"
-                  style={{ width: `${((8 - countdown) / 8) * 100}%` }}
+                  style={{ width: `${((3 - countdown) / 3) * 100}%` }}
                 />
               </div>
 
@@ -120,18 +84,18 @@ export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
                   setCountdown(0);
                   setIsReady(true);
                 }}
-                className="mt-3 text-[10px] text-[#681C35] hover:text-[#8A2948] underline font-medium cursor-pointer"
+                className="mt-2.5 text-[10px] text-[#681C35] hover:text-[#8A2948] underline font-medium cursor-pointer"
               >
                 Skip countdown &amp; display now
               </button>
             </div>
           )}
 
-          {/* Adsterra 300x250 Banner Iframe (Unrestricted for Ad Scripts) */}
+          {/* Adsterra 300x250 Banner Iframe served from real static origin */}
           {isReady && (
             <iframe
               title={`adsterra-300x250-${slotId || 'ad'}`}
-              srcDoc={adsterraHtml}
+              src={`/ad-300x250.html?slot=${slotId || 'ad'}`}
               width="300"
               height="250"
               scrolling="no"

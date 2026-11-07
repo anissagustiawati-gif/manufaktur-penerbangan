@@ -7,10 +7,20 @@
     <meta name="description" content="Explore Canadian flight schedules, aerodrome departures and arrivals across all 10 provinces and 3 territories, Air Canada, WestJet, Porter, and live ADS-B radar tracking." />
     
     <!-- Canonical & Robots for Google Search Console -->
-    <link rel="canonical" href="https://manufaktur.biz.id" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://manufaktur.biz.id/" id="canonical-url" />
     <link rel="alternate" type="application/rss+xml" title="Canada Flight Schedules RSS Feed" href="https://manufaktur.biz.id/rss.xml" />
     <link rel="alternate" type="application/atom+xml" title="Canada Flight Schedules Atom Feed" href="https://manufaktur.biz.id/feed.xml" />
+    <script>
+      (function() {
+        var cleanPath = window.location.pathname.replace(/\/+$/, '') || '/';
+        var canonicalUrl = 'https://manufaktur.biz.id' + cleanPath;
+        var existing = document.getElementById('canonical-url') || document.querySelector('link[rel="canonical"]');
+        if (existing) {
+          existing.href = canonicalUrl;
+        }
+      })();
+    </script>
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />

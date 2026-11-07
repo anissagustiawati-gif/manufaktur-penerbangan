@@ -46,8 +46,25 @@ export default function App() {
   useEffect(() => {
     aviationService.recordPageView(currentPath);
 
-    // Ensure Adsterra Social Bar script is always active
+    // Dynamic Canonical & OpenGraph sync for Googlebot and Social crawlers
     if (typeof document !== 'undefined') {
+      const cleanPath = currentPath.split('?')[0].replace(/\/+$/, '') || '/';
+      const canonicalUrl = `https://manufaktur.biz.id${cleanPath === '/' ? '' : cleanPath}`;
+      
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', canonicalUrl);
+
+      let ogUrlEl = document.querySelector('meta[property="og:url"]');
+      if (ogUrlEl) {
+        ogUrlEl.setAttribute('content', canonicalUrl);
+      }
+
+      // Ensure Adsterra Social Bar script is always active
       const scriptSrc = 'https://bicea.org/14/6946ae9fe140d10b8afbdd2702197503';
       const existing = document.querySelector(`script[src="${scriptSrc}"]`);
       if (!existing) {

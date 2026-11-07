@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Users, Search, Globe, Plane, ArrowRight } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -93,6 +94,13 @@ export const AirlinesPage: React.FC<Props> = ({ onNavigate }) => {
       </div>
 
       <AdSenseUnit slotId="airlines-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Featured Canadian Carrier Analyses & Transcontinental Fleets"
+        subtitle="Explore detailed reports on Porter Airlines' Embraer E2 expansion, Air Canada's international network, and WestJet's Boeing 737 operations."
+      />
     </div>
   );
 };

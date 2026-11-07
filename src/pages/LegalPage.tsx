@@ -11,6 +11,7 @@ import {
   Send
 } from 'lucide-react';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 import { aviationService, ADMIN_CONFIG } from '../services/aviationService';
 
 interface Props {
@@ -353,6 +354,13 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
       )}
 
       <AdSenseUnit slotId="legal-page-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Explore Featured Canadian Aviation Research & Airspace Timetables"
+        subtitle="Discover our certified editorial analyses, winter operations guidelines, and daily synchronized flight matrices across Canada."
+      />
     </div>
   );
 };

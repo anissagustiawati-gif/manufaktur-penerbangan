@@ -5,6 +5,7 @@ import { FlightStatusBadge } from '../components/FlightStatusBadge';
 import { CANADIAN_AIRPORTS } from '../data/canadianAviationData';
 import { FlightStatus } from '../types/aviation';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -228,6 +229,13 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
       )}
 
       <AdSenseUnit slotId="arrivals-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Airport Inbound Customs, Baggage & Flight Guides"
+        subtitle="Learn more about Canadian customs pre-clearance, minimum connection times, and passenger compensation rights under APAPR."
+      />
     </div>
   );
 };

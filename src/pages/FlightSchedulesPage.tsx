@@ -4,6 +4,7 @@ import { aviationService } from '../services/aviationService';
 import { FlightTable } from '../components/FlightTable';
 import { FlightFilters } from '../components/FlightFilters';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 import { FlightFilterParams } from '../types/aviation';
 
 interface Props {
@@ -84,6 +85,13 @@ export const FlightSchedulesPage: React.FC<Props> = ({ initialSearch, onNavigate
         onSelectAirport={(iata) => onNavigate(`/airport/${iata.toLowerCase()}`)}
         onSelectAirline={(iata) => onNavigate(`/airline/${iata.toLowerCase()}`)}
         lastUpdated={stats.lastSyncTimestamp}
+      />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Featured Canadian Aviation Guides & Airport Operations"
+        subtitle="Explore in-depth technical analyses on de-icing holdover formulas, satellite ADS-B radar, and passenger rights under APAPR."
       />
     </div>
   );

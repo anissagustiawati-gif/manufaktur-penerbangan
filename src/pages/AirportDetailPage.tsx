@@ -14,6 +14,7 @@ import {
 import { aviationService } from '../services/aviationService';
 import { FlightStatusBadge } from '../components/FlightStatusBadge';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   airportCode: string;
@@ -216,6 +217,13 @@ export const AirportDetailPage: React.FC<Props> = ({ airportCode, onNavigate }) 
       </div>
 
       <AdSenseUnit slotId="airport-detail-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title={`Explore Aviation Guides & Nearby Flight Corridors for ${airport.name}`}
+        subtitle={`In-depth operational analyses, de-icing regulations, and connections across Canada from ${airport.iata}.`}
+      />
     </div>
   );
 };

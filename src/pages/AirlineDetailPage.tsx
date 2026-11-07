@@ -3,6 +3,7 @@ import { ArrowLeft, Globe, Plane, ExternalLink, ArrowRight, ShieldCheck } from '
 import { aviationService } from '../services/aviationService';
 import { FlightTable } from '../components/FlightTable';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   airlineCode: string;
@@ -132,6 +133,13 @@ export const AirlineDetailPage: React.FC<Props> = ({ airlineCode, onNavigate }) 
       </div>
 
       <AdSenseUnit slotId="airline-detail-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title={`Explore Aviation Research & Connecting Routes for ${airline.name}`}
+        subtitle={`Discover transcontinental airline analyses, regional fleet specifications, and live Canadian flight schedules.`}
+      />
     </div>
   );
 };

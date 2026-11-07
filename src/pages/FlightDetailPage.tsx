@@ -15,6 +15,7 @@ import {
 import { aviationService } from '../services/aviationService';
 import { FlightStatusBadge } from '../components/FlightStatusBadge';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   flightId: string;
@@ -313,6 +314,13 @@ export const FlightDetailPage: React.FC<Props> = ({ flightId, onNavigate }) => {
 
       {/* AdSense Unit */}
       <AdSenseUnit slotId="flight-detail-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title={`Explore Connecting Routes & Airport Timetables for ${flight.flightNumber}`}
+        subtitle={`Discover certified Canadian flight operations guides, APAPR passenger rights, and airport procedures for ${flight.departureAirportIata} and ${flight.arrivalAirportIata}.`}
+      />
     </div>
   );
 };

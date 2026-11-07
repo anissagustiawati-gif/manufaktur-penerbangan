@@ -1,5 +1,6 @@
 import React from 'react';
-import { Plane, Compass, ArrowLeft } from 'lucide-react';
+import { Plane } from 'lucide-react';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -19,37 +20,52 @@ export const NotFoundPage: React.FC<Props> = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-20 text-center font-sans space-y-4">
-      <div className="w-16 h-16 rounded-full bg-[#681C35]/10 text-[#681C35] flex items-center justify-center mx-auto mb-2">
-        <Plane className="w-8 h-8 -rotate-45" />
+    <div className="max-w-5xl mx-auto px-4 sm:px-8 py-12 font-sans space-y-8">
+      <div className="max-w-xl mx-auto text-center space-y-4 bg-white border border-[#E8E5E8] rounded-lg p-8 shadow-xs">
+        <div className="w-14 h-14 rounded-full bg-[#681C35]/10 text-[#681C35] flex items-center justify-center mx-auto">
+          <Plane className="w-7 h-7 -rotate-45" />
+        </div>
+
+        <div className="text-3xl font-black font-mono text-[#681C35]">
+          404 - Page Not Found
+        </div>
+
+        <h1 className="text-base font-bold text-[#25232A]">
+          Flight Corridor Off-Track
+        </h1>
+
+        <p className="text-xs text-[#777780] leading-relaxed">
+          The requested aviation URL or flight identifier does not exist. Use the links below to explore active flight schedules, airport timetables, or our certified aviation guides.
+        </p>
+
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+          <button
+            onClick={() => onNavigate('/')}
+            className="px-4 py-2 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            Return to Flight Schedules
+          </button>
+          <button
+            onClick={() => onNavigate('/articles')}
+            className="px-4 py-2 bg-white border border-[#E8E5E8] hover:border-[#681C35] text-[#25232A] text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            Browse Aviation News
+          </button>
+          <button
+            onClick={() => onNavigate('/map')}
+            className="px-4 py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            Live Tracking Map
+          </button>
+        </div>
       </div>
 
-      <div className="text-4xl font-black font-mono text-[#681C35]">
-        404
-      </div>
-
-      <h1 className="text-xl font-bold text-[#25232A]">
-        Flight Corridor Off-Track (Page Not Found)
-      </h1>
-
-      <p className="text-xs sm:text-sm text-[#777780] max-w-md mx-auto leading-relaxed">
-        The requested aviation URL or flight identifier does not exist or has been relocated to an alternate airspace waypoint.
-      </p>
-
-      <div className="pt-4 flex items-center justify-center gap-3">
-        <button
-          onClick={() => onNavigate('/')}
-          className="px-4 py-2 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
-        >
-          Return to Global Flight Schedules
-        </button>
-        <button
-          onClick={() => onNavigate('/flights')}
-          className="px-4 py-2 bg-white border border-[#E8E5E8] hover:border-[#681C35] text-[#25232A] text-xs font-medium rounded transition-colors cursor-pointer"
-        >
-          Search Timetables
-        </button>
-      </div>
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Discover Certified Canadian Aviation Editorial Analyses"
+        subtitle="Explore our comprehensive technical guides on winter de-icing holdover times, space-based ADS-B radar, and airport transit protocols."
+      />
     </div>
   );
 };

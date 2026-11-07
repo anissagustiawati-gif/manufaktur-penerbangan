@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plane, Search, ArrowRight, Gauge, Shield, Maximize2 } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -95,6 +96,13 @@ export const AircraftPage: React.FC<Props> = ({ onNavigate }) => {
       </div>
 
       <AdSenseUnit slotId="aircraft-directory-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Featured Commercial Aircraft Engineering & Fleet Analyses"
+        subtitle="Read our investigative reports on Airbus A220 Mirabel production, Pratt & Whitney GTF fuel burn metrics, and Boeing 737 MAX dispatch reliability."
+      />
     </div>
   );
 };

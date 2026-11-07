@@ -22,6 +22,8 @@ import { aviationService } from '../services/aviationService';
 import { FlightStatusBadge } from '../components/FlightStatusBadge';
 import { AdSenseUnit } from '../components/AdSenseUnit';
 
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
+
 interface Props {
   slug: string;
   onNavigate: (path: string) => void;
@@ -33,6 +35,14 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
   const [isMobileFlightsOpen, setIsMobileFlightsOpen] = useState(false);
 
   const article = aviationService.getArticleBySlug(slug);
+  const allArticles = aviationService.getArticles();
+  const currentIndex = allArticles.findIndex(a => a.slug === slug);
+  const prevArticle = allArticles.length > 1
+    ? (currentIndex > 0 ? allArticles[currentIndex - 1] : allArticles[allArticles.length - 1])
+    : null;
+  const nextArticle = allArticles.length > 1
+    ? (currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : allArticles[0])
+    : null;
 
   useEffect(() => {
     aviationService.recordArticleView(slug);
@@ -398,6 +408,45 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
         </section>
       )}
 
+      {/* Previous & Next Article Sequential Navigation Cards */}
+      {(prevArticle || nextArticle) && (
+        <div className="pt-6 border-t border-[#E8E5E8] grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {prevArticle && (
+            <button
+              onClick={() => onNavigate(`/articles/${prevArticle.slug}`)}
+              className="p-4 bg-white border border-[#E8E5E8] rounded-md hover:border-[#681C35] hover:bg-[#FAF9FA] text-left transition-all cursor-pointer group flex items-start gap-3 shadow-2xs"
+            >
+              <div className="w-8 h-8 rounded bg-[#681C35]/10 text-[#681C35] flex items-center justify-center shrink-0 mt-0.5">
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[10px] uppercase font-bold text-[#777780] tracking-wider">Previous Guide</div>
+                <div className="text-xs font-bold text-[#25232A] group-hover:text-[#681C35] line-clamp-2 mt-0.5 leading-snug">
+                  {prevArticle.title}
+                </div>
+              </div>
+            </button>
+          )}
+
+          {nextArticle && (
+            <button
+              onClick={() => onNavigate(`/articles/${nextArticle.slug}`)}
+              className="p-4 bg-white border border-[#E8E5E8] rounded-md hover:border-[#681C35] hover:bg-[#FAF9FA] text-right transition-all cursor-pointer group flex items-start justify-end gap-3 shadow-2xs sm:col-start-2"
+            >
+              <div className="min-w-0">
+                <div className="text-[10px] uppercase font-bold text-[#777780] tracking-wider">Next Guide</div>
+                <div className="text-xs font-bold text-[#25232A] group-hover:text-[#681C35] line-clamp-2 mt-0.5 leading-snug">
+                  {nextArticle.title}
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded bg-[#681C35]/10 text-[#681C35] flex items-center justify-center shrink-0 mt-0.5">
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </button>
+          )}
+        </div>
+      )}
+
       {/* AdSense Unit */}
       <AdSenseUnit slotId="article-bottom-unit" format="horizontal" />
     </article>
@@ -521,6 +570,14 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
       <AdSenseUnit slotId="article-sidebar-display" format="rectangle" />
     </aside>
     </div>
+
+    {/* Comprehensive Bottom Discovery Section: Trending Articles, Radar Callout, Airport Timetables */}
+    <ExploreMoreSection
+      onNavigate={onNavigate}
+      excludeSlug={article.slug}
+      title="Continue Reading: Canadian Aviation Operations & Technology"
+      subtitle="Discover our other certified analyses on transcontinental jet routes, satellite ADS-B radar, and winter de-icing protocols."
+    />
   </div>
   );
 };

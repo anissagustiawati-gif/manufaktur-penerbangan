@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Building2, Search, MapPin, Compass, ArrowRight, ExternalLink } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -99,6 +100,13 @@ export const AirportsPage: React.FC<Props> = ({ onNavigate }) => {
       </div>
 
       <AdSenseUnit slotId="airports-directory-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Featured Canadian Aerodromes Editorial & Flight Guides"
+        subtitle="Learn more about terminal connections at YYZ, YVR, and YUL, winter runway friction tests, and Arctic gravel kits."
+      />
     </div>
   );
 };

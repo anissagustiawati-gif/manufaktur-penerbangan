@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Compass, Search, ArrowRight, Plane, Clock } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -105,6 +106,13 @@ export const RoutesPage: React.FC<Props> = ({ onNavigate }) => {
       </div>
 
       <AdSenseUnit slotId="routes-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title="Discover Transcontinental Routes & Aviation Flight Analyses"
+        subtitle="Explore detailed reports on the Porter E2 expansion, oceanic track coordination, and winter holding protocols."
+      />
     </div>
   );
 };

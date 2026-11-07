@@ -3,6 +3,7 @@ import { ArrowLeft, Plane, Gauge, Maximize2, Users, Compass, ArrowRight } from '
 import { aviationService } from '../services/aviationService';
 import { FlightTable } from '../components/FlightTable';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   aircraftCode: string;
@@ -121,6 +122,13 @@ export const AircraftDetailPage: React.FC<Props> = ({ aircraftCode, onNavigate }
       </div>
 
       <AdSenseUnit slotId="aircraft-detail-bottom" format="horizontal" />
+
+      {/* Comprehensive Bottom Discovery Section */}
+      <ExploreMoreSection
+        onNavigate={onNavigate}
+        title={`Explore Aviation Research & Routes for ${aircraft.model}`}
+        subtitle={`Discover technical aerodynamic analyses, cabin ergonomics, and real-time Canadian airline deployment records.`}
+      />
     </div>
   );
 };

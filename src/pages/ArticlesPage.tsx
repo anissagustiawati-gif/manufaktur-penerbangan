@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Newspaper, Search, ArrowRight, ChevronLeft, ChevronRight, BookOpen, Layers } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -229,6 +230,9 @@ export const ArticlesPage: React.FC<Props> = ({ onNavigate }) => {
       )}
 
       <AdSenseUnit slotId="articles-directory-bottom" format="horizontal" />
+
+      {/* Continuation & Discovery Section */}
+      <ExploreMoreSection onNavigate={onNavigate} />
     </div>
   );
 };

@@ -18,6 +18,7 @@ import { FlightTable } from '../components/FlightTable';
 import { FlightFilters } from '../components/FlightFilters';
 import { FlightStatusBadge } from '../components/FlightStatusBadge';
 import { AdSenseUnit } from '../components/AdSenseUnit';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 import { FlightFilterParams } from '../types/aviation';
 import { CANADIAN_AIRPORTS } from '../data/canadianAviationData';
 
@@ -582,6 +583,9 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
 
         {/* AdSense Unit Bottom */}
         <AdSenseUnit slotId="homepage-bottom-unit" format="horizontal" />
+
+        {/* Global Continuation & Hub Boards */}
+        <ExploreMoreSection onNavigate={onNavigate} />
       </div>
     </div>
   );

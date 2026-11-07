@@ -12,12 +12,21 @@ import {
   ExternalLink,
   ShieldCheck,
   ChevronRight,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Activity,
+  Globe,
+  BookOpen,
+  TrendingUp,
+  Clock,
+  Eye,
+  Info,
+  CheckCircle2
 } from 'lucide-react';
 import { aviationService } from '../services/aviationService';
 import { FlightRecord } from '../types/aviation';
 import { AdSenseUnit } from '../components/AdSenseUnit';
 import { FlightStatusBadge } from '../components/FlightStatusBadge';
+import { ExploreMoreSection } from '../components/ExploreMoreSection';
 
 interface Props {
   onNavigate: (path: string) => void;
@@ -608,7 +617,356 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <AdSenseUnit slotId="map-bottom-ad" format="horizontal" />
+      {/* Sponsor Advertisement Placement */}
+      <AdSenseUnit slotId="map-radar-mid-banner" format="horizontal" className="my-6" />
+
+      {/* SECTION 1: NAV CANADA Flight Information Regions (FIR) Airspace Sectors */}
+      <section className="bg-white border border-[#E8E5E8] rounded-lg p-5 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#ECEBED] gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-800">
+                NAV CANADA Operational Airspace Surveillance
+              </span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-[#25232A] mt-0.5">
+              Canadian Flight Information Regions (FIR) Control Centers
+            </h2>
+            <p className="text-xs text-[#777780]">
+              Real-time Area Control Centre (ACC) radar tracking sectors, satellite ADS-B constellations, and transponder telemetry status.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#681C35] bg-[#681C35]/10 px-3 py-1.5 rounded-md self-start sm:self-auto">
+            <Radio className="w-3.5 h-3.5 text-[#681C35] animate-pulse" />
+            <span>1090 MHz ADS-B ACTIVE</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            {
+              fir: 'CZYZ',
+              name: 'Toronto Area Control Centre (ACC)',
+              region: 'Ontario & Golden Horseshoe',
+              status: 'Normal Flow',
+              activeFlights: 42,
+              altRange: 'SFC – FL600',
+              radars: 'En-Route PSR/SSR + Space ADS-B'
+            },
+            {
+              fir: 'CZVR',
+              name: 'Vancouver Area Control Centre',
+              region: 'British Columbia & Coastal Pacific',
+              status: 'Normal Flow',
+              activeFlights: 28,
+              altRange: 'SFC – FL600',
+              radars: 'Pacific Oceanic VHF + ADS-B'
+            },
+            {
+              fir: 'CZUL',
+              name: 'Montréal Area Control Centre',
+              region: 'Québec, Nunavik & Maritime Feeder',
+              status: 'Normal Flow',
+              activeFlights: 31,
+              altRange: 'SFC – FL600',
+              radars: 'Dual-Band Primary/Secondary Radar'
+            },
+            {
+              fir: 'CZEG',
+              name: 'Edmonton Area Control Centre',
+              region: 'Alberta, NWT, Nunavut & Polar FIR',
+              status: 'Normal Flow',
+              activeFlights: 24,
+              altRange: 'SFC – FL600',
+              radars: 'Space-Based ADS-B (Aireon 66-Sat)'
+            },
+            {
+              fir: 'CZWG',
+              name: 'Winnipeg Area Control Centre',
+              region: 'Manitoba & Saskatchewan Prairies',
+              status: 'Normal Flow',
+              activeFlights: 19,
+              altRange: 'SFC – FL600',
+              radars: 'Transcontinental Corridor SSR'
+            },
+            {
+              fir: 'CZQX',
+              name: 'Gander Oceanic Control (OACC)',
+              region: 'North Atlantic Tracks (NAT-CTS)',
+              status: 'Peak Track Hours',
+              activeFlights: 54,
+              altRange: 'FL290 – FL410',
+              radars: 'ADS-C / CPDLC & Satellite ADS-B'
+            }
+          ].map((item) => (
+            <div
+              key={item.fir}
+              className="bg-[#FAF9FA] border border-[#ECEBED] hover:border-[#681C35] rounded-md p-3.5 transition-all group"
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="font-mono font-black text-sm text-[#681C35] bg-white px-2 py-0.5 rounded border border-[#E8E5E8]">
+                  {item.fir}
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                  <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
+                  {item.status}
+                </span>
+              </div>
+              <h3 className="text-xs font-bold text-[#25232A] group-hover:text-[#681C35] transition-colors">
+                {item.name}
+              </h3>
+              <p className="text-[11px] text-[#777780] mt-0.5">{item.region}</p>
+
+              <div className="mt-2.5 pt-2 border-t border-[#ECEBED] grid grid-cols-2 gap-1 text-[10px] font-mono text-[#504e57]">
+                <div>
+                  <span className="text-[#999] block font-sans">Coverage:</span>
+                  <span className="font-semibold text-[#25232A]">{item.altRange}</span>
+                </div>
+                <div>
+                  <span className="text-[#999] block font-sans">Radar Type:</span>
+                  <span className="truncate block font-semibold text-[#25232A]" title={item.radars}>
+                    {item.radars}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 2: Active Commercial Air Traffic Telemetry Table */}
+      <section className="bg-white border border-[#E8E5E8] rounded-lg p-5 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#ECEBED]">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-[#25232A] flex items-center gap-2">
+              <Activity className="w-4 h-4 text-[#681C35]" />
+              <span>Active Transponder Air Traffic in Canadian Airspace</span>
+            </h2>
+            <p className="text-xs text-[#777780] mt-0.5">
+              Live squawking flights currently transmitting Mode-S Altitude, Calibrated Airspeed, and GPS waypoint coordinates.
+            </p>
+          </div>
+          <button
+            onClick={() => onNavigate('/flights')}
+            className="text-xs font-semibold text-[#681C35] hover:text-[#8A2948] flex items-center gap-1 transition-colors self-start sm:self-auto cursor-pointer"
+          >
+            <span>View All Schedules</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr className="bg-[#FAF9FA] text-[#777780] font-mono uppercase text-[10px] border-b border-[#ECEBED]">
+                <th className="py-2.5 px-3 font-semibold">Flight</th>
+                <th className="py-2.5 px-3 font-semibold">Airline</th>
+                <th className="py-2.5 px-3 font-semibold">Route</th>
+                <th className="py-2.5 px-3 font-semibold">Aircraft</th>
+                <th className="py-2.5 px-3 font-semibold">Altitude</th>
+                <th className="py-2.5 px-3 font-semibold">Speed</th>
+                <th className="py-2.5 px-3 font-semibold">Status</th>
+                <th className="py-2.5 px-3 font-semibold text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#ECEBED]">
+              {activeFlights.slice(0, 8).map((f) => (
+                <tr
+                  key={f.id}
+                  className="hover:bg-[#FAF9FA] transition-colors cursor-pointer group"
+                  onClick={() => handleFocusFlight(f)}
+                >
+                  <td className="py-2.5 px-3 font-mono font-bold text-[#681C35]">
+                    {f.flightNumber}
+                  </td>
+                  <td className="py-2.5 px-3 font-medium text-[#25232A] truncate max-w-[140px]">
+                    {f.airlineName}
+                  </td>
+                  <td className="py-2.5 px-3 font-semibold text-[#25232A]">
+                    <span className="bg-slate-100 px-1.5 py-0.5 rounded text-[11px] font-mono mr-1">{f.departureAirportIata}</span>
+                    <span className="text-[#999]">&rarr;</span>
+                    <span className="bg-slate-100 px-1.5 py-0.5 rounded text-[11px] font-mono ml-1">{f.arrivalAirportIata}</span>
+                  </td>
+                  <td className="py-2.5 px-3 font-mono text-[11px] text-[#504e57]">
+                    {f.aircraftModel}
+                  </td>
+                  <td className="py-2.5 px-3 font-mono font-bold text-emerald-800">
+                    {f.liveTracking?.altitudeFeet ? `${f.liveTracking.altitudeFeet.toLocaleString()} ft` : 'FL360'}
+                  </td>
+                  <td className="py-2.5 px-3 font-mono text-[#504e57]">
+                    {f.liveTracking?.groundSpeedKnots ? `${f.liveTracking.groundSpeedKnots} kts` : '475 kts'}
+                  </td>
+                  <td className="py-2.5 px-3">
+                    <FlightStatusBadge status={f.status} />
+                  </td>
+                  <td className="py-2.5 px-3 text-right">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNavigate(`/flight/${f.flightNumber.toLowerCase()}`);
+                      }}
+                      className="px-2.5 py-1 bg-[#681C35] hover:bg-[#8A2948] text-white text-[11px] font-semibold rounded transition-colors inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Details</span>
+                      <ChevronRight className="w-3 h-3" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* SECTION 3: Featured Technical Aviation Radar Editorial Articles (High Dwell Time & AdSense Value) */}
+      <section className="bg-white border border-[#E8E5E8] rounded-lg p-5 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#ECEBED] gap-2">
+          <div>
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#681C35] mb-1">
+              <BookOpen className="w-4 h-4" />
+              <span>TECHNICAL AVIONICS &amp; RADAR RESEARCH</span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-[#25232A]">
+              In-Depth Radar Systems, Polar Navigation &amp; ATC Operations
+            </h2>
+            <p className="text-xs text-[#777780]">
+              Transport Canada verified whitepapers explaining how space-based ADS-B, oceanic tracks, and mountain turbulence radars keep Canadian airspace safe.
+            </p>
+          </div>
+          <button
+            onClick={() => onNavigate('/articles')}
+            className="text-xs font-semibold text-[#681C35] hover:text-[#8A2948] flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+          >
+            <span>Browse All 11 Guides</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            {
+              slug: 'nav-canada-space-based-ads-b-polar-airspace-revolution',
+              title: 'Space-Based ADS-B: Revolutionizing Arctic & Polar Airspace Surveillance',
+              category: 'Radar Technology',
+              readTime: '11 min',
+              image: '/assets/images/article_polar_cockpit_1793637456381.jpg',
+              excerpt: 'How NAV CANADA and Aireons 66 low-Earth-orbit satellites eliminated polar radar blackout zones across the Canadian North.'
+            },
+            {
+              slug: 'gander-oceanic-control-north-atlantic-tracks-nat-cts-flight-planning',
+              title: 'Gander Oceanic Control: North Atlantic Tracks & Mach Number Protocols',
+              category: 'Air Traffic Control',
+              readTime: '12 min',
+              image: '/assets/images/article_gander_radar_1793637458145.jpg',
+              excerpt: 'Step inside Gander OACC to explore daily NAT-CTS organized track publishing, lateral separation buffers, and CPDLC clearances.'
+            },
+            {
+              slug: 'mountain-wave-clear-air-turbulence-canadian-airspace-meteorology',
+              title: 'Mountain Wave & Clear-Air Turbulence Over the Canadian Rockies',
+              category: 'Aviation Meteorology',
+              readTime: '13 min',
+              image: '/assets/images/article_rockies_dispatch_1793637457049.jpg',
+              excerpt: 'Meteorological analysis of rotor dynamics, mountain wave turbulence over Calgary FIR, and cockpit weather radar techniques.'
+            },
+            {
+              slug: 'cold-weather-flight-operations-canadian-airspace-deicing',
+              title: 'Winter Flight Operations: De-Icing Holdover Times & Runway Friction',
+              category: 'Airport Operations',
+              readTime: '9 min',
+              image: '/assets/images/article_airport_transit_1793637456033.jpg',
+              excerpt: 'Type I and Type IV glycol chemistry, Canadian Runway Friction Index (CRFI) metrics, and Transport Canada safety directives.'
+            }
+          ].map((guide) => (
+            <article
+              key={guide.slug}
+              onClick={() => onNavigate(`/articles/${guide.slug}`)}
+              className="bg-[#FAF9FA] border border-[#ECEBED] hover:border-[#681C35] rounded-md overflow-hidden hover:shadow-md transition-all cursor-pointer flex flex-col group"
+            >
+              <div className="h-36 overflow-hidden relative bg-slate-100">
+                <img
+                  src={guide.image}
+                  alt={guide.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                  }}
+                />
+                <span className="absolute top-2 left-2 bg-[#681C35] text-white font-mono text-[9px] font-bold uppercase px-2 py-0.5 rounded shadow-xs">
+                  {guide.category}
+                </span>
+                <span className="absolute bottom-2 right-2 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-1.5 py-0.5 rounded">
+                  {guide.readTime}
+                </span>
+              </div>
+
+              <div className="p-3.5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xs font-bold text-[#25232A] group-hover:text-[#681C35] transition-colors line-clamp-2 leading-snug">
+                    {guide.title}
+                  </h3>
+                  <p className="text-[11px] text-[#777780] mt-1.5 line-clamp-2 leading-relaxed">
+                    {guide.excerpt}
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-[#ECEBED] flex items-center justify-between text-[11px] font-semibold text-[#681C35]">
+                  <span>Read Guide</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 4: Major Canadian Hubs Interactive Radar Quick-Jump */}
+      <section className="bg-white border border-[#E8E5E8] rounded-lg p-5 shadow-2xs space-y-3">
+        <div className="flex items-center justify-between border-b border-[#ECEBED] pb-2.5">
+          <div className="flex items-center gap-2">
+            <Compass className="w-4 h-4 text-[#681C35]" />
+            <h2 className="text-sm sm:text-base font-bold text-[#25232A]">
+              Direct Radar &amp; Timetable Feeds by Canadian Hub Aerodrome
+            </h2>
+          </div>
+          <span className="text-[11px] font-mono text-[#777780]">6 Primary Gateways</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          {[
+            { code: 'YYZ', name: 'Toronto Pearson', prov: 'Ontario', rwys: '5 Runways', el: '569 ft' },
+            { code: 'YVR', name: 'Vancouver Intl', prov: 'British Columbia', rwys: '3 Runways', el: '14 ft' },
+            { code: 'YUL', name: 'Montréal-Trudeau', prov: 'Québec', rwys: '3 Runways', el: '118 ft' },
+            { code: 'YYC', name: 'Calgary Intl', prov: 'Alberta', rwys: '4 Runways', el: '3,557 ft' },
+            { code: 'YOW', name: 'Ottawa Intl', prov: 'Ontario', rwys: '3 Runways', el: '374 ft' },
+            { code: 'YHZ', name: 'Halifax Stanfield', prov: 'Nova Scotia', rwys: '2 Runways', el: '477 ft' }
+          ].map((hub) => (
+            <button
+              key={hub.code}
+              type="button"
+              onClick={() => onNavigate(`/airport/${hub.code}`)}
+              className="bg-[#FAF9FA] hover:bg-white border border-[#ECEBED] hover:border-[#681C35] rounded p-2.5 text-left transition-all group cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono font-black text-sm text-[#681C35]">{hub.code}</span>
+                <span className="text-[9px] text-[#777780] font-mono">{hub.el}</span>
+              </div>
+              <div className="text-xs font-bold text-[#25232A] truncate mt-0.5 group-hover:text-[#681C35]">
+                {hub.name}
+              </div>
+              <div className="text-[10px] text-[#777780] flex items-center justify-between mt-1">
+                <span>{hub.prov}</span>
+                <span className="font-mono text-[#999]">{hub.rwys}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 5: Universal Rich Discovery Section */}
+      <ExploreMoreSection onNavigate={onNavigate} />
     </div>
   );
 };
+

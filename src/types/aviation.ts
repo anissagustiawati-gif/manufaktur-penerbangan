@@ -156,7 +156,14 @@ export interface AviationArticle {
     | 'Passenger Rights'
     | 'Aircraft Technology'
     | 'Aviation Meteorology'
-    | 'Aviation Infrastructure';
+    | 'Aviation Infrastructure'
+    | 'Avionics Safety'
+    | 'Fleet Economics'
+    | 'Flight Dispatch'
+    | 'Air Cargo Logistics'
+    | 'Aviation Careers'
+    | 'Aviation Law'
+    | 'Aviation Sustainability';
   featuredImage: string;
   author: {
     name: string;

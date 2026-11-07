@@ -14,15 +14,14 @@ export const ArticlesPage: React.FC<Props> = ({ onNavigate }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 6;
 
-  const categories = [
-    'ALL',
-    'Aviation Technology',
-    'Airport Guides',
-    'Airline Information',
-    'Airport Operations',
-    'Global Aviation',
-    'Aviation Meteorology'
-  ];
+  const categories = useMemo(() => {
+    const cats = new Set<string>();
+    cats.add('ALL');
+    aviationService.getArticles().forEach((a) => {
+      if (a.category) cats.add(a.category);
+    });
+    return Array.from(cats);
+  }, []);
 
   const allFilteredArticles = useMemo(() => {
     return aviationService.getArticles(

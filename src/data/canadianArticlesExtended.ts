@@ -11,8 +11,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Capt. Jonathan Fraser, MASc, FRAeS",
       "role": "Aviation Accident Investigation Specialist & Human Factors Flight Instructor"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 11,
     "tags": [
       "Avionics",
@@ -37,8 +37,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Elena Rostova, P.Eng., M.Eng.",
       "role": "Airport Civil Engineering & Environmental Infrastructure Lead"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 12,
     "tags": [
       "Vancouver Airport",
@@ -63,8 +63,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Gareth Pendelton, CFA, MBA",
       "role": "Senior Aviation Fleet Valuation & Route Economics Analyst"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 13,
     "tags": [
       "Fleet Economics",
@@ -89,8 +89,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Wayne Kowalski, FDL",
       "role": "Senior Polar Operations Flight Dispatcher & ETOPS Specialist"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 14,
     "tags": [
       "ETOPS",
@@ -115,8 +115,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Monique DeChant, CMILT",
       "role": "Global Air Cargo Supply Chain Director & IATA Perishable Freight Specialist"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 11,
     "tags": [
       "Air Cargo",
@@ -141,8 +141,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Capt. Liam O'Connor, FRAeS",
       "role": "Chief Flight Standards Pilot & Performance-Based Navigation Consultant"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 12,
     "tags": [
       "RNP-AR",
@@ -167,8 +167,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Capt. Sarah Jenkins, MCFI",
       "role": "Deputy Chief Flight Instructor & Transport Canada Pilot Flight Test Examiner"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 13,
     "tags": [
       "Pilot Training",
@@ -193,8 +193,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Julian Beaulieu, LL.M.",
       "role": "Aviation Regulatory Attorney & International Air Transport Law Scholar"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 14,
     "tags": [
       "Aviation Law",
@@ -219,8 +219,8 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
       "name": "Dr. Alistair MacIntyre, PhD, P.Eng.",
       "role": "Principal Biochemical Engineer & Chair of Sustainable Aviation Fuel Research"
     },
-    "publishedDate": "November 7, 2026",
-    "updatedDate": "November 7, 2026",
+    "publishedDate": "November 10, 2026",
+    "updatedDate": "November 10, 2026",
     "readTimeMinutes": 12,
     "tags": [
       "Sustainable Aviation Fuel",

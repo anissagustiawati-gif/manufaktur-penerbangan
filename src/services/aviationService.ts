@@ -151,24 +151,41 @@ class AviationService {
         this.flights = parsedFlights;
       }
 
+      // Always prioritize CANADIAN_EDITORIAL_ARTICLES canonical order (newest first)
       const storedArticles = localStorage.getItem(STORAGE_KEYS.ARTICLES);
-      let loadedArticles: AviationArticle[] = storedArticles ? JSON.parse(storedArticles) : [];
-      const existingSlugs = new Set(loadedArticles.map((a: AviationArticle) => a.slug));
-      CANADIAN_EDITORIAL_ARTICLES.forEach((canonical) => {
-        if (!existingSlugs.has(canonical.slug)) {
-          loadedArticles.push(canonical);
-        } else {
-          const idx = loadedArticles.findIndex((a: AviationArticle) => a.slug === canonical.slug);
-          if (idx >= 0) {
-            loadedArticles[idx] = {
-              ...canonical,
-              views: loadedArticles[idx].views || canonical.views,
-              uniqueVisitors: loadedArticles[idx].uniqueVisitors || canonical.uniqueVisitors
-            };
+      const customArticles: AviationArticle[] = [];
+      const viewMap: Record<string, { views: number; uniqueVisitors: number }> = {};
+      
+      if (storedArticles) {
+        try {
+          const parsed = JSON.parse(storedArticles);
+          if (Array.isArray(parsed)) {
+            parsed.forEach((art: AviationArticle) => {
+              if (art.slug) {
+                viewMap[art.slug] = {
+                  views: art.views || 2450,
+                  uniqueVisitors: art.uniqueVisitors || 1890
+                };
+                const isCanonical = CANADIAN_EDITORIAL_ARTICLES.some(c => c.slug === art.slug);
+                if (!isCanonical) {
+                  customArticles.push(art);
+                }
+              }
+            });
           }
+        } catch {
+          // Ignore parse errors
         }
-      });
-      this.articles = loadedArticles.length > 0 ? loadedArticles : [...CANADIAN_EDITORIAL_ARTICLES];
+      }
+
+      this.articles = [
+        ...CANADIAN_EDITORIAL_ARTICLES.map(canonical => ({
+          ...canonical,
+          views: viewMap[canonical.slug]?.views || canonical.views || 2450,
+          uniqueVisitors: viewMap[canonical.slug]?.uniqueVisitors || canonical.uniqueVisitors || 1890
+        })),
+        ...customArticles
+      ];
       localStorage.setItem(STORAGE_KEYS.ARTICLES, JSON.stringify(this.articles));
 
       const storedSettings = localStorage.getItem(STORAGE_KEYS.SETTINGS);

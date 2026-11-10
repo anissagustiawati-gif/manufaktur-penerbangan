@@ -139,8 +139,15 @@ export const ArticlesPage: React.FC<Props> = ({ onNavigate }) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
                   }}
                 />
-                <div className="absolute top-3 left-3 bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
-                  {art.category}
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+                  <span className="bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
+                    {art.category}
+                  </span>
+                  {art.publishedDate.includes('November 10') && (
+                    <span className="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                      NEW · NOV 2026
+                    </span>
+                  )}
                 </div>
               </div>
 

@@ -38,10 +38,14 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
   const [heroSearch, setHeroSearch] = useState('');
   const [activeBoardTab, setActiveBoardTab] = useState<'departures' | 'arrivals'>('departures');
   const [boardAirport, setBoardAirport] = useState('ALL');
+  const [articlePage, setArticlePage] = useState(1);
 
   const stats = aviationService.getLiveStats();
   const paginatedData = aviationService.getFlights(filters);
-  const articles = aviationService.getArticles().slice(0, 4);
+  const allArticles = aviationService.getArticles();
+  const homeArticlePageSize = 8;
+  const totalArticlePages = Math.ceil(allArticles.length / homeArticlePageSize);
+  const paginatedArticles = allArticles.slice((articlePage - 1) * homeArticlePageSize, articlePage * homeArticlePageSize);
   const departures = aviationService.getDepartures(boardAirport === 'ALL' ? undefined : boardAirport).slice(0, 5);
   const arrivals = aviationService.getArrivals(boardAirport === 'ALL' ? undefined : boardAirport).slice(0, 5);
 
@@ -494,17 +498,17 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
               onClick={() => onNavigate('/articles')}
               className="text-xs font-semibold text-[#681C35] hover:underline flex items-center gap-1 cursor-pointer"
             >
-              <span>View All Articles</span>
+              <span>View All {allArticles.length} Articles</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {articles.map((art) => (
+            {paginatedArticles.map((art) => (
               <article
                 key={art.slug}
                 onClick={() => onNavigate(`/articles/${art.slug}`)}
-                className="bg-white border border-[#E8E5E8] rounded-md overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col group"
+                className="bg-white border border-[#E8E5E8] rounded-md overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col group relative"
               >
                 <div className="h-44 overflow-hidden relative bg-slate-100">
                   <img
@@ -517,8 +521,15 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                       e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
                     }}
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
-                    {art.category}
+                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
+                    <span className="bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
+                      {art.category}
+                    </span>
+                    {art.publishedDate.includes('November 10') && (
+                      <span className="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                        NEW · NOV 2026
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -551,30 +562,33 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
           {/* Homepage Articles Numbered Pagination & Quick Access */}
           <div className="mt-6 bg-[#FAF9FA] border border-[#E8E5E8] rounded-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="text-xs text-[#777780]">
-              Showing <strong className="text-[#25232A]">Top 4</strong> of <strong className="text-[#25232A]">11</strong> Aviation Research Guides &mdash; Explore next articles:
+              Showing <strong className="text-[#25232A]">{(articlePage - 1) * homeArticlePageSize + 1}-{Math.min(articlePage * homeArticlePageSize, allArticles.length)}</strong> of <strong className="text-[#25232A]">{allArticles.length}</strong> Aviation Research Guides (8 per page):
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-semibold text-[#777780] mr-1">Pages:</span>
-              <button
-                onClick={() => onNavigate('/articles')}
-                className="w-7 h-7 rounded text-xs font-bold bg-[#681C35] text-white shadow-xs cursor-pointer flex items-center justify-center"
-                title="Page 1 (Recent Articles)"
-              >
-                1
-              </button>
-              <button
-                onClick={() => onNavigate('/articles')}
-                className="w-7 h-7 rounded text-xs font-bold bg-white border border-[#E8E5E8] text-[#25232A] hover:border-[#681C35] cursor-pointer flex items-center justify-center transition-colors"
-                title="Page 2 (More Aviation Insights)"
-              >
-                2
-              </button>
+              {Array.from({ length: totalArticlePages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => {
+                    setArticlePage(p);
+                    document.getElementById('aviation-news-travel-insights')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-7 h-7 rounded text-xs font-bold cursor-pointer flex items-center justify-center transition-colors ${
+                    articlePage === p
+                      ? 'bg-[#681C35] text-white shadow-xs'
+                      : 'bg-white border border-[#E8E5E8] text-[#25232A] hover:border-[#681C35]'
+                  }`}
+                  title={`Page ${p}`}
+                >
+                  {p}
+                </button>
+              ))}
               <button
                 onClick={() => onNavigate('/articles')}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer ml-1"
               >
-                <span>Browse All 11 Guides</span>
+                <span>Browse All {allArticles.length} Guides</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             </div>

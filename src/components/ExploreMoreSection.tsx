@@ -41,7 +41,7 @@ export const ExploreMoreSection: React.FC<Props> = ({
             onClick={() => onNavigate('/articles')}
             className="text-xs font-semibold text-[#681C35] hover:underline flex items-center gap-1 cursor-pointer self-start sm:self-auto"
           >
-            <span>View All 11 Guides</span>
+            <span>View All {allArticles.length} Guides</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -51,7 +51,7 @@ export const ExploreMoreSection: React.FC<Props> = ({
             <article
               key={art.slug}
               onClick={() => onNavigate(`/articles/${art.slug}`)}
-              className="bg-white border border-[#E8E5E8] rounded-md overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col group"
+              className="bg-white border border-[#E8E5E8] rounded-md overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col group relative"
             >
               <div className="h-40 overflow-hidden relative bg-slate-100">
                 <img
@@ -64,8 +64,15 @@ export const ExploreMoreSection: React.FC<Props> = ({
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
                   }}
                 />
-                <div className="absolute top-2.5 left-2.5 bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
-                  {art.category}
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
+                  <span className="bg-[#681C35] text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs">
+                    {art.category}
+                  </span>
+                  {art.publishedDate.includes('November 10') && (
+                    <span className="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                      NEW · NOV 2026
+                    </span>
+                  )}
                 </div>
               </div>
 

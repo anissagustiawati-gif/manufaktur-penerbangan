@@ -1,5 +1,52 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/lalu",
+      "destination": "/departures",
+      "permanent": true
+    },
+    {
+      "source": "/jadwal",
+      "destination": "/flights",
+      "permanent": true
+    },
+    {
+      "source": "/bandara",
+      "destination": "/airports",
+      "permanent": true
+    },
+    {
+      "source": "/maskapai",
+      "destination": "/airlines",
+      "permanent": true
+    },
+    {
+      "source": "/pesawat",
+      "destination": "/aircraft",
+      "permanent": true
+    },
+    {
+      "source": "/rute",
+      "destination": "/routes",
+      "permanent": true
+    },
+    {
+      "source": "/artikel",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/tentang",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/kontak",
+      "destination": "/contact",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

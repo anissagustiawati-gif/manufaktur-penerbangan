@@ -369,20 +369,20 @@ articlesDirectoryHtml = articlesDirectoryHtml.replace('<div id="root"></div>', a
 fs.writeFileSync(path.join(articlesDir, 'index.html'), articlesDirectoryHtml, 'utf-8');
 fs.writeFileSync(path.join(DIST_DIR, 'articles.html'), articlesDirectoryHtml, 'utf-8');
 
-// 4. PRE-RENDER HTML SITEMAP (dist/sitemap/index.html)
-console.log('Pre-rendering HTML Sitemap (dist/sitemap/index.html)...');
-const sitemapDir = path.join(DIST_DIR, 'sitemap');
+// 4. PRE-RENDER HTML SITE DIRECTORY (dist/site-index/index.html)
+console.log('Pre-rendering HTML Site Directory (dist/site-index/index.html)...');
+const sitemapDir = path.join(DIST_DIR, 'site-index');
 ensureDirSync(sitemapDir);
-const sitemapPageTitle = 'HTML Sitemap & Complete Site Index – World Flight Schedule';
+const sitemapPageTitle = 'HTML Site Index & Complete Directory – World Flight Schedule';
 const sitemapPageDesc = 'Complete index of all Canadian flight timetables, 20 aviation research guides, airport boards, carrier fleets, and compliance policies.';
-const sitemapPageCanonical = `${SITE_ORIGIN}/sitemap`;
+const sitemapPageCanonical = `${SITE_ORIGIN}/site-index`;
 
 const sitemapBody = `
 <div id="root">
   ${ssrHeaderHtml}
   <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
     <div style="border-bottom: 2px solid #E8E5E8; padding-bottom: 16px; margin-bottom: 28px;">
-      <h1 style="font-size: 32px; font-weight: 800; color: #25232A; margin: 0 0 8px;">HTML Sitemap &amp; Navigation Tree</h1>
+      <h1 style="font-size: 32px; font-weight: 800; color: #25232A; margin: 0 0 8px;">HTML Site Index &amp; Navigation Tree</h1>
       <p style="font-size: 14px; color: #504e57; margin: 0;">Comprehensive index of all 65 pages across World Flight Schedule Canada.</p>
     </div>
 
@@ -432,7 +432,15 @@ sitemapHtml = sitemapHtml.replace(/<meta name="description" content=".*?" \/>/i,
 sitemapHtml = sitemapHtml.replace(/<link rel="canonical".*?\/>/i, `<link rel="canonical" href="${sitemapPageCanonical}" id="canonical-url" />`);
 sitemapHtml = sitemapHtml.replace('<div id="root"></div>', sitemapBody);
 fs.writeFileSync(path.join(sitemapDir, 'index.html'), sitemapHtml, 'utf-8');
-fs.writeFileSync(path.join(DIST_DIR, 'sitemap.html'), sitemapHtml, 'utf-8');
+fs.writeFileSync(path.join(DIST_DIR, 'site-index.html'), sitemapHtml, 'utf-8');
+
+// Ensure dist/sitemap static dir does not block the 301 redirect to sitemap.xml
+if (fs.existsSync(path.join(DIST_DIR, 'sitemap'))) {
+  fs.rmSync(path.join(DIST_DIR, 'sitemap'), { recursive: true, force: true });
+}
+if (fs.existsSync(path.join(DIST_DIR, 'sitemap.html'))) {
+  fs.unlinkSync(path.join(DIST_DIR, 'sitemap.html'));
+}
 
 // 5. PRE-RENDER OTHER MAIN STATIC ROUTES
 const otherRoutes = [

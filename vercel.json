@@ -13,6 +13,11 @@
       "permanent": true
     },
     {
+      "source": "/sitemap",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
       "source": "/20:year(\\d{2})/(.*)",
       "destination": "/articles",
       "permanent": true

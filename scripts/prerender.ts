@@ -618,6 +618,7 @@ fs.writeFileSync(path.join(process.cwd(), 'public', 'feed.xml'), rss, 'utf-8');
 
 // Ensure verification tokens and ads files exist in dist/
 const publicFilesToSync = [
+  'sitemap_index.xml',
   'ad-300x250.html',
   'ads.txt',
   'robots.txt',

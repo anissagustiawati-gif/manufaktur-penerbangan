@@ -231,7 +231,7 @@ export default function App() {
       return <LegalPage pageType="editorial-policy" onNavigate={navigate} />;
     }
 
-    if (url === '/sitemap') {
+    if (url === '/sitemap' || url === '/site-index') {
       document.title = 'HTML Sitemap & Complete Site Index – World Flight Schedule';
       return <SitemapPage onNavigate={navigate} />;
     }

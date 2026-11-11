@@ -3,3 +3,6 @@ Allow: /
 Disallow: /admin
 
 Sitemap: https://manufaktur.biz.id/sitemap.xml
+Sitemap: https://manufaktur.biz.id/sitemap_index.xml
+Sitemap: https://manufaktur.biz.id/rss.xml
+Sitemap: https://manufaktur.biz.id/feed.xml

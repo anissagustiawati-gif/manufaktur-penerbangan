@@ -240,22 +240,56 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
 
           <div className="text-xs sm:text-sm text-[#3a3740] leading-relaxed space-y-4">
             <p>
-              World Flight Schedule (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy. This policy outlines how information is gathered, utilized, and safeguarded when you access our global aviation information portal.
+              World Flight Schedule (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy and is dedicated to protecting your personal data. This comprehensive Privacy Policy outlines how information is collected, processed, and safeguarded when you access <strong>manufaktur.biz.id</strong> and our global aviation information services.
             </p>
 
-            <h2 className="text-base font-bold text-[#681C35] pt-2">1. Information We Do Not Collect</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">1. Personal Information We Do Not Collect</h2>
             <p>
-              We do not require user account registration, credit card payment details, or personal passenger booking references to view public flight schedules, airport boards, or aircraft directories.
+              World Flight Schedule is a public civil aviation intelligence and flight tracking reference. We do not require user account registration, credit card details, or personal passenger identification to view live flight radars, airport arrival/departure timetables, or aeronautical research guides.
             </p>
 
-            <h2 className="text-base font-bold text-[#681C35] pt-2">2. Google AdSense & Third-Party Cookies</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">2. Google AdSense & Third-Party Advertising Vendors</h2>
             <p>
-              We partner with Google AdSense to serve advertisements when you visit our website. Google and its advertising partners may utilize cookies (such as the DoubleClick cookie) to serve advertisements based on your visit to this and other websites. You may opt out of personalized advertising by visiting Google Ad Settings (https://www.google.com/settings/ads).
+              We partner with third-party advertising vendors, including Google AdSense, to display non-intrusive advertisements across our pages:
+            </p>
+            <ul className="list-disc pl-5 space-y-1.5">
+              <li>
+                <strong>Third-party vendors, including Google, use cookies</strong> to serve ads based on a user&apos;s prior visits to this website or other websites on the internet.
+              </li>
+              <li>
+                <strong>Google&apos;s use of advertising cookies</strong> enables it and its partners to serve ads to users based on their visit to our sites and/or other sites on the Internet.
+              </li>
+              <li>
+                Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-[#681C35] underline font-medium">Google Ads Settings</a>.
+              </li>
+              <li>
+                Alternatively, users can opt out of a third-party vendor&apos;s use of cookies for personalized advertising by visiting <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#681C35] underline font-medium">AboutAds.info</a> or the <a href="https://optout.networkadvertising.org/" target="_blank" rel="noopener noreferrer" className="text-[#681C35] underline font-medium">Network Advertising Initiative (NAI)</a> opt-out tool.
+              </li>
+            </ul>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">3. Cookies, Web Beacons & Local Storage</h2>
+            <p>
+              Our website uses technical cookies and browser local storage to preserve your user interface preferences (such as selected airport timetable tabs, UTC vs local time displays, and search filter parameters). These do not contain personally identifiable information. You can configure your browser (Google Chrome, Apple Safari, Mozilla Firefox, Microsoft Edge) to reject or delete cookies at any time.
             </p>
 
-            <h2 className="text-base font-bold text-[#681C35] pt-2">3. Server Logs & Analytics</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">4. European Economic Area (GDPR) Compliance</h2>
             <p>
-              Our web servers automatically record standard HTTP telemetry including IP addresses, browser user-agents, referring pages, and requested flight parameters strictly for load balancing, rate limiting, and system security.
+              For visitors residing within the European Economic Area (EEA), United Kingdom, and Switzerland, our data processing activities comply with the General Data Protection Regulation (GDPR). You retain full statutory rights to access, rectify, or request erasure of any technical server telemetry associated with your IP address, as well as the right to lodge inquiries with your national Data Protection Authority.
+            </p>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">5. California Consumer Privacy Act (CCPA / CPRA)</h2>
+            <p>
+              Under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), California residents are entitled to know what categories of personal data are collected and whether such data is sold or shared. <strong>We do not sell, rent, or monetize your personal information to any third party.</strong>
+            </p>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">6. Children&apos;s Privacy (COPPA Compliance)</h2>
+            <p>
+              Our services are directed to adult air travel consumers, aviation professionals, and academic researchers. We do not knowingly solicit or collect information from children under 13 years of age.
+            </p>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">7. Contact the Data Protection Officer</h2>
+            <p>
+              For any questions regarding this Privacy Policy, cookie disclosures, or data protection practices, please contact us at <strong>anissagustiawati@gmail.com</strong> or submit an inquiry through our <button onClick={() => onNavigate('/contact')} className="text-[#681C35] underline font-semibold cursor-pointer">Contact Desk</button>.
             </p>
           </div>
         </section>

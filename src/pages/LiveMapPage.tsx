@@ -835,70 +835,46 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
               Transport Canada verified whitepapers explaining how space-based ADS-B, oceanic tracks, and mountain turbulence radars keep Canadian airspace safe.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate('/articles')}
+          <a
+            href="/articles"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/articles');
+            }}
             className="text-xs font-semibold text-[#681C35] hover:text-[#8A2948] flex items-center gap-1 self-start sm:self-auto cursor-pointer"
           >
-            <span>Browse All 11 Guides</span>
+            <span>Browse All 20 Aviation Research Guides</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            {
-              slug: 'nav-canada-space-based-ads-b-polar-airspace-revolution',
-              title: 'Space-Based ADS-B: Revolutionizing Arctic & Polar Airspace Surveillance',
-              category: 'Radar Technology',
-              readTime: '11 min',
-              image: '/assets/images/article_polar_cockpit_1793637456381.jpg',
-              excerpt: 'How NAV CANADA and Aireons 66 low-Earth-orbit satellites eliminated polar radar blackout zones across the Canadian North.'
-            },
-            {
-              slug: 'gander-oceanic-control-north-atlantic-tracks-nat-cts-flight-planning',
-              title: 'Gander Oceanic Control: North Atlantic Tracks & Mach Number Protocols',
-              category: 'Air Traffic Control',
-              readTime: '12 min',
-              image: '/assets/images/article_gander_radar_1793637458145.jpg',
-              excerpt: 'Step inside Gander OACC to explore daily NAT-CTS organized track publishing, lateral separation buffers, and CPDLC clearances.'
-            },
-            {
-              slug: 'mountain-wave-clear-air-turbulence-canadian-airspace-meteorology',
-              title: 'Mountain Wave & Clear-Air Turbulence Over the Canadian Rockies',
-              category: 'Aviation Meteorology',
-              readTime: '13 min',
-              image: '/assets/images/article_rockies_dispatch_1793637457049.jpg',
-              excerpt: 'Meteorological analysis of rotor dynamics, mountain wave turbulence over Calgary FIR, and cockpit weather radar techniques.'
-            },
-            {
-              slug: 'cold-weather-flight-operations-canadian-airspace-deicing',
-              title: 'Winter Flight Operations: De-Icing Holdover Times & Runway Friction',
-              category: 'Airport Operations',
-              readTime: '9 min',
-              image: '/assets/images/article_airport_transit_1793637456033.jpg',
-              excerpt: 'Type I and Type IV glycol chemistry, Canadian Runway Friction Index (CRFI) metrics, and Transport Canada safety directives.'
-            }
-          ].map((guide) => (
-            <article
+          {aviationService.getArticles().slice(0, 4).map((guide) => (
+            <a
               key={guide.slug}
-              onClick={() => onNavigate(`/articles/${guide.slug}`)}
-              className="bg-[#FAF9FA] border border-[#ECEBED] hover:border-[#681C35] rounded-md overflow-hidden hover:shadow-md transition-all cursor-pointer flex flex-col group"
+              href={`/articles/${guide.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(`/articles/${guide.slug}`);
+              }}
+              className="bg-[#FAF9FA] border border-[#ECEBED] hover:border-[#681C35] rounded-md overflow-hidden hover:shadow-md transition-all cursor-pointer flex flex-col group text-left"
             >
               <div className="h-36 overflow-hidden relative bg-slate-100">
                 <img
-                  src={guide.image}
+                  src={guide.featuredImage}
                   alt={guide.title}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80';
                   }}
                 />
                 <span className="absolute top-2 left-2 bg-[#681C35] text-white font-mono text-[9px] font-bold uppercase px-2 py-0.5 rounded shadow-xs">
                   {guide.category}
                 </span>
                 <span className="absolute bottom-2 right-2 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-1.5 py-0.5 rounded">
-                  {guide.readTime}
+                  {guide.readTimeMinutes} min
                 </span>
               </div>
 
@@ -916,7 +892,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </section>

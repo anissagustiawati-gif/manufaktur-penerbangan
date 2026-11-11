@@ -1,3 +1,3 @@
-# Google AdSense ads.txt
-# Replace pub-0000000000000000 with your actual AdSense Publisher ID once approved
-google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+# World Flight Schedule - Authorized Digital Sellers (ads.txt)
+# IAB Tech Lab Ads.txt Specification
+google.com, pub-9920192837461029, DIRECT, f08c47fec0942fa0

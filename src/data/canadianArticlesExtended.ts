@@ -32,7 +32,7 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
     "title": "Engineering an Island Aerodrome: Inside Vancouver International’s 2037 Master Plan, Sea Dike Fortifications, and Transpacific Cargo Expansion",
     "excerpt": "A civil engineering and environmental infrastructure analysis of Vancouver International Airport (YVR), detailing Sea Island perimeter flood dikes, seismic soil vibro-compaction, acoustic Ground Run-up Enclosures, and $9.1B airside capital projects.",
     "category": "Aviation Infrastructure",
-    "featuredImage": "https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?auto=format&fit=crop&w=1200&q=80",
+    "featuredImage": "https://images.unsplash.com/photo-1520697830682-bbb6e85e2b0b?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Elena Rostova, P.Eng., M.Eng.",
       "role": "Airport Civil Engineering & Environmental Infrastructure Lead"
@@ -58,7 +58,7 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
     "title": "Turboprop vs Next-Gen Regional Jet: Cost per Block Hour, Gravel Runway Ops, and Fleet Economics of the Dash 8-400 vs Embraer E195-E2",
     "excerpt": "A commercial airline fleet economics evaluation comparing the De Havilland Dash 8-400 turboprop against the Embraer E195-E2 regional jet, analyzing fuel burn per seat-mile, gravel kits, maintenance reserves, and stage lengths.",
     "category": "Fleet Economics",
-    "featuredImage": "https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=1200&q=80",
+    "featuredImage": "https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Gareth Pendelton, CFA, MBA",
       "role": "Senior Aviation Fleet Valuation & Route Economics Analyst"
@@ -136,7 +136,7 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
     "title": "RNP-AR 0.11nm Curved Satellite Approaches: How Radius-to-Fix Navigation Navigates Mountain Vales at Kelowna and Calgary",
     "excerpt": "An aeronautical procedure design analysis of Required Navigation Performance Authorization Required (RNP-AR), evaluating curved Radius-to-Fix (RF) legs, GNSS/IRU positioning, and terrain avoidance in the Canadian Cordillera.",
     "category": "Aviation Technology",
-    "featuredImage": "https://images.unsplash.com/photo-1520437358207-323b43b50729?auto=format&fit=crop&w=1200&q=80",
+    "featuredImage": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Capt. Liam O'Connor, FRAeS",
       "role": "Chief Flight Standards Pilot & Performance-Based Navigation Consultant"
@@ -188,7 +188,7 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
     "title": "Montreal Convention 1999 vs Canadian APAPR: Legal Liability for Lost Luggage, Flight Delays, and Special Drawing Rights (SDR)",
     "excerpt": "A comparative legal analysis of international aviation passenger consumer law, evaluating the Montreal Convention 1999 treaty versus Canadian APAPR passenger compensation, baggage liability, and landmark CTA rulings.",
     "category": "Aviation Law",
-    "featuredImage": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+    "featuredImage": "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Julian Beaulieu, LL.M.",
       "role": "Aviation Regulatory Attorney & International Air Transport Law Scholar"
@@ -214,7 +214,7 @@ export const CANADIAN_EDITORIAL_ARTICLES_EXTENDED: AviationArticle[] = [
     "title": "Powering Transcontinental Jets with Forest Biomass: The Chemistry, Certification, and Economics of Canadian Bio-Jet Fuel",
     "excerpt": "A biochemical engineering and aviation sustainability analysis evaluating drop-in Sustainable Aviation Fuel (SAF) synthesized from Canadian forestry wood residues, ASTM D7566 certification, and -47°C freeze-point chemistry.",
     "category": "Aviation Sustainability",
-    "featuredImage": "https://images.unsplash.com/photo-1519074069444-1ba4ea16e6f7?auto=format&fit=crop&w=1200&q=80",
+    "featuredImage": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Dr. Alistair MacIntyre, PhD, P.Eng.",
       "role": "Principal Biochemical Engineer & Chair of Sustainable Aviation Fuel Research"

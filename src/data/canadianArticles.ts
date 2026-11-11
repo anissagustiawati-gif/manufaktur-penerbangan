@@ -60,7 +60,7 @@ export const CANADIAN_EDITORIAL_ARTICLES: AviationArticle[] = [
     "title": "Navigating Major Canadian Transit Hubs: An Operational & Layover Guide to Toronto Pearson (YYZ), Montréal-Trudeau (YUL), and Vancouver International (YVR)",
     "excerpt": "A master logistical roadmap for international and domestic airline passengers connecting through Canada's top three airport hubs, featuring minimum connection times (MCT), US preclearance customs protocols, baggage transfer procedures, and terminal transits.",
     "category": "Travel Logistics",
-    "featuredImage": "/assets/images/hero_aviation_flight_1793637455661.jpg",
+    "featuredImage": "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80",
     "author": {
       "name": "Marc-Andre Tremblay",
       "role": "Airport Infrastructure Specialist & Commercial Aviation Journalist"

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { CANADIAN_EDITORIAL_ARTICLES } from '../src/data/canadianArticles';
+import { CANADIAN_AIRPORTS, CANADIAN_AIRLINES, CANADIAN_AIRCRAFT, CANADIAN_ROUTES } from '../src/data/canadianAviationData';
 import { aviationService } from '../src/services/aviationService';
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
@@ -58,14 +59,185 @@ function markdownToSimpleHtml(md: string): string {
   }).join('\n');
 }
 
-console.log('Starting static pre-render for Google Search Console & SEO indexing...');
+console.log('Starting comprehensive static pre-render for Google Search Console, Googlebot & SEO indexing...');
 
-// 1. Pre-render All 11 Articles
+const SITE_ORIGIN = 'https://manufaktur.biz.id';
+
+// Shared SSR Header HTML
+const ssrHeaderHtml = `
+<header style="background: #ffffff; border-bottom: 1px solid #E8E5E8; padding: 12px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <a href="${SITE_ORIGIN}/" style="font-size: 18px; font-weight: 800; color: #681C35; text-decoration: none;">
+      WORLD FLIGHT SCHEDULE <span style="font-size: 11px; background: #681C35; color: white; padding: 2px 6px; border-radius: 4px;">CANADA</span>
+    </a>
+    <nav style="display: flex; gap: 16px; font-size: 13px; font-weight: 600; flex-wrap: wrap;">
+      <a href="${SITE_ORIGIN}/" style="color: #681C35; text-decoration: none;">Home</a>
+      <a href="${SITE_ORIGIN}/flights" style="color: #504e57; text-decoration: none;">Flight Schedules</a>
+      <a href="${SITE_ORIGIN}/departures" style="color: #504e57; text-decoration: none;">Departures</a>
+      <a href="${SITE_ORIGIN}/arrivals" style="color: #504e57; text-decoration: none;">Arrivals</a>
+      <a href="${SITE_ORIGIN}/airports" style="color: #504e57; text-decoration: none;">Airports</a>
+      <a href="${SITE_ORIGIN}/airlines" style="color: #504e57; text-decoration: none;">Airlines</a>
+      <a href="${SITE_ORIGIN}/aircraft" style="color: #504e57; text-decoration: none;">Aircraft</a>
+      <a href="${SITE_ORIGIN}/routes" style="color: #504e57; text-decoration: none;">Routes</a>
+      <a href="${SITE_ORIGIN}/map" style="color: #059669; text-decoration: none;">Live Radar Map</a>
+      <a href="${SITE_ORIGIN}/articles" style="color: #681C35; text-decoration: none; font-weight: 700;">Aviation News (20)</a>
+      <a href="${SITE_ORIGIN}/sitemap" style="color: #504e57; text-decoration: none;">Site Index</a>
+    </nav>
+  </div>
+</header>
+`;
+
+// Shared SSR Footer HTML
+const ssrFooterHtml = `
+<footer style="background: #1f1a1d; color: #b8b3b7; padding: 32px 20px; margin-top: 48px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; line-height: 1.6;">
+  <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+    <div>
+      <h4 style="color: #ffffff; font-weight: bold; margin-bottom: 8px;">WORLD FLIGHT SCHEDULE CANADA</h4>
+      <p style="margin: 0 0 8px;">Dedicated Canadian Aerodrome Timetables, Flight Schedules &amp; Transponder ADS-B Tracking across NAV CANADA airspace.</p>
+      <p style="color: #8c868b; font-size: 11px;">&copy; 2026 World Flight Schedule. Certified Canadian civil aviation data.</p>
+    </div>
+    <div>
+      <h4 style="color: #ffffff; font-weight: bold; margin-bottom: 8px;">FLIGHT TOOLS</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
+        <li><a href="${SITE_ORIGIN}/flights" style="color: #b8b3b7; text-decoration: none;">Flight Schedules</a></li>
+        <li><a href="${SITE_ORIGIN}/departures" style="color: #b8b3b7; text-decoration: none;">Airport Departures</a></li>
+        <li><a href="${SITE_ORIGIN}/arrivals" style="color: #b8b3b7; text-decoration: none;">Airport Arrivals</a></li>
+        <li><a href="${SITE_ORIGIN}/map" style="color: #b8b3b7; text-decoration: none;">Live Airspace Radar Map</a></li>
+        <li><a href="${SITE_ORIGIN}/routes" style="color: #b8b3b7; text-decoration: none;">Flight Routes Explorer</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color: #ffffff; font-weight: bold; margin-bottom: 8px;">DIRECTORIES</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
+        <li><a href="${SITE_ORIGIN}/airports" style="color: #b8b3b7; text-decoration: none;">Canadian &amp; Global Airports</a></li>
+        <li><a href="${SITE_ORIGIN}/airlines" style="color: #b8b3b7; text-decoration: none;">Commercial Airlines</a></li>
+        <li><a href="${SITE_ORIGIN}/aircraft" style="color: #b8b3b7; text-decoration: none;">Commercial Airliners</a></li>
+        <li><a href="${SITE_ORIGIN}/articles" style="color: #ffffff; font-weight: bold; text-decoration: none;">Aviation Research Guides (20)</a></li>
+        <li><a href="${SITE_ORIGIN}/sitemap" style="color: #b8b3b7; text-decoration: none;">HTML Site Index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color: #ffffff; font-weight: bold; margin-bottom: 8px;">EDITORIAL &amp; LEGAL</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
+        <li><a href="${SITE_ORIGIN}/about" style="color: #b8b3b7; text-decoration: none;">About Operations Desk</a></li>
+        <li><a href="${SITE_ORIGIN}/contact" style="color: #b8b3b7; text-decoration: none;">Contact Editorial Desk</a></li>
+        <li><a href="${SITE_ORIGIN}/privacy" style="color: #b8b3b7; text-decoration: none;">Privacy Policy</a></li>
+        <li><a href="${SITE_ORIGIN}/terms" style="color: #b8b3b7; text-decoration: none;">Terms &amp; Conditions</a></li>
+        <li><a href="${SITE_ORIGIN}/disclaimer" style="color: #b8b3b7; text-decoration: none;">Data Disclaimer</a></li>
+        <li><a href="${SITE_ORIGIN}/editorial-policy" style="color: #b8b3b7; text-decoration: none;">Editorial Policy</a></li>
+        <li style="margin-top: 6px;"><a href="${SITE_ORIGIN}/sitemap.xml" style="color: #f43f5e; text-decoration: underline;">XML Sitemap</a> &middot; <a href="${SITE_ORIGIN}/rss.xml" style="color: #f43f5e; text-decoration: underline;">RSS Feed</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+`;
+
+// 1. PRE-RENDER HOMEPAGE (dist/index.html) WITH FULL SEMANTIC CONTENT & ALL 20 ARTICLES
+console.log('Pre-rendering Homepage (dist/index.html)...');
+const homeTitle = 'Canada Flight Schedules – Canadian Aerodromes Timetables & Radar Tracking';
+const homeDesc = 'Explore Canadian flight schedules, aerodrome departures and arrivals across all 10 provinces and 3 territories, Air Canada, WestJet, Porter, and live ADS-B radar tracking.';
+const homeCanonical = `${SITE_ORIGIN}/`;
+
+const homeArticlesListHtml = CANADIAN_EDITORIAL_ARTICLES.map((art, idx) => `
+  <article style="border: 1px solid #E8E5E8; border-radius: 8px; overflow: hidden; background: #ffffff; display: flex; flex-direction: column;">
+    <div style="height: 180px; overflow: hidden; position: relative;">
+      <img src="${art.featuredImage}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+      <span style="position: absolute; top: 10px; left: 10px; background: #681C35; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;">${art.category}</span>
+      ${art.publishedDate.includes('November 10') ? '<span style="position: absolute; top: 10px; right: 10px; background: #059669; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 800;">NEW · NOV 2026</span>' : ''}
+    </div>
+    <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="font-size: 11px; color: #777780; margin-bottom: 6px;">
+          <span>${art.publishedDate}</span> &middot; <span>${art.readTimeMinutes} min read</span> &middot; <span>By ${art.author.name}</span>
+        </div>
+        <h3 style="font-size: 15px; font-weight: 700; color: #25232A; margin: 0 0 8px; line-height: 1.35;">
+          <a href="${SITE_ORIGIN}/articles/${art.slug}" style="color: #25232A; text-decoration: none;">${art.title}</a>
+        </h3>
+        <p style="font-size: 12px; color: #504e57; line-height: 1.5; margin: 0 0 12px;">${art.excerpt}</p>
+      </div>
+      <a href="${SITE_ORIGIN}/articles/${art.slug}" style="font-size: 12px; font-weight: 700; color: #681C35; text-decoration: underline;">
+        Read Complete Analysis &rarr;
+      </a>
+    </div>
+  </article>
+`).join('\n');
+
+const homeHubAirportsHtml = CANADIAN_AIRPORTS.slice(0, 7).map(apt => `
+  <a href="${SITE_ORIGIN}/airport/${apt.iata.toLowerCase()}" style="display: block; border: 1px solid #E8E5E8; padding: 12px; border-radius: 6px; text-decoration: none; color: #25232A; background: #FAF9FA;">
+    <strong style="font-size: 16px; color: #681C35;">${apt.iata}</strong> - <span style="font-weight: 600;">${apt.city.split(',')[0]}</span>
+    <div style="font-size: 11px; color: #777780; margin-top: 4px;">${apt.name} &bull; ${apt.icao}</div>
+  </a>
+`).join('\n');
+
+const homeSsrBody = `
+<div id="root">
+  ${ssrHeaderHtml}
+  <main style="max-width: 1200px; margin: 0 auto; padding: 24px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <section style="background: linear-gradient(135deg, #681C35, #431222); color: white; border-radius: 12px; padding: 36px 28px; margin-bottom: 32px;">
+      <span style="font-size: 12px; font-weight: 700; color: #fcd34d; letter-spacing: 1px;">CANADA NATIONAL CIVIL AVIATION INFORMATION PORTAL</span>
+      <h1 style="font-size: 32px; font-weight: 800; margin: 8px 0 12px; line-height: 1.2;">Canada Flight Schedules &amp; Airport Information</h1>
+      <p style="font-size: 15px; color: rgba(255,255,255,0.9); max-width: 800px; line-height: 1.6; margin: 0 0 20px;">
+        Explore all verified Canadian commercial flight timetables, airport departures, arrivals, carrier details, aircraft types, and transponder updates across NAV CANADA airspace.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="${SITE_ORIGIN}/flights" style="background: #ffffff; color: #681C35; padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; text-decoration: none;">View Flight Timetables</a>
+        <a href="${SITE_ORIGIN}/departures" style="background: rgba(255,255,255,0.15); color: #ffffff; padding: 10px 18px; border-radius: 6px; font-weight: 600; font-size: 13px; text-decoration: none;">Live Departures Board</a>
+        <a href="${SITE_ORIGIN}/map" style="background: #059669; color: #ffffff; padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; text-decoration: none;">Live Radar Map</a>
+        <a href="${SITE_ORIGIN}/articles" style="background: rgba(255,255,255,0.15); color: #ffffff; padding: 10px 18px; border-radius: 6px; font-weight: 600; font-size: 13px; text-decoration: none;">Aviation Research Guides (20)</a>
+      </div>
+    </section>
+
+    <!-- SECTION: Major Canadian Hub Aerodromes -->
+    <section style="margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E8E5E8; padding-bottom: 8px; margin-bottom: 16px;">
+        <h2 style="font-size: 20px; font-weight: 800; color: #25232A; margin: 0;">Major Canadian Hub Aerodrome Boards</h2>
+        <a href="${SITE_ORIGIN}/airports" style="font-size: 13px; font-weight: 700; color: #681C35; text-decoration: none;">All Canadian Airports &rarr;</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+        ${homeHubAirportsHtml}
+      </div>
+    </section>
+
+    <!-- SECTION: All 20 Aviation Editorial Guides -->
+    <section style="margin-bottom: 40px;" id="aviation-articles-index">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E8E5E8; padding-bottom: 8px; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <h2 style="font-size: 22px; font-weight: 800; color: #25232A; margin: 0;">Canadian Aviation Technical Analyses &amp; Operations Guides (20 Available)</h2>
+          <p style="font-size: 13px; color: #777780; margin: 4px 0 0;">
+            Peer-reviewed research into pitot-static icing, Vancouver 2037 sea dike defenses, Dash 8-400 vs E195-E2 fleet economics, polar ETOPS-240, and Halifax cold-chain logistics.
+          </p>
+        </div>
+        <a href="${SITE_ORIGIN}/articles" style="font-size: 13px; font-weight: 700; color: #681C35; text-decoration: underline;">
+          Browse All 20 Guides
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px;">
+        ${homeArticlesListHtml}
+      </div>
+    </section>
+  </main>
+  ${ssrFooterHtml}
+</div>
+`;
+
+let homeHtml = template;
+homeHtml = homeHtml.replace(/<title>.*?<\/title>/i, `<title>${homeTitle}</title>`);
+homeHtml = homeHtml.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${homeDesc}" />`);
+homeHtml = homeHtml.replace(/<link rel="canonical".*?\/>/i, `<link rel="canonical" href="${homeCanonical}" id="canonical-url" />`);
+homeHtml = homeHtml.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${homeTitle}" />`);
+homeHtml = homeHtml.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${homeDesc}" />`);
+homeHtml = homeHtml.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${homeCanonical}" />`);
+homeHtml = homeHtml.replace('<div id="root"></div>', homeSsrBody);
+
+fs.writeFileSync(BASE_HTML_PATH, homeHtml, 'utf-8');
+
+// 2. PRE-RENDER ALL 20 INDIVIDUAL ARTICLE PAGES
+console.log(`Pre-rendering ${CANADIAN_EDITORIAL_ARTICLES.length} Individual Articles...`);
 CANADIAN_EDITORIAL_ARTICLES.forEach((art) => {
   const articleDir = path.join(DIST_DIR, 'articles', art.slug);
   ensureDirSync(articleDir);
 
-  const canonicalUrl = `https://manufaktur.biz.id/articles/${art.slug}`;
+  const canonicalUrl = `${SITE_ORIGIN}/articles/${art.slug}`;
   const pageTitle = `${art.title} – World Flight Schedule`;
   const metaDesc = art.excerpt.replace(/"/g, '&quot;');
   const articleBodyHtml = markdownToSimpleHtml(art.content);
@@ -76,10 +248,10 @@ CANADIAN_EDITORIAL_ARTICLES.forEach((art) => {
     "headline": art.title,
     "description": art.excerpt,
     "image": [
-      `https://manufaktur.biz.id${art.featuredImage}`
+      art.featuredImage.startsWith('http') ? art.featuredImage : `${SITE_ORIGIN}${art.featuredImage}`
     ],
-    "datePublished": "2026-11-02T08:00:00Z",
-    "dateModified": "2026-11-07T12:00:00Z",
+    "datePublished": "2026-11-10T08:00:00Z",
+    "dateModified": "2026-11-11T12:00:00Z",
     "author": [{
       "@type": "Person",
       "name": art.author.name,
@@ -90,7 +262,7 @@ CANADIAN_EDITORIAL_ARTICLES.forEach((art) => {
       "name": "World Flight Schedule - Canada",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://manufaktur.biz.id/assets/images/hero_aviation_flight_1793637455661.jpg"
+        "url": `${SITE_ORIGIN}/assets/images/hero_aviation_flight_1793637455661.jpg`
       }
     },
     "mainEntityOfPage": {
@@ -100,62 +272,27 @@ CANADIAN_EDITORIAL_ARTICLES.forEach((art) => {
   });
 
   let articleHtml = template;
+  articleHtml = articleHtml.replace(/<title>.*?<\/title>/i, `<title>${pageTitle}</title>`);
+  articleHtml = articleHtml.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${metaDesc}" />`);
+  articleHtml = articleHtml.replace(/<link rel="canonical".*?\/>/i, `<link rel="canonical" href="${canonicalUrl}" id="canonical-url" />`);
+  articleHtml = articleHtml.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${pageTitle}" />`);
+  articleHtml = articleHtml.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${metaDesc}" />`);
+  articleHtml = articleHtml.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
+  articleHtml = articleHtml.replace(/<meta name="twitter:title" content=".*?" \/>/i, `<meta name="twitter:title" content="${pageTitle}" />`);
+  articleHtml = articleHtml.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${metaDesc}" />`);
 
-  // Replace Title
-  articleHtml = articleHtml.replace(
-    /<title>.*?<\/title>/i,
-    `<title>${pageTitle}</title>`
-  );
-
-  // Replace Meta Description
-  articleHtml = articleHtml.replace(
-    /<meta name="description" content=".*?" \/>/i,
-    `<meta name="description" content="${metaDesc}" />`
-  );
-
-  // Replace Canonical Link
-  articleHtml = articleHtml.replace(
-    /<link rel="canonical".*?\/>/i,
-    `<link rel="canonical" href="${canonicalUrl}" id="canonical-url" />`
-  );
-
-  // Replace OpenGraph
-  articleHtml = articleHtml.replace(
-    /<meta property="og:title" content=".*?" \/>/i,
-    `<meta property="og:title" content="${pageTitle}" />`
-  );
-  articleHtml = articleHtml.replace(
-    /<meta property="og:description" content=".*?" \/>/i,
-    `<meta property="og:description" content="${metaDesc}" />`
-  );
-  articleHtml = articleHtml.replace(
-    /<meta property="og:url" content=".*?" \/>/i,
-    `<meta property="og:url" content="${canonicalUrl}" />`
-  );
-
-  // Replace Twitter
-  articleHtml = articleHtml.replace(
-    /<meta name="twitter:title" content=".*?" \/>/i,
-    `<meta name="twitter:title" content="${pageTitle}" />`
-  );
-  articleHtml = articleHtml.replace(
-    /<meta name="twitter:description" content=".*?" \/>/i,
-    `<meta name="twitter:description" content="${metaDesc}" />`
-  );
-
-  // Inject Article JSON-LD Schema
   articleHtml = articleHtml.replace(
     '</head>',
     `  <script type="application/ld+json">${jsonLd}</script>\n  </head>`
   );
 
-  // Inject Full Server-Side Pre-rendered Content inside #root for Instant Googlebot Scraping
   const preRenderedBody = `
     <div id="root">
-      <div style="max-width: 900px; margin: 0 auto; padding: 32px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      ${ssrHeaderHtml}
+      <main style="max-width: 900px; margin: 0 auto; padding: 32px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
         <nav style="font-size: 12px; color: #777780; margin-bottom: 20px;">
-          <a href="https://manufaktur.biz.id" style="color: #681C35; text-decoration: none;">Home</a> &gt; 
-          <a href="https://manufaktur.biz.id/articles" style="color: #681C35; text-decoration: none;">Aviation News</a> &gt; 
+          <a href="${SITE_ORIGIN}/" style="color: #681C35; text-decoration: none;">Home</a> &gt; 
+          <a href="${SITE_ORIGIN}/articles" style="color: #681C35; text-decoration: none;">Aviation News</a> &gt; 
           <span>${art.category}</span>
         </nav>
         <span style="display: inline-block; background: #681C35; color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 12px;">${art.category}</span>
@@ -170,19 +307,135 @@ CANADIAN_EDITORIAL_ARTICLES.forEach((art) => {
         <div class="article-content" style="font-size: 15px; color: #25232A;">
           ${articleBodyHtml}
         </div>
-      </div>
+
+        <!-- Explore Related Research Guides -->
+        <div style="margin-top: 48px; padding-top: 24px; border-top: 2px solid #E8E5E8;">
+          <h3 style="font-size: 18px; font-weight: 800; color: #25232A; margin-bottom: 16px;">Continue Reading Aviation Research Guides</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+            ${CANADIAN_EDITORIAL_ARTICLES.filter(a => a.slug !== art.slug).slice(0, 3).map(other => `
+              <div style="border: 1px solid #E8E5E8; border-radius: 6px; padding: 14px; background: #FAF9FA;">
+                <span style="font-size: 10px; font-weight: 700; color: #681C35;">${other.category}</span>
+                <h4 style="font-size: 13px; font-weight: 700; margin: 4px 0 8px; line-height: 1.35;">
+                  <a href="${SITE_ORIGIN}/articles/${other.slug}" style="color: #25232A; text-decoration: none;">${other.title}</a>
+                </h4>
+                <a href="${SITE_ORIGIN}/articles/${other.slug}" style="font-size: 11px; font-weight: 700; color: #681C35; text-decoration: underline;">Read Analysis &rarr;</a>
+              </div>
+            `).join('\n')}
+          </div>
+        </div>
+      </main>
+      ${ssrFooterHtml}
     </div>
   `;
 
   articleHtml = articleHtml.replace('<div id="root"></div>', preRenderedBody);
 
-  // Write both /articles/slug/index.html and /articles/slug.html for complete Vercel compatibility
   fs.writeFileSync(path.join(articleDir, 'index.html'), articleHtml, 'utf-8');
   fs.writeFileSync(path.join(DIST_DIR, 'articles', `${art.slug}.html`), articleHtml, 'utf-8');
 });
 
-// 2. Pre-render Main Static Routes
-const mainRoutes = [
+// 3. PRE-RENDER ARTICLES DIRECTORY (dist/articles/index.html)
+console.log('Pre-rendering Articles Directory (dist/articles/index.html)...');
+const articlesDir = path.join(DIST_DIR, 'articles');
+ensureDirSync(articlesDir);
+const articlesDirectoryTitle = 'Aviation News & Technical Operations Guides – World Flight Schedule';
+const articlesDirectoryDesc = 'In-depth 1,000+ word aviation research guides covering winter de-icing holdover times, polar radar, aerodynamics, and passenger rights.';
+const articlesDirectoryCanonical = `${SITE_ORIGIN}/articles`;
+
+const articlesDirectoryBody = `
+<div id="root">
+  ${ssrHeaderHtml}
+  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="border-bottom: 2px solid #E8E5E8; padding-bottom: 16px; margin-bottom: 28px;">
+      <span style="font-size: 11px; font-weight: 700; color: #681C35; letter-spacing: 1px;">CANADIAN AVIATION EDITORIAL &amp; TECHNICAL ANALYSES</span>
+      <h1 style="font-size: 32px; font-weight: 800; color: #25232A; margin: 6px 0 10px;">Canadian Aviation News &amp; Operational Insights</h1>
+      <p style="font-size: 14px; color: #504e57; max-width: 850px; line-height: 1.6; margin: 0;">
+        Explore all 20 comprehensive aviation research guides written by aviation safety inspectors, avionics engineers, and airline economists.
+      </p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      ${homeArticlesListHtml}
+    </div>
+  </main>
+  ${ssrFooterHtml}
+</div>
+`;
+
+let articlesDirectoryHtml = template;
+articlesDirectoryHtml = articlesDirectoryHtml.replace(/<title>.*?<\/title>/i, `<title>${articlesDirectoryTitle}</title>`);
+articlesDirectoryHtml = articlesDirectoryHtml.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${articlesDirectoryDesc}" />`);
+articlesDirectoryHtml = articlesDirectoryHtml.replace(/<link rel="canonical".*?\/>/i, `<link rel="canonical" href="${articlesDirectoryCanonical}" id="canonical-url" />`);
+articlesDirectoryHtml = articlesDirectoryHtml.replace('<div id="root"></div>', articlesDirectoryBody);
+fs.writeFileSync(path.join(articlesDir, 'index.html'), articlesDirectoryHtml, 'utf-8');
+fs.writeFileSync(path.join(DIST_DIR, 'articles.html'), articlesDirectoryHtml, 'utf-8');
+
+// 4. PRE-RENDER HTML SITEMAP (dist/sitemap/index.html)
+console.log('Pre-rendering HTML Sitemap (dist/sitemap/index.html)...');
+const sitemapDir = path.join(DIST_DIR, 'sitemap');
+ensureDirSync(sitemapDir);
+const sitemapPageTitle = 'HTML Sitemap & Complete Site Index – World Flight Schedule';
+const sitemapPageDesc = 'Complete index of all Canadian flight timetables, 20 aviation research guides, airport boards, carrier fleets, and compliance policies.';
+const sitemapPageCanonical = `${SITE_ORIGIN}/sitemap`;
+
+const sitemapBody = `
+<div id="root">
+  ${ssrHeaderHtml}
+  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="border-bottom: 2px solid #E8E5E8; padding-bottom: 16px; margin-bottom: 28px;">
+      <h1 style="font-size: 32px; font-weight: 800; color: #25232A; margin: 0 0 8px;">HTML Sitemap &amp; Navigation Tree</h1>
+      <p style="font-size: 14px; color: #504e57; margin: 0;">Comprehensive index of all 65 pages across World Flight Schedule Canada.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+      <div>
+        <h2 style="font-size: 20px; font-weight: 800; color: #681C35; border-bottom: 1px solid #E8E5E8; padding-bottom: 8px; margin-bottom: 16px;">
+          All 20 Aviation Research Whitepapers
+        </h2>
+        <ul style="line-height: 2; padding-left: 20px; font-size: 13px;">
+          ${CANADIAN_EDITORIAL_ARTICLES.map(a => `
+            <li><a href="${SITE_ORIGIN}/articles/${a.slug}" style="color: #25232A; font-weight: 600; text-decoration: underline;">${a.title}</a> &mdash; <span style="color: #777780;">${a.category}</span></li>
+          `).join('\n')}
+        </ul>
+      </div>
+
+      <div>
+        <h2 style="font-size: 20px; font-weight: 800; color: #681C35; border-bottom: 1px solid #E8E5E8; padding-bottom: 8px; margin-bottom: 16px;">
+          Operations &amp; Directories
+        </h2>
+        <ul style="line-height: 2; padding-left: 20px; font-size: 13px;">
+          <li><a href="${SITE_ORIGIN}/" style="color: #25232A; font-weight: 600;">Home Page</a></li>
+          <li><a href="${SITE_ORIGIN}/flights" style="color: #25232A; font-weight: 600;">Flight Schedules</a></li>
+          <li><a href="${SITE_ORIGIN}/departures" style="color: #25232A; font-weight: 600;">Airport Departures</a></li>
+          <li><a href="${SITE_ORIGIN}/arrivals" style="color: #25232A; font-weight: 600;">Airport Arrivals</a></li>
+          <li><a href="${SITE_ORIGIN}/airports" style="color: #25232A; font-weight: 600;">Airports Directory</a></li>
+          <li><a href="${SITE_ORIGIN}/airlines" style="color: #25232A; font-weight: 600;">Airlines Directory</a></li>
+          <li><a href="${SITE_ORIGIN}/aircraft" style="color: #25232A; font-weight: 600;">Aircraft Directory</a></li>
+          <li><a href="${SITE_ORIGIN}/routes" style="color: #25232A; font-weight: 600;">Routes Explorer</a></li>
+          <li><a href="${SITE_ORIGIN}/map" style="color: #25232A; font-weight: 600;">Live Airspace Radar Map</a></li>
+          <li><a href="${SITE_ORIGIN}/about" style="color: #25232A; font-weight: 600;">About Us</a></li>
+          <li><a href="${SITE_ORIGIN}/contact" style="color: #25232A; font-weight: 600;">Contact Desk</a></li>
+          <li><a href="${SITE_ORIGIN}/privacy" style="color: #25232A; font-weight: 600;">Privacy Policy</a></li>
+          <li><a href="${SITE_ORIGIN}/terms" style="color: #25232A; font-weight: 600;">Terms &amp; Conditions</a></li>
+          <li><a href="${SITE_ORIGIN}/disclaimer" style="color: #25232A; font-weight: 600;">Data Disclaimer</a></li>
+          <li><a href="${SITE_ORIGIN}/editorial-policy" style="color: #25232A; font-weight: 600;">Editorial Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+  ${ssrFooterHtml}
+</div>
+`;
+
+let sitemapHtml = template;
+sitemapHtml = sitemapHtml.replace(/<title>.*?<\/title>/i, `<title>${sitemapPageTitle}</title>`);
+sitemapHtml = sitemapHtml.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${sitemapPageDesc}" />`);
+sitemapHtml = sitemapHtml.replace(/<link rel="canonical".*?\/>/i, `<link rel="canonical" href="${sitemapPageCanonical}" id="canonical-url" />`);
+sitemapHtml = sitemapHtml.replace('<div id="root"></div>', sitemapBody);
+fs.writeFileSync(path.join(sitemapDir, 'index.html'), sitemapHtml, 'utf-8');
+fs.writeFileSync(path.join(DIST_DIR, 'sitemap.html'), sitemapHtml, 'utf-8');
+
+// 5. PRE-RENDER OTHER MAIN STATIC ROUTES
+const otherRoutes = [
   { path: 'flights', title: 'Global Flight Schedules Today – World Flight Schedule', desc: 'Real-time Canadian commercial flight timetables and carrier statuses across NAV CANADA airspace.' },
   { path: 'departures', title: 'Airport Live Departures Board – World Flight Schedule', desc: 'Real-time departures board for Canadian international and regional airports.' },
   { path: 'arrivals', title: 'Airport Live Arrivals Board – World Flight Schedule', desc: 'Live inbound arrivals, gate numbers, and baggage claim carousels across Canadian aerodromes.' },
@@ -191,7 +444,6 @@ const mainRoutes = [
   { path: 'aircraft', title: 'Commercial Aircraft Information Directory – World Flight Schedule', desc: 'Technical specifications, passenger capacities, and cruising speeds for commercial airliners.' },
   { path: 'routes', title: 'Worldwide Flight Routes Explorer – World Flight Schedule', desc: 'Discover major Canadian and transcontinental commercial air routes and typical flight durations.' },
   { path: 'map', title: 'Live Aircraft Radar & Transponder Map – World Flight Schedule', desc: 'Live Canadian airspace radar tracking with Mode-S ADS-B transponder altitude and ground speed vectors.' },
-  { path: 'articles', title: 'Aviation News & Technical Operations Guides – World Flight Schedule', desc: 'In-depth 1,000+ word aviation research guides covering winter de-icing holdover times, polar radar, and passenger rights.' },
   { path: 'about', title: 'About Us – World Flight Schedule', desc: 'Learn about World Flight Schedule and our certified Canadian civil aviation timetable and transponder feeds.' },
   { path: 'contact', title: 'Contact Operations & Editorial Desk – World Flight Schedule', desc: 'Contact our aviation operations desk and editorial fact-checking department.' },
   { path: 'privacy', title: 'Privacy Policy – World Flight Schedule', desc: 'Privacy policy and data governance practices for World Flight Schedule.' },
@@ -200,11 +452,11 @@ const mainRoutes = [
   { path: 'editorial-policy', title: 'Editorial Policy & Fact-Checking – World Flight Schedule', desc: 'Our rigorous factual standards and verification policies in compliance with Transport Canada directives.' }
 ];
 
-mainRoutes.forEach(r => {
+otherRoutes.forEach(r => {
   const routeDir = path.join(DIST_DIR, r.path);
   ensureDirSync(routeDir);
 
-  const canonicalUrl = `https://manufaktur.biz.id/${r.path}`;
+  const canonicalUrl = `${SITE_ORIGIN}/${r.path}`;
   let routeHtml = template;
 
   routeHtml = routeHtml.replace(/<title>.*?<\/title>/i, `<title>${r.title}</title>`);
@@ -216,11 +468,27 @@ mainRoutes.forEach(r => {
   routeHtml = routeHtml.replace(/<meta name="twitter:title" content=".*?" \/>/i, `<meta name="twitter:title" content="${r.title}" />`);
   routeHtml = routeHtml.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${r.desc}" />`);
 
+  const genericSsrBody = `
+    <div id="root">
+      ${ssrHeaderHtml}
+      <main style="max-width: 1000px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1 style="font-size: 28px; font-weight: 800; color: #25232A; margin: 0 0 12px;">${r.title}</h1>
+        <p style="font-size: 15px; color: #504e57; line-height: 1.6; margin: 0 0 24px;">${r.desc}</p>
+        <div style="border: 1px solid #E8E5E8; border-radius: 8px; padding: 20px; background: #ffffff;">
+          <p style="font-size: 13px; color: #777780; margin: 0;">Live interactive application is loading... For certified operational data, please visit our <a href="${SITE_ORIGIN}/articles" style="color: #681C35; font-weight: 700;">Aviation Research Guides</a> or review the <a href="${SITE_ORIGIN}/sitemap" style="color: #681C35; font-weight: 700;">Complete Site Index</a>.</p>
+        </div>
+      </main>
+      ${ssrFooterHtml}
+    </div>
+  `;
+
+  routeHtml = routeHtml.replace('<div id="root"></div>', genericSsrBody);
+
   fs.writeFileSync(path.join(routeDir, 'index.html'), routeHtml, 'utf-8');
   fs.writeFileSync(path.join(DIST_DIR, `${r.path}.html`), routeHtml, 'utf-8');
 });
 
-// 3. Pre-render Hub Airports
+// 6. PRE-RENDER HUB AIRPORTS
 const hubAirports = [
   { code: 'YYZ', name: 'Toronto Pearson International Airport', city: 'Toronto, Ontario' },
   { code: 'YVR', name: 'Vancouver International Airport', city: 'Vancouver, British Columbia' },
@@ -234,7 +502,7 @@ const hubAirports = [
 hubAirports.forEach(apt => {
   const aptDir = path.join(DIST_DIR, 'airport', apt.code);
   ensureDirSync(aptDir);
-  const canonicalUrl = `https://manufaktur.biz.id/airport/${apt.code}`;
+  const canonicalUrl = `${SITE_ORIGIN}/airport/${apt.code}`;
   const title = `${apt.code} – ${apt.name} Live Flight Board & Aerodrome Info`;
   const desc = `Live flight departures, arrivals, terminal gates, and weather conditions for ${apt.name} (${apt.code}) in ${apt.city}.`;
 
@@ -246,11 +514,30 @@ hubAirports.forEach(apt => {
   aptHtml = aptHtml.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${desc}" />`);
   aptHtml = aptHtml.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
 
+  const aptBody = `
+    <div id="root">
+      ${ssrHeaderHtml}
+      <main style="max-width: 1000px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <span style="font-size: 12px; font-weight: 700; color: #681C35;">CANADIAN AERODROME TELEMETRY</span>
+        <h1 style="font-size: 28px; font-weight: 800; color: #25232A; margin: 6px 0 12px;">${apt.name} (${apt.code})</h1>
+        <p style="font-size: 15px; color: #504e57; margin: 0 0 24px;">Located in ${apt.city}. Live scheduled passenger departures, international arrivals, and NAV CANADA slot coordination.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="${SITE_ORIGIN}/departures?airport=${apt.code}" style="background: #681C35; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 600; font-size: 13px; text-decoration: none;">View ${apt.code} Departures</a>
+          <a href="${SITE_ORIGIN}/arrivals?airport=${apt.code}" style="background: #504e57; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 600; font-size: 13px; text-decoration: none;">View ${apt.code} Arrivals</a>
+          <a href="${SITE_ORIGIN}/map" style="background: #059669; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 600; font-size: 13px; text-decoration: none;">Live Airspace Radar</a>
+        </div>
+      </main>
+      ${ssrFooterHtml}
+    </div>
+  `;
+
+  aptHtml = aptHtml.replace('<div id="root"></div>', aptBody);
+
   fs.writeFileSync(path.join(aptDir, 'index.html'), aptHtml, 'utf-8');
   fs.writeFileSync(path.join(DIST_DIR, 'airport', `${apt.code}.html`), aptHtml, 'utf-8');
 });
 
-// 4. Pre-render Major Airlines
+// 7. PRE-RENDER MAJOR AIRLINES
 const airlines = [
   { code: 'AC', name: 'Air Canada', hub: 'Toronto Pearson (YYZ)' },
   { code: 'WS', name: 'WestJet', hub: 'Calgary International (YYC)' },
@@ -261,7 +548,7 @@ const airlines = [
 airlines.forEach(al => {
   const alDir = path.join(DIST_DIR, 'airline', al.code);
   ensureDirSync(alDir);
-  const canonicalUrl = `https://manufaktur.biz.id/airline/${al.code}`;
+  const canonicalUrl = `${SITE_ORIGIN}/airline/${al.code}`;
   const title = `${al.name} (${al.code}) Fleet & Daily Flight Schedules`;
   const desc = `Track active flights, fleet specifications, and route networks for ${al.name} (${al.code}), operating out of ${al.hub}.`;
 
@@ -273,21 +560,38 @@ airlines.forEach(al => {
   alHtml = alHtml.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${desc}" />`);
   alHtml = alHtml.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
 
+  const alBody = `
+    <div id="root">
+      ${ssrHeaderHtml}
+      <main style="max-width: 1000px; margin: 0 auto; padding: 32px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <span style="font-size: 12px; font-weight: 700; color: #681C35;">CANADIAN AIRLINE PROFILE</span>
+        <h1 style="font-size: 28px; font-weight: 800; color: #25232A; margin: 6px 0 12px;">${al.name} (${al.code})</h1>
+        <p style="font-size: 15px; color: #504e57; margin: 0 0 24px;">Primary Operations Hub: ${al.hub}. Track active scheduled flight numbers and fleet aircraft.</p>
+        <div style="display: flex; gap: 12px;">
+          <a href="${SITE_ORIGIN}/flights?airline=${al.code}" style="background: #681C35; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 600; font-size: 13px; text-decoration: none;">View ${al.code} Scheduled Flights</a>
+          <a href="${SITE_ORIGIN}/articles" style="background: #FAF9FA; border: 1px solid #E8E5E8; color: #25232A; padding: 8px 16px; border-radius: 4px; font-weight: 600; font-size: 13px; text-decoration: none;">Aviation Research Guides</a>
+        </div>
+      </main>
+      ${ssrFooterHtml}
+    </div>
+  `;
+
+  alHtml = alHtml.replace('<div id="root"></div>', alBody);
+
   fs.writeFileSync(path.join(alDir, 'index.html'), alHtml, 'utf-8');
   fs.writeFileSync(path.join(DIST_DIR, 'airline', `${al.code}.html`), alHtml, 'utf-8');
 });
 
-// 5. Generate and sync static sitemap.xml, rss.xml, and feed.xml in dist/ and public/
-const sitemap = aviationService.generateXmlSitemap('https://manufaktur.biz.id');
+// 8. GENERATE STATIC SITEMAP.XML, RSS.XML, AND FEED.XML
+const sitemap = aviationService.generateXmlSitemap(SITE_ORIGIN);
 fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemap, 'utf-8');
 fs.writeFileSync(path.join(process.cwd(), 'public', 'sitemap.xml'), sitemap, 'utf-8');
 
-const origin = 'https://manufaktur.biz.id';
 const buildDate = new Date().toUTCString();
 const itemsXml = CANADIAN_EDITORIAL_ARTICLES.map(art => `    <item>
       <title><![CDATA[${art.title}]]></title>
-      <link>${origin}/articles/${art.slug}</link>
-      <guid isPermaLink="true">${origin}/articles/${art.slug}</guid>
+      <link>${SITE_ORIGIN}/articles/${art.slug}</link>
+      <guid isPermaLink="true">${SITE_ORIGIN}/articles/${art.slug}</guid>
       <description><![CDATA[${art.excerpt}]]></description>
       <category>${art.category}</category>
       <author>anissagustiawati@gmail.com (${art.author.name})</author>
@@ -298,11 +602,11 @@ const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Canada Flight Schedules - Canadian Aviation News &amp; Flight Operations</title>
-    <link>${origin}</link>
+    <link>${SITE_ORIGIN}</link>
     <description>Daily updated Canadian civil aviation schedules, operational safety briefings, aerodrome procedures, and airline fleet telemetry.</description>
     <language>en-ca</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
-    <atom:link href="${origin}/rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${SITE_ORIGIN}/rss.xml" rel="self" type="application/rss+xml" />
 ${itemsXml}
   </channel>
 </rss>`;
@@ -329,4 +633,4 @@ publicFilesToSync.forEach(file => {
   }
 });
 
-console.log(`Pre-render complete! Pre-rendered ${CANADIAN_EDITORIAL_ARTICLES.length} articles, ${mainRoutes.length} routes, ${hubAirports.length} airports, and ${airlines.length} airlines with exact canonical & SEO schema.`);
+console.log(`Pre-render complete! Pre-rendered Homepage (dist/index.html), ${CANADIAN_EDITORIAL_ARTICLES.length} individual articles, /articles directory, /sitemap directory, ${otherRoutes.length} main routes, ${hubAirports.length} airports, and ${airlines.length} airlines with complete SSR bodies and exact canonical tags.`);

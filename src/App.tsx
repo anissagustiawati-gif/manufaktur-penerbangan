@@ -17,6 +17,7 @@ import { LiveMapPage } from './pages/LiveMapPage';
 import { ArticlesPage } from './pages/ArticlesPage';
 import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import { LegalPage } from './pages/LegalPage';
+import { SitemapPage } from './pages/SitemapPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { aviationService } from './services/aviationService';
@@ -228,6 +229,11 @@ export default function App() {
     if (url === '/editorial-policy') {
       document.title = 'Editorial Policy & Fact-Checking – World Flight Schedule';
       return <LegalPage pageType="editorial-policy" onNavigate={navigate} />;
+    }
+
+    if (url === '/sitemap') {
+      document.title = 'HTML Sitemap & Complete Site Index – World Flight Schedule';
+      return <SitemapPage onNavigate={navigate} />;
     }
 
     // Admin Dashboard

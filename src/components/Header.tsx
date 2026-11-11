@@ -86,8 +86,12 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-6">
         {/* Brand Logo & Wordmark */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => onNavigate('/')}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/');
+            }}
             className="flex items-center gap-2.5 text-left group cursor-pointer"
           >
             <div className="w-9 h-9 rounded-md bg-[#681C35] text-white flex items-center justify-center shadow-xs group-hover:bg-[#8A2948] transition-colors">
@@ -102,7 +106,7 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
                 Canadian Aerodromes, Flight Timetables & Transponder Tracking
               </div>
             </div>
-          </button>
+          </a>
         </div>
 
         {/* Global Fast Search Form */}
@@ -151,9 +155,13 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
             {navItems.map((item) => {
               const isActive = currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path));
               return (
-                <button
+                <a
                   key={item.path}
-                  onClick={() => onNavigate(item.path)}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate(item.path);
+                  }}
                   className={`px-3 py-2 text-xs font-medium whitespace-nowrap transition-colors relative cursor-pointer flex items-center gap-1.5 ${
                     isActive
                       ? 'text-[#681C35] font-semibold'
@@ -167,19 +175,23 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
                   {isActive && (
                     <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#681C35]" />
                   )}
-                </button>
+                </a>
               );
             })}
           </div>
 
           <div className="flex items-center gap-2 py-1">
-            <button
-              onClick={() => onNavigate('/map')}
+            <a
+              href="/map"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/map');
+              }}
               className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded text-xs font-medium hover:bg-emerald-100 transition-colors cursor-pointer whitespace-nowrap"
             >
               <Navigation2 className="w-3 h-3 text-emerald-700" />
               <span>Live Tracking Map</span>
-            </button>
+            </a>
           </div>
         </div>
       </nav>
@@ -206,9 +218,11 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
 
           <div className="grid grid-cols-2 gap-1 pt-1 border-t border-[#E8E5E8]">
             {navItems.map((item) => (
-              <button
+              <a
                 key={item.path}
-                onClick={() => {
+                href={item.path}
+                onClick={(e) => {
+                  e.preventDefault();
                   onNavigate(item.path);
                   setMobileMenuOpen(false);
                 }}
@@ -217,7 +231,7 @@ export const Header: React.FC<Props> = ({ currentPath, onNavigate, onSearch }) =
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             ))}
           </div>
 

@@ -40,30 +40,50 @@ export const Footer: React.FC<Props> = ({ onNavigate }) => {
             <h4 className="text-xs font-semibold text-white tracking-wider uppercase">Flight Operations</h4>
             <ul className="space-y-2 text-xs text-[#b8b3b7]">
               <li>
-                <button onClick={() => onNavigate('/flights')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/flights"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/flights'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Flight Schedules
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/departures')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/departures"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/departures'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Airport Departures
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/arrivals')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/arrivals"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/arrivals'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Airport Arrivals
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/map')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1">
+                <a
+                  href="/map"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/map'); }}
+                  className="hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+                >
                   <span>Live Tracking Radar</span>
                   <span className="text-[10px] text-emerald-400 font-medium">LIVE</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/routes')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/routes"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/routes'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Worldwide Routes
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -73,61 +93,119 @@ export const Footer: React.FC<Props> = ({ onNavigate }) => {
             <h4 className="text-xs font-semibold text-white tracking-wider uppercase">Directories</h4>
             <ul className="space-y-2 text-xs text-[#b8b3b7]">
               <li>
-                <button onClick={() => onNavigate('/airports')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/airports"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/airports'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Global Airports (IATA/ICAO)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/airlines')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/airlines"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/airlines'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   International Airlines
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/aircraft')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/aircraft"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/aircraft'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Commercial Aircraft Types
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/articles')} className="hover:text-white transition-colors cursor-pointer">
-                  Aviation News & Insights
-                </button>
+                <a
+                  href="/articles"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Aviation News &amp; Insights
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/sitemap"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/sitemap'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  HTML Site Index
+                </a>
               </li>
             </ul>
           </div>
 
           {/* Col 3: Compliance & Legal */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold text-white tracking-wider uppercase">Editorial & Policies</h4>
+            <h4 className="text-xs font-semibold text-white tracking-wider uppercase">Editorial &amp; Policies</h4>
             <ul className="space-y-2 text-xs text-[#b8b3b7]">
               <li>
-                <button onClick={() => onNavigate('/about')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/about"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/about'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   About Us
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/contact')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/contact"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/contact'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Contact Us
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/privacy')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/privacy"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/privacy'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Privacy Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/terms')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/terms"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/terms'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Terms and Conditions
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/disclaimer')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/disclaimer"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/disclaimer'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Aviation Data Disclaimer
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('/editorial-policy')} className="hover:text-white transition-colors cursor-pointer">
+                <a
+                  href="/editorial-policy"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/editorial-policy'); }}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
                   Editorial Policy
-                </button>
+                </a>
+              </li>
+              <li className="pt-1 flex items-center gap-2 text-[11px] text-[#9d979c]">
+                <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-white underline">
+                  XML Sitemap
+                </a>
+                <span>&middot;</span>
+                <a href="/rss.xml" target="_blank" rel="noopener noreferrer" className="hover:text-white underline">
+                  RSS Feed
+                </a>
               </li>
             </ul>
           </div>

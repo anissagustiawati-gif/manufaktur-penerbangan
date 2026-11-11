@@ -505,9 +505,13 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {paginatedArticles.map((art) => (
-              <article
+              <a
                 key={art.slug}
-                onClick={() => onNavigate(`/articles/${art.slug}`)}
+                href={`/articles/${art.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate(`/articles/${art.slug}`);
+                }}
                 className="bg-white border border-[#E8E5E8] rounded-md overflow-hidden hover:shadow-md transition-shadow cursor-pointer flex flex-col group relative"
               >
                 <div className="h-44 overflow-hidden relative bg-slate-100">
@@ -555,7 +559,7 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
 

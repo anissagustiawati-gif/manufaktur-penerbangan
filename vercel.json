@@ -2,6 +2,37 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "has": [
+        {
+          "type": "host",
+          "value": "www.manufaktur.biz.id"
+        }
+      ],
+      "source": "/(.*)",
+      "destination": "https://manufaktur.biz.id/$1",
+      "permanent": true
+    },
+    {
+      "source": "/20:year(\\d{2})/(.*)",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/search/(.*)",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/feeds/(.*)",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/p/(.*)",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
       "source": "/lalu",
       "destination": "/departures",
       "permanent": true

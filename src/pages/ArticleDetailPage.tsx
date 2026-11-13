@@ -245,7 +245,7 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
           referrerPolicy="no-referrer"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+            e.currentTarget.src = '/assets/images/hero_aviation_flight_1793637455661.jpg';
           }}
         />
         <figcaption className="p-2.5 bg-[#FAF9FA] text-[11px] text-[#777780] border-t border-[#E8E5E8] text-center">

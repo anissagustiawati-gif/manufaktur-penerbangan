@@ -100,9 +100,16 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
               </li>
             </ul>
 
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Operational Data Architecture</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">Operational Data Architecture &amp; Coverage</h2>
             <p>
-              Our backend integrates multi-source timetable feeds alongside ADS-B Mode-S telemetry provided by the OpenSky Network, European and North American civil aviation databases, and verified airport master records.
+              Our backend integrates multi-source timetable feeds alongside ADS-B Mode-S telemetry provided by the OpenSky Network, Transport Canada civil aerodrome publications, NAV CANADA Flight Information Region boundaries, and verified airport master records across all ten provinces and three territories.
+            </p>
+            <p>
+              From major transcontinental gateways such as Toronto Pearson (YYZ), Vancouver (YVR), Montréal–Trudeau (YUL), and Calgary (YYC) to northern Arctic and regional corridors including Iqaluit (YFB), Yellowknife (YZF), Whitehorse (YXY), and Billy Bishop Toronto City Airport (YTZ), every airport board and fleet entry is structured to eliminate stale guesswork and provide clean, standardized reference data for travelers and dispatch observers alike.
+            </p>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">Independent Editorial Stewardship</h2>
+            <p>
+              World Flight Schedule (manufaktur.biz.id) operates independently from commercial ticket resellers and airlines. Our research library publishes long-form technical explainers on cold-weather de-icing holdover engineering, Air Passenger Protection Regulations (APPR), Mirabel Airbus A220 assembly, and space-based polar ADS-B surveillance, backed by transparent source citations and direct reader correction channels.
             </p>
           </div>
         </section>
@@ -223,7 +230,39 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
                 <div>
                   <strong>Operating Response Hours:</strong> 24/7 Global Airspace Coverage
                 </div>
+                <div>
+                  <strong>Primary Publisher Domain:</strong> https://manufaktur.biz.id
+                </div>
               </div>
+              <div className="pt-3 border-t border-[#E8E5E8] space-y-2 text-[#504e57]">
+                <p>
+                  <strong>Timetable &amp; Aerodrome Corrections:</strong> Please include the flight designator (e.g., AC103, WS711), IATA/ICAO airport code, and scheduled UTC or local departure window so our coordinators can cross-verify against published carrier filings.
+                </p>
+                <p>
+                  <strong>Editorial &amp; Rights Inquiries:</strong> Requests regarding Transport Canada regulatory updates, privacy compliance under GDPR/CCPA, copyright notices, or advertising partnerships receive documented review within one to two business days.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-[#E8E5E8] pt-5 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#3a3740]">
+            <div className="p-4 bg-[#F8F8FA] rounded border border-[#E8E5E8] space-y-1">
+              <h3 className="font-bold text-[#681C35]">1. Schedule Verification Desk</h3>
+              <p className="text-[#504e57] leading-relaxed">
+                Report terminal gate reallocations, runway closures, aircraft type substitutions, or codeshare updates across Canadian hub and regional airports.
+              </p>
+            </div>
+            <div className="p-4 bg-[#F8F8FA] rounded border border-[#E8E5E8] space-y-1">
+              <h3 className="font-bold text-[#681C35]">2. Technical Editorial Review</h3>
+              <p className="text-[#504e57] leading-relaxed">
+                Submit peer engineering feedback, type-certificate references, or APPR compensation clarification requests directly to our aviation writers.
+              </p>
+            </div>
+            <div className="p-4 bg-[#F8F8FA] rounded border border-[#E8E5E8] space-y-1">
+              <h3 className="font-bold text-[#681C35]">3. Privacy &amp; Governance</h3>
+              <p className="text-[#504e57] leading-relaxed">
+                Contact our Data Protection Coordinator regarding Google AdSense cookie choices, GDPR data inquiries, or institutional media attribution.
+              </p>
             </div>
           </div>
         </section>
@@ -319,15 +358,23 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
 
           <div className="text-xs sm:text-sm text-[#3a3740] leading-relaxed space-y-4">
             <p>
-              By accessing World Flight Schedule, you agree to comply with and be bound by the following terms of service.
+              By accessing World Flight Schedule (<strong>manufaktur.biz.id</strong>), including its airport flight boards, Canadian carrier schedules, aircraft specification references, live radar maps, and technical editorial guides, you agree to comply with and be bound by the following Terms and Conditions.
             </p>
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Acceptable Usage</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">1. Acceptable Usage &amp; Fair Access</h2>
             <p>
-              You agree to use our flight search, airport directories, and live tracking radar strictly for lawful informational purposes. Automated scraping that exceeds rate limits or disrupts service availability is prohibited.
+              You agree to use our flight search, airport directories, and live tracking radar strictly for lawful personal, academic, or informational reference. High-frequency automated scraping, denial-of-service behavior, unauthorized framing of proprietary schedule matrices, or any activity that degrades platform responsiveness for fellow aviation readers is strictly prohibited.
             </p>
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Intellectual Property</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">2. Informational Aviation Schedules Only</h2>
             <p>
-              All editorial articles, software interfaces, visual brand identity, and compiled datasets are protected under international copyright and intellectual property conventions.
+              All flight departure times, arrival windows, gate indicators, equipment models, and telemetry coordinates presented on World Flight Schedule are supplied for general travel planning and aviation research. Carriers may adjust gates, equipment, or departure slots at short notice due to air traffic control flow programs, de-icing queues, or severe weather diversions. Users must confirm final boarding obligations directly with their operating carrier.
+            </p>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">3. Intellectual Property &amp; Editorial Licensing</h2>
+            <p>
+              All original aviation research articles, structured directory layouts, software interfaces, visual brand identity, and compiled timetable schemas are protected under international copyright and intellectual property conventions. Short academic citations are permitted with clear source attribution and a canonical link back to the original page on manufaktur.biz.id.
+            </p>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">4. Limitation of Liability &amp; Governing Inquiries</h2>
+            <p>
+              World Flight Schedule makes no warranty regarding uninterrupted availability or real-time completeness of external third-party transponder or airline feeds and assumes no liability for missed connections, travel expenses, or commercial losses arising from schedule reliance. Questions regarding these Terms may be directed to <strong>anissagustiawati@gmail.com</strong>.
             </p>
           </div>
         </section>
@@ -341,7 +388,7 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
               Aviation Data Accuracy & Navigational Disclaimer
             </h1>
             <p className="text-xs text-[#777780] mt-1">
-              Mandatory civil aviation operational guidance.
+              Mandatory civil aviation operational guidance and informational limitation notice.
             </p>
           </div>
 
@@ -349,15 +396,21 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
             <div className="p-4 bg-amber-50 border border-amber-200 rounded text-amber-900 flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
               <div>
-                <strong>NOT FOR OPERATIONAL FLIGHT PLANNING OR IN-FLIGHT NAVIGATION:</strong> Flight schedules, estimated times, altitudes, aircraft tracks, and gate assignments displayed on this platform are for general informational purposes only. Licensed aircrews must consult official NOTAMs, aeronautical AIP publications, and airline dispatch releases.
+                <strong>NOT FOR OPERATIONAL FLIGHT PLANNING OR IN-FLIGHT NAVIGATION:</strong> Flight schedules, estimated times, altitudes, aircraft tracks, and gate assignments displayed on this platform are for general informational purposes only. Licensed aircrews must consult official NOTAMs, NAV CANADA Aeronautical Information Publications (AIP), METAR/TAF aviation weather advisories, and certified airline dispatch releases.
               </div>
             </div>
 
+            <h2 className="text-base font-bold text-[#681C35] pt-2">Dynamic Schedule &amp; Airspace Variability</h2>
             <p>
-              While World Flight Schedule implements rigorous automated normalization and timetable cross-checks, airline schedules, aircraft substitutions, air traffic control hold patterns, and weather diversions occur dynamically.
+              While World Flight Schedule implements rigorous automated normalization and timetable cross-checks across Canadian international, regional, and Arctic aerodromes, commercial airline schedules, tail-number equipment substitutions, air traffic control Ground Delay Programs (GDPs), and winter de-icing holdover delays occur dynamically.
             </p>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">ADS-B Telemetry &amp; Coverage Constraints</h2>
             <p>
-              Always re-confirm boarding times, gate allocations, and terminal changes directly with your operating airline or the airport flight information display system (FIDS).
+              Mode-S ADS-B altitude, velocity, and track indicators depend on terrestrial receiver reception and satellite-based ADS-B relay intervals over oceanic and high-latitude northern airspace. Apparent gaps in ground speed or low-altitude taxi coverage do not represent aircraft emergencies or route cancellations.
+            </p>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">Passenger Verification Obligation</h2>
+            <p>
+              Passengers traveling through Canadian or transborder pre-clearance terminals must always re-confirm check-in cutoff deadlines, boarding times, gate reallocations, and baggage claim carousels directly with their operating airline or the official airport Flight Information Display System (FIDS). Editorial &amp; data discrepancy reports can be sent to <strong>anissagustiawati@gmail.com</strong>.
             </p>
           </div>
         </section>
@@ -371,27 +424,32 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
               Editorial Standards & Fact Verification Policy
             </h1>
             <p className="text-xs text-[#777780] mt-1">
-              Our commitment to journalistic integrity, technical rigor, and factual aviation research.
+              Our commitment to journalistic integrity, technical rigor, and factual aviation research across Canadian civil airspace.
             </p>
           </div>
 
           <div className="text-xs sm:text-sm text-[#3a3740] leading-relaxed space-y-4">
             <p>
-              World Flight Schedule adheres to strict standards of aviation journalism and technical verification:
+              World Flight Schedule adheres to strict standards of civil aviation journalism, engineering transparency, and timetable verification across every directory page and long-form technical report hosted at <strong>manufaktur.biz.id</strong>.
             </p>
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Factual Sources Only</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">1. Primary-Source Factual Verification</h2>
             <p>
-              We prohibit the fabrication of aviation news, statistics, official statements, airline fleet decisions, or aerodrome specifications. All factual data points are grounded in primary sources: certified airline filings, aircraft manufacturer type-certificate data sheets (TCDS), and official airport authority publications.
-            </p>
-
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Human Editorial Review</h2>
-            <p>
-              Every article published in our Aviation News & Travel Insights repository is reviewed and authenticated by accredited aviation specialists with experience in airline dispatch, piloting, or airport logistics.
+              We prohibit the fabrication of aviation news, traffic statistics, official agency statements, carrier fleet orders, or aerodrome runway specifications. All technical claims, aircraft weights, holdover times, and regulatory obligations are grounded in primary authoritative sources: Transport Canada Canadian Aviation Regulations (CARs), Air Passenger Protection Regulations (APPR), NAV CANADA airspace directives, manufacturer Type Certificate Data Sheets (TCDS), and official airport authority engineering reports.
             </p>
 
-            <h2 className="text-base font-bold text-[#681C35] pt-2">Corrections Policy</h2>
+            <h2 className="text-base font-bold text-[#681C35] pt-2">2. Specialist Author Attribution &amp; Review</h2>
             <p>
-              If a factual error is identified in any article or directory entry, our editorial desk updates the record promptly with a transparent update notice indicating the nature of the correction.
+              Every long-form guide published in our Aviation News &amp; Operational Insights repository carries transparent author attribution, technical credentials, publication dates, and structured reading times. Content covering winter glycol holdover tables, space-based ADS-B, Pratt &amp; Whitney geared turbofan dispatch metrics, and polar ETOPS routing undergoes verification against current operational standards before publication.
+            </p>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">3. Editorial Independence &amp; Advertising Separation</h2>
+            <p>
+              Our editorial analyses and airport/airline directories remain strictly independent from commercial advertising placements or carrier sponsorships. Automated display advertising serves strictly to sustain open-access aviation documentation without influencing route evaluations, carrier profiles, or regulatory explanations.
+            </p>
+
+            <h2 className="text-base font-bold text-[#681C35] pt-2">4. Prompt Corrections &amp; Archive Integrity</h2>
+            <p>
+              When civil aviation rules evolve, runways are re-designated, or a reader identifies a factual discrepancy in any article or aerodrome profile, our editorial desk (<strong>anissagustiawati@gmail.com</strong>) audits the primary filing and updates the record promptly with refreshed timestamps and clear documentation.
             </p>
           </div>
         </section>

@@ -77,8 +77,10 @@ export const AircraftPage: React.FC<Props> = ({ onNavigate }) => {
                 <span className="font-mono text-[#25232A] font-semibold">{ac.rangeKm.toLocaleString()} km</span>
               </div>
               <div className="flex justify-between">
-                <span>Max Passenger Capacity:</span>
-                <span className="font-mono text-[#25232A] font-semibold">{ac.maxPassengers} seats</span>
+                <span>{ac.maxPassengers === 0 ? 'Configuration:' : 'Max Passenger Capacity:'}</span>
+                <span className="font-mono text-[#25232A] font-semibold">
+                  {ac.maxPassengers === 0 ? 'Cargo Freighter (0 pax)' : `${ac.maxPassengers} seats`}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Cruising Speed:</span>

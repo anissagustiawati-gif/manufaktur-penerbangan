@@ -48,13 +48,21 @@ export const RoutesPage: React.FC<Props> = ({ onNavigate }) => {
           >
             <div className="flex items-center justify-between border-b border-[#E8E5E8] pb-3">
               <div className="flex items-center gap-3">
-                <span className="text-xl font-black font-mono text-[#681C35]">
+                <a
+                  href={`/airport/${route.originIata}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${route.originIata}`); }}
+                  className="text-xl font-black font-mono text-[#681C35] hover:underline"
+                >
                   {route.originIata}
-                </span>
+                </a>
                 <ArrowRight className="w-4 h-4 text-[#777780]" />
-                <span className="text-xl font-black font-mono text-[#681C35]">
+                <a
+                  href={`/airport/${route.destinationIata}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${route.destinationIata}`); }}
+                  className="text-xl font-black font-mono text-[#681C35] hover:underline"
+                >
                   {route.destinationIata}
-                </span>
+                </a>
               </div>
 
               <div className="text-xs text-[#777780] font-mono">
@@ -81,9 +89,18 @@ export const RoutesPage: React.FC<Props> = ({ onNavigate }) => {
                   <span className="text-[#777780]">Carriers: </span>
                   <span className="font-medium text-[#25232A]">{route.operatingAirlines.join(', ')}</span>
                 </div>
-                <div>
+                <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-[#777780]">Flight Numbers: </span>
-                  <span className="font-mono text-[#681C35] font-semibold">{route.flightNumbers.join(', ')}</span>
+                  {route.flightNumbers.map((fn) => (
+                    <a
+                      key={fn}
+                      href={`/flight/${fn}`}
+                      onClick={(e) => { e.preventDefault(); onNavigate(`/flight/${fn}`); }}
+                      className="font-mono text-[#681C35] font-semibold hover:underline"
+                    >
+                      {fn}
+                    </a>
+                  ))}
                 </div>
                 <div>
                   <span className="text-[#777780]">Common Aircraft: </span>

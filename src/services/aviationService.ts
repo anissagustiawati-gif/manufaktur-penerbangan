@@ -28,7 +28,7 @@ export const ADMIN_CONFIG = {
 };
 
 const STORAGE_KEYS = {
-  FLIGHTS: 'wfs_canadian_flights_v2',
+  FLIGHTS: 'wfs_canadian_flights_v3',
   ARTICLES: 'wfs_canadian_articles_v2',
   SETTINGS: 'wfs_canadian_settings_v2',
   SYNC_LOGS: 'wfs_canadian_sync_logs_v2',
@@ -143,7 +143,7 @@ class AviationService {
 
       const storedFlights = localStorage.getItem(STORAGE_KEYS.FLIGHTS);
       const parsedFlights = storedFlights ? JSON.parse(storedFlights) : null;
-      if (!parsedFlights || isNewDay || parsedFlights.length < 25) {
+      if (!parsedFlights || isNewDay || parsedFlights.length < 60) {
         this.flights = generateCanadianFlights(today, tomorrow);
         localStorage.setItem(STORAGE_KEYS.FLIGHTS, JSON.stringify(this.flights));
         localStorage.setItem(STORAGE_KEYS.LAST_CALENDAR_DATE, today);

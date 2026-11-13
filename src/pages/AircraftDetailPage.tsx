@@ -79,7 +79,7 @@ export const AircraftDetailPage: React.FC<Props> = ({ aircraftCode, onNavigate }
               {aircraft.rangeKm.toLocaleString()} km
             </div>
             <div className="text-[10px] text-white/80">
-              Max Passengers: {aircraft.maxPassengers} pax
+              {aircraft.maxPassengers === 0 ? 'Configuration: Cargo Freighter (0 pax)' : `Max Passengers: ${aircraft.maxPassengers} pax`}
             </div>
           </div>
         </div>
@@ -96,12 +96,23 @@ export const AircraftDetailPage: React.FC<Props> = ({ aircraftCode, onNavigate }
           </div>
           <div>
             <span className="text-[#777780] block text-[11px]">Cruising Velocity</span>
-            <span className="font-mono font-bold text-[#25232A]">{aircraft.cruisingSpeedKmH} km/h</span>
+            <span className="font-mono font-bold text-[#25232A]">
+              {aircraft.cruisingSpeedKmH} km/h ({Math.round(aircraft.cruisingSpeedKmH * 0.539957)} kts)
+            </span>
           </div>
           <div>
             <span className="text-[#777780] block text-[11px]">Powerplants</span>
             <span className="font-semibold text-[#25232A]">{aircraft.engineCount}x {aircraft.engineType}</span>
           </div>
+        </div>
+
+        <div className="px-6 pt-5 pb-1 text-xs text-[#504e57] leading-relaxed">
+          <p>
+            The <strong>{aircraft.model}</strong> (ICAO designator <span className="font-mono font-semibold text-[#25232A]">{aircraft.icaoType}</span>) is certified by {aircraft.manufacturer} in the {aircraft.typeCategory} class, powered by {aircraft.engineCount} {aircraft.engineType} engines delivering a certified range of {aircraft.rangeKm.toLocaleString()} km at {aircraft.cruisingSpeedKmH} km/h.{' '}
+            {aircraft.maxPassengers === 0
+              ? 'Configured strictly as a dedicated main-deck freighter supporting overnight express cargo trunk lines across Hamilton (YHM), Toronto (YYZ), Vancouver (YVR), and Montréal-Mirabel (YMX).'
+              : `Configured to accommodate up to ${aircraft.maxPassengers} passengers across Canadian trunk, regional, and transoceanic commercial routes.`}
+          </p>
         </div>
 
         {/* Operating flights */}

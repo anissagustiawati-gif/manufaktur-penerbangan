@@ -361,7 +361,7 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                 className="bg-[#F8F8FA] border border-[#E8E5E8] rounded px-2.5 py-1 text-xs text-[#25232A] font-medium cursor-pointer"
               >
                 <option value="ALL">All Canadian Hubs</option>
-                {CANADIAN_AIRPORTS.slice(0, 10).map((a) => (
+                {CANADIAN_AIRPORTS.map((a) => (
                   <option key={a.iata} value={a.iata}>
                     {a.iata} ({a.city.split(',')[0]})
                   </option>
@@ -528,7 +528,7 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                      e.currentTarget.src = '/assets/images/hero_aviation_flight_1793637455661.jpg';
                     }}
                   />
                   <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">

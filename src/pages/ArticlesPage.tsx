@@ -140,7 +140,7 @@ export const ArticlesPage: React.FC<Props> = ({ onNavigate }) => {
                   referrerPolicy="no-referrer"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+                    e.currentTarget.src = '/assets/images/hero_aviation_flight_1793637455661.jpg';
                   }}
                 />
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">

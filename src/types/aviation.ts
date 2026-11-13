@@ -22,7 +22,7 @@ export interface Airport {
   elevationFeet?: number;
   terminals?: string[];
   runways?: string[];
-  type?: 'International' | 'Major Hub' | 'Regional' | 'Domestic';
+  type?: 'International' | 'Major Hub' | 'Regional' | 'Domestic' | 'Cargo & Aerospace';
   website?: string;
   imageUrl?: string;
 }
@@ -33,6 +33,7 @@ export interface Airline {
   name: string;
   callsign: string;
   country: string;
+  countryCode?: string;
   hubAirports: string[]; // IATA codes
   website?: string;
   fleetCount?: number;
@@ -44,7 +45,14 @@ export interface Aircraft {
   icaoType: string; // e.g. A359, B789, A388, B77W
   manufacturer: 'Airbus' | 'Boeing' | 'Embraer' | 'ATR' | 'Bombardier';
   model: string; // e.g. "Airbus A350-900"
-  typeCategory: 'Wide-body Jet' | 'Narrow-body Jet' | 'Regional Jet' | 'Turboprop';
+  typeCategory:
+    | 'Wide-body Jet'
+    | 'Narrow-body Jet'
+    | 'Regional Jet'
+    | 'Turboprop'
+    | 'Combi Narrow-body Jet'
+    | 'Wide-body Freighter'
+    | 'Narrow-body Freighter';
   wingspanMeters: number;
   lengthMeters: number;
   rangeKm: number;

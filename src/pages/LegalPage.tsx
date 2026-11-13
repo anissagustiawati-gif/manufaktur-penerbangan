@@ -10,7 +10,6 @@ import {
   Building,
   Send
 } from 'lucide-react';
-import { AdSenseUnit } from '../components/AdSenseUnit';
 import { ExploreMoreSection } from '../components/ExploreMoreSection';
 import { aviationService, ADMIN_CONFIG } from '../services/aviationService';
 
@@ -35,15 +34,6 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
         subject: contactSubject,
         message: contactMessage
       });
-
-      // Also trigger direct mail client to guarantee delivery to anissagustiawati@gmail.com
-      const mailtoLink = `mailto:${ADMIN_CONFIG.EMAIL}?subject=${encodeURIComponent(`[World Flight Schedule Contact] ${contactSubject}`)}&body=${encodeURIComponent(`From: ${contactName} (${contactEmail})\n\nMessage:\n${contactMessage}`)}`;
-      try {
-        window.open(mailtoLink, '_blank');
-      } catch {
-        // Fallback
-      }
-
       setIsSubmitted(true);
     }
   };
@@ -60,11 +50,15 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-8 py-8 space-y-8 font-sans">
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar border-b border-[#E8E5E8] pb-2">
+      <nav aria-label="Legal and company pages" className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar border-b border-[#E8E5E8] pb-2">
         {navLinks.map((link) => (
-          <button
+          <a
             key={link.type}
-            onClick={() => onNavigate(link.path)}
+            href={link.path}
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate(link.path);
+            }}
             className={`px-3 py-1.5 text-xs font-semibold rounded whitespace-nowrap transition-colors cursor-pointer ${
               pageType === link.type
                 ? 'bg-[#681C35] text-white shadow-xs'
@@ -72,9 +66,9 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
             }`}
           >
             {link.label}
-          </button>
+          </a>
         ))}
-      </div>
+      </nav>
 
       {/* 1. ABOUT US */}
       {pageType === 'about' && (
@@ -131,16 +125,25 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
               {isSubmitted ? (
                 <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-6 rounded-md space-y-2 text-center">
                   <CheckCircle className="w-10 h-10 text-emerald-600 mx-auto" />
-                  <h3 className="font-bold text-base">Pesan Berhasil Terkirim ke anissagustiawati@gmail.com</h3>
+                  <h3 className="font-bold text-base">Inquiry Recorded for {ADMIN_CONFIG.EMAIL}</h3>
                   <p className="text-xs text-emerald-800">
-                    Terima kasih, <strong>{contactName}</strong>. Pesan Anda telah diteruskan langsung ke email administrator resmi: <strong>{ADMIN_CONFIG.EMAIL}</strong>. Kami akan segera meninjau dan merespons pertanyaan Anda.
+                    Thank you, <strong>{contactName}</strong>. Your inquiry has been logged for our editorial &amp; operations desk (<strong>{ADMIN_CONFIG.EMAIL}</strong>). You can also send a direct email copy below.
                   </p>
-                  <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="mt-4 px-4 py-1.5 bg-[#681C35] text-white text-xs font-semibold rounded cursor-pointer"
-                  >
-                    Kirim Pesan Lainnya
-                  </button>
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                    <a
+                      href={`mailto:${ADMIN_CONFIG.EMAIL}?subject=${encodeURIComponent(`[World Flight Schedule Contact] ${contactSubject}`)}&body=${encodeURIComponent(`From: ${contactName} (${contactEmail})\n\nMessage:\n${contactMessage}`)}`}
+                      className="px-4 py-1.5 bg-white border border-emerald-300 text-emerald-900 text-xs font-semibold rounded hover:bg-emerald-100"
+                    >
+                      Open Email Client
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setIsSubmitted(false)}
+                      className="px-4 py-1.5 bg-[#681C35] text-white text-xs font-semibold rounded cursor-pointer"
+                    >
+                      Send Another Inquiry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmitContact} className="space-y-4 text-xs">
@@ -289,7 +292,14 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
 
             <h2 className="text-base font-bold text-[#681C35] pt-2">7. Contact the Data Protection Officer</h2>
             <p>
-              For any questions regarding this Privacy Policy, cookie disclosures, or data protection practices, please contact us at <strong>anissagustiawati@gmail.com</strong> or submit an inquiry through our <button onClick={() => onNavigate('/contact')} className="text-[#681C35] underline font-semibold cursor-pointer">Contact Desk</button>.
+              For any questions regarding this Privacy Policy, cookie disclosures, or data protection practices, please contact us at <strong>anissagustiawati@gmail.com</strong> or submit an inquiry through our{' '}
+              <a
+                href="/contact"
+                onClick={(e) => { e.preventDefault(); onNavigate('/contact'); }}
+                className="text-[#681C35] underline font-semibold cursor-pointer"
+              >
+                Contact Desk
+              </a>.
             </p>
           </div>
         </section>
@@ -386,8 +396,6 @@ export const LegalPage: React.FC<Props> = ({ pageType, onNavigate }) => {
           </div>
         </section>
       )}
-
-      <AdSenseUnit slotId="legal-page-bottom" format="horizontal" />
 
       {/* Comprehensive Bottom Discovery Section */}
       <ExploreMoreSection

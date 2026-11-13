@@ -43,9 +43,10 @@ export const AirportsPage: React.FC<Props> = ({ onNavigate }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {airports.map((airport) => (
-          <div
+          <a
             key={airport.iata}
-            onClick={() => onNavigate(`/airport/${airport.iata.toLowerCase()}`)}
+            href={`/airport/${airport.iata}`}
+            onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${airport.iata}`); }}
             className="bg-white border border-[#E8E5E8] rounded-md p-5 hover:border-[#681C35] hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div>
@@ -95,7 +96,7 @@ export const AirportsPage: React.FC<Props> = ({ onNavigate }) => {
                 </span>
               </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 

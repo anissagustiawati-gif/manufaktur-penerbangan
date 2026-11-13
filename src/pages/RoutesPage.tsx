@@ -93,13 +93,14 @@ export const RoutesPage: React.FC<Props> = ({ onNavigate }) => {
             </div>
 
             <div className="pt-2 text-right">
-              <button
-                onClick={() => onNavigate(`/flights?dep=${route.originIata}&arr=${route.destinationIata}`)}
-                className="text-xs font-semibold text-[#681C35] hover:underline flex items-center justify-end gap-1 cursor-pointer"
+              <a
+                href={`/flights?dep=${route.originIata}&arr=${route.destinationIata}`}
+                onClick={(e) => { e.preventDefault(); onNavigate(`/flights?dep=${route.originIata}&arr=${route.destinationIata}`); }}
+                className="text-xs font-semibold text-[#681C35] hover:underline inline-flex items-center justify-end gap-1 cursor-pointer"
               >
                 <span>View Scheduled Flights for this Route</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </a>
             </div>
           </div>
         ))}

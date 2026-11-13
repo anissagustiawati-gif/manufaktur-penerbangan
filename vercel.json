@@ -1,5 +1,6 @@
 {
   "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     {
       "has": [
@@ -85,8 +86,28 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/flight/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/airport/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/airline/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/aircraft/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/articles/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/admin",
+      "destination": "/"
     }
   ]
 }

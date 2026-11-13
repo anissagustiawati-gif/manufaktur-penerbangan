@@ -303,17 +303,18 @@ export const FlightTable: React.FC<Props> = ({
                     )}
                   </div>
 
-                  <button
-                    type="button"
+                  <a
+                    href={`/flight/${flight.flightNumber}`}
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       onSelectFlight(flight.flightNumber);
                     }}
                     className="inline-flex items-center gap-1 text-xs font-semibold text-[#681C35] group-hover:text-[#8A2948] group-hover:translate-x-0.5 transition-all cursor-pointer"
                   >
-                    <span>Inspect Live Flight & Radar</span>
+                    <span>Inspect Live Flight &amp; Radar</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </a>
                 </div>
               </div>
             );
@@ -378,10 +379,18 @@ export const FlightTable: React.FC<Props> = ({
                       <FlightStatusBadge status={flight.status} delayMinutes={flight.delayMinutes} />
                     </td>
                     <td className="py-3 px-4 text-right">
-                      <span className="inline-flex items-center gap-1 text-xs text-[#681C35] font-semibold group-hover:translate-x-0.5 transition-transform">
+                      <a
+                        href={`/flight/${flight.flightNumber}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onSelectFlight(flight.flightNumber);
+                        }}
+                        className="inline-flex items-center gap-1 text-xs text-[#681C35] font-semibold group-hover:translate-x-0.5 transition-transform"
+                      >
                         <span>Details</span>
                         <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
+                      </a>
                     </td>
                   </tr>
                 ))}

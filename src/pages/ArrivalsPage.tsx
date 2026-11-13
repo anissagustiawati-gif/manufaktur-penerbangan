@@ -77,12 +77,16 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <button
-              onClick={() => onNavigate(`/airport/${airport.iata.toLowerCase()}`)}
-              className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded font-medium transition-colors text-white cursor-pointer"
+            <a
+              href={`/airport/${airport.iata}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(`/airport/${airport.iata}`);
+              }}
+              className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded font-medium transition-colors text-white cursor-pointer inline-block"
             >
               View Full Airport Details
-            </button>
+            </a>
           </div>
         </div>
       )}
@@ -128,10 +132,14 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
           {/* Mobile Card View (No Horizontal Scroll) */}
           <div className="md:hidden space-y-3">
             {arrivals.map((flight) => (
-              <div
+              <a
                 key={flight.id}
-                onClick={() => onNavigate(`/flight/${flight.flightNumber.toLowerCase()}`)}
-                className="bg-white border border-[#E8E5E8] hover:border-[#681C35] rounded-xl p-4 shadow-xs transition-all cursor-pointer"
+                href={`/flight/${flight.flightNumber}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate(`/flight/${flight.flightNumber}`);
+                }}
+                className="block bg-white border border-[#E8E5E8] hover:border-[#681C35] rounded-xl p-4 shadow-xs transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between pb-2 border-b border-[#F0EEF0]">
                   <div className="flex items-center gap-2">
@@ -162,7 +170,7 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
                     <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
 
@@ -186,7 +194,7 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
                 {arrivals.map((flight) => (
                   <tr
                     key={flight.id}
-                    onClick={() => onNavigate(`/flight/${flight.flightNumber.toLowerCase()}`)}
+                    onClick={() => onNavigate(`/flight/${flight.flightNumber}`)}
                     className="hover:bg-[#FAF9FA] transition-colors cursor-pointer group"
                   >
                     <td className="py-3 px-4 font-mono font-bold text-sm text-[#25232A]">
@@ -215,10 +223,18 @@ export const ArrivalsPage: React.FC<Props> = ({ onNavigate }) => {
                       <FlightStatusBadge status={flight.status} delayMinutes={flight.delayMinutes} />
                     </td>
                     <td className="py-3 px-4 text-right">
-                      <span className="text-xs text-[#681C35] font-semibold group-hover:underline flex items-center justify-end gap-1">
+                      <a
+                        href={`/flight/${flight.flightNumber}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onNavigate(`/flight/${flight.flightNumber}`);
+                        }}
+                        className="text-xs text-[#681C35] font-semibold group-hover:underline inline-flex items-center justify-end gap-1"
+                      >
                         <span>Details</span>
                         <ArrowRight className="w-3 h-3" />
-                      </span>
+                      </a>
                     </td>
                   </tr>
                 ))}

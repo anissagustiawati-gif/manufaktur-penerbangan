@@ -111,24 +111,66 @@ export const SitemapPage: React.FC<Props> = ({ onNavigate }) => {
             </ul>
           </div>
 
-          {/* Major Canadian Aerodromes */}
+          {/* All Canadian Aerodromes */}
           <div className="bg-white border border-[#E8E5E8] rounded-lg p-6 shadow-2xs space-y-3">
             <h2 className="text-sm font-bold text-[#25232A] flex items-center gap-2 pb-2 border-b border-[#E8E5E8]">
               <Building2 className="w-4 h-4 text-[#681C35]" />
-              <span>Canadian Hub Aerodromes</span>
+              <span>Canadian Aerodromes ({CANADIAN_AIRPORTS.length})</span>
             </h2>
             <div className="grid grid-cols-2 gap-2 text-xs">
-              {CANADIAN_AIRPORTS.slice(0, 8).map((apt) => (
+              {CANADIAN_AIRPORTS.map((apt) => (
                 <a
                   key={apt.iata}
-                  href={`/airport/${apt.iata.toLowerCase()}`}
-                  onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${apt.iata.toLowerCase()}`); }}
+                  href={`/airport/${apt.iata}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${apt.iata}`); }}
                   className="p-2 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-colors"
                 >
                   <span className="font-mono font-bold text-[#681C35]">{apt.iata}</span>
                   <span className="text-[#777780] block truncate text-[11px]">{apt.city.split(',')[0]}</span>
                 </a>
               ))}
+            </div>
+          </div>
+
+          {/* Airlines & Aircraft Fleet */}
+          <div className="bg-white border border-[#E8E5E8] rounded-lg p-6 shadow-2xs space-y-4">
+            <div>
+              <h2 className="text-sm font-bold text-[#25232A] flex items-center gap-2 pb-2 border-b border-[#E8E5E8]">
+                <Plane className="w-4 h-4 text-[#681C35]" />
+                <span>Canadian Carriers ({CANADIAN_AIRLINES.length})</span>
+              </h2>
+              <div className="grid grid-cols-2 gap-2 text-xs mt-3">
+                {CANADIAN_AIRLINES.map((al) => (
+                  <a
+                    key={al.iata}
+                    href={`/airline/${al.iata}`}
+                    onClick={(e) => { e.preventDefault(); onNavigate(`/airline/${al.iata}`); }}
+                    className="p-2 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-colors"
+                  >
+                    <span className="font-mono font-bold text-[#681C35]">{al.iata}</span>
+                    <span className="text-[#777780] block truncate text-[11px]">{al.name}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-[#E8E5E8]">
+              <h3 className="text-xs font-bold text-[#25232A] uppercase tracking-wider mb-2">
+                Aircraft Types ({CANADIAN_AIRCRAFT.length})
+              </h3>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {CANADIAN_AIRCRAFT.map((ac) => (
+                  <a
+                    key={ac.icaoType}
+                    href={`/aircraft/${ac.icaoType}`}
+                    onClick={(e) => { e.preventDefault(); onNavigate(`/aircraft/${ac.icaoType}`); }}
+                    className="p-2 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-colors"
+                  >
+                    <span className="font-mono font-bold text-[#681C35]">{ac.icaoType}</span>
+                    <span className="text-[#777780] block truncate text-[11px]">{ac.model}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -451,13 +451,17 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                     {selectedFlight.airlineName}
                   </span>
                 </div>
-                <button
-                  onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
+                <a
+                  href={`/flight/${selectedFlight.flightNumber}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate(`/flight/${selectedFlight.flightNumber}`);
+                  }}
                   className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#681C35] hover:underline"
                 >
                   <span>Full Details</span>
                   <ArrowRight className="w-3 h-3" />
-                </button>
+                </a>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-xs font-mono">
@@ -572,13 +576,17 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => onNavigate(`/flight/${selectedFlight.flightNumber.toLowerCase()}`)}
+                <a
+                  href={`/flight/${selectedFlight.flightNumber}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate(`/flight/${selectedFlight.flightNumber}`);
+                  }}
                   className="px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors shadow-2xs flex items-center gap-1 cursor-pointer"
                 >
                   <span>Full Details</span>
                   <ExternalLink className="w-3 h-3" />
-                </button>
+                </a>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
@@ -747,13 +755,17 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
               Live squawking flights currently transmitting Mode-S Altitude, Calibrated Airspeed, and GPS waypoint coordinates.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate('/flights')}
+          <a
+            href="/flights"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/flights');
+            }}
             className="text-xs font-semibold text-[#681C35] hover:text-[#8A2948] flex items-center gap-1 transition-colors self-start sm:self-auto cursor-pointer"
           >
             <span>View All Schedules</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </a>
         </div>
 
         <div className="overflow-x-auto">
@@ -801,17 +813,18 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                     <FlightStatusBadge status={f.status} />
                   </td>
                   <td className="py-2.5 px-3 text-right">
-                    <button
-                      type="button"
+                    <a
+                      href={`/flight/${f.flightNumber}`}
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
-                        onNavigate(`/flight/${f.flightNumber.toLowerCase()}`);
+                        onNavigate(`/flight/${f.flightNumber}`);
                       }}
                       className="px-2.5 py-1 bg-[#681C35] hover:bg-[#8A2948] text-white text-[11px] font-semibold rounded transition-colors inline-flex items-center gap-1 cursor-pointer"
                     >
                       <span>Details</span>
                       <ChevronRight className="w-3 h-3" />
-                    </button>
+                    </a>
                   </td>
                 </tr>
               ))}
@@ -918,11 +931,14 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
             { code: 'YOW', name: 'Ottawa Intl', prov: 'Ontario', rwys: '3 Runways', el: '374 ft' },
             { code: 'YHZ', name: 'Halifax Stanfield', prov: 'Nova Scotia', rwys: '2 Runways', el: '477 ft' }
           ].map((hub) => (
-            <button
+            <a
               key={hub.code}
-              type="button"
-              onClick={() => onNavigate(`/airport/${hub.code}`)}
-              className="bg-[#FAF9FA] hover:bg-white border border-[#ECEBED] hover:border-[#681C35] rounded p-2.5 text-left transition-all group cursor-pointer"
+              href={`/airport/${hub.code}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(`/airport/${hub.code}`);
+              }}
+              className="block bg-[#FAF9FA] hover:bg-white border border-[#ECEBED] hover:border-[#681C35] rounded p-2.5 text-left transition-all group cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono font-black text-sm text-[#681C35]">{hub.code}</span>
@@ -935,7 +951,7 @@ export const LiveMapPage: React.FC<Props> = ({ onNavigate }) => {
                 <span>{hub.prov}</span>
                 <span className="font-mono text-[#999]">{hub.rwys}</span>
               </div>
-            </button>
+            </a>
           ))}
         </div>
       </section>

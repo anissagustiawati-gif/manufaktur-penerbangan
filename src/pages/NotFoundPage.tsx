@@ -39,24 +39,27 @@ export const NotFoundPage: React.FC<Props> = ({ onNavigate }) => {
         </p>
 
         <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
-          <button
-            onClick={() => onNavigate('/')}
+          <a
+            href="/"
+            onClick={(e) => { e.preventDefault(); onNavigate('/'); }}
             className="px-4 py-2 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
           >
             Return to Flight Schedules
-          </button>
-          <button
-            onClick={() => onNavigate('/articles')}
+          </a>
+          <a
+            href="/articles"
+            onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
             className="px-4 py-2 bg-white border border-[#E8E5E8] hover:border-[#681C35] text-[#25232A] text-xs font-semibold rounded transition-colors cursor-pointer"
           >
             Browse Aviation News
-          </button>
-          <button
-            onClick={() => onNavigate('/map')}
+          </a>
+          <a
+            href="/map"
+            onClick={(e) => { e.preventDefault(); onNavigate('/map'); }}
             className="px-4 py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 text-xs font-semibold rounded transition-colors cursor-pointer"
           >
             Live Tracking Map
-          </button>
+          </a>
         </div>
       </div>
 

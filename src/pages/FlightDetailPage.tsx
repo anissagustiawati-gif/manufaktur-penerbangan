@@ -35,12 +35,16 @@ export const FlightDetailPage: React.FC<Props> = ({ flightId, onNavigate }) => {
         <p className="text-xs text-[#777780] mt-1 max-w-md mx-auto">
           We could not locate scheduled operations for flight identifier &quot;{flightId}&quot;. The flight may not operate today or might use an alternate code.
         </p>
-        <button
-          onClick={() => onNavigate('/flights')}
-          className="mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded hover:bg-[#8A2948] transition-colors cursor-pointer"
+        <a
+          href="/flights"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/flights');
+          }}
+          className="inline-block mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded hover:bg-[#8A2948] transition-colors cursor-pointer"
         >
           Return to Flight Schedules
-        </button>
+        </a>
       </div>
     );
   }
@@ -61,16 +65,20 @@ export const FlightDetailPage: React.FC<Props> = ({ flightId, onNavigate }) => {
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6 font-sans">
       {/* Breadcrumb & Navigation */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => onNavigate('/flights')}
+        <a
+          href="/flights"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/flights');
+          }}
           className="inline-flex items-center gap-1.5 text-xs text-[#777780] hover:text-[#681C35] transition-colors cursor-pointer font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Flight Schedules</span>
-        </button>
+        </a>
 
         <div className="flex items-center gap-2 text-xs text-[#777780]">
-          <span className="font-mono">URL: /flight/{flight.flightNumber.toLowerCase()}</span>
+          <span className="font-mono">URL: /flight/{flight.flightNumber}</span>
         </div>
       </div>
 
@@ -301,13 +309,17 @@ export const FlightDetailPage: React.FC<Props> = ({ flightId, onNavigate }) => {
             {flight.codeshares && (
               <span>Codeshares: {flight.codeshares.join(', ')}</span>
             )}
-            <button
-              onClick={() => onNavigate('/map')}
+            <a
+              href="/map"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/map');
+              }}
               className="text-[#681C35] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View On Live Map</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </a>
           </div>
         </div>
       </div>

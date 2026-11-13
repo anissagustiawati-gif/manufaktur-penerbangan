@@ -645,7 +645,7 @@ export const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
           { id: 'indexing', label: 'SEO & Indeks Google (Sitemap)', icon: Search },
           { id: 'sync', label: 'Sinkronisasi Jadwal Kanada', icon: RefreshCw },
           { id: 'articles', label: 'Kelola Artikel & Berita', icon: FileText },
-          { id: 'monetization', label: 'Iklan & Monetisasi Adsterra', icon: DollarSign },
+          { id: 'monetization', label: 'Iklan & Monetisasi AdSense', icon: DollarSign },
           { id: 'settings', label: 'Pengaturan & Kata Sandi', icon: Settings }
         ].map((tab) => {
           const Icon = tab.icon;
@@ -814,7 +814,7 @@ export const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
                     <th className="py-2.5 px-3 text-center">Total Pembaca (Views)</th>
                     <th className="py-2.5 px-3 text-center">Pengunjung Unik</th>
                     <th className="py-2.5 px-3 text-center">Est. Baca</th>
-                    <th className="py-2.5 px-3">Status Iklan Adsterra</th>
+                    <th className="py-2.5 px-3">Status Monetisasi AdSense</th>
                     <th className="py-2.5 px-3 text-right">Aksi</th>
                   </tr>
                 </thead>
@@ -1731,56 +1731,88 @@ export const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
       )}
 
       {/* ======================================================== */}
-      {/* TAB 5: IKLAN & MONETISASI ADSTERRA                     */}
+      {/* TAB 5: PENGATURAN GOOGLE ADSENSE                         */}
       {/* ======================================================== */}
       {activeTab === 'monetization' && (
-        <div className="bg-white border border-[#E8E5E8] rounded-md p-6 space-y-6 shadow-2xs">
+        <form onSubmit={handleSaveSettings} className="bg-white border border-[#E8E5E8] rounded-md p-6 space-y-6 shadow-2xs">
           <div className="border-b border-[#E8E5E8] pb-3">
             <div className="flex items-center gap-2 text-[#681C35] font-bold text-xs uppercase tracking-wider">
               <DollarSign className="w-4 h-4" />
-              <span>Status Integrasi Adsterra & Google AdSense</span>
+              <span>Konfigurasi Resmi Google AdSense</span>
             </div>
-            <h3 className="font-bold text-sm text-[#25232A] mt-1">Pengaturan Monetisasi & Unit Iklan Aktif</h3>
+            <h3 className="font-bold text-sm text-[#25232A] mt-1">Pengaturan Publisher ID &amp; Slot Unit Iklan</h3>
             <p className="text-xs text-[#777780] mt-0.5">
-              Unit iklan Adsterra telah terpasang secara aktif dengan animasi penghitung mundur 7-ke-0 rapi sebelum iklan tampil.
+              Iklan hanya ditampilkan apabila Publisher ID resmi (<code className="font-mono">ca-pub-...</code>) dan Slot ID valid telah diisi. Script pihak ketiga yang mengganggu (Social Bar/popup/countdown) telah dinonaktifkan demi kelulusan AdSense.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-md space-y-2">
-              <div className="flex items-center gap-2 text-emerald-900 font-bold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Adsterra Social Bar Aktif</span>
-              </div>
-              <p className="text-[#504e57] leading-relaxed">
-                Script Social Bar terpasang di <code className="bg-white px-1 py-0.5 rounded border font-mono">index.html</code> dengan key resmi:
-              </p>
-              <div className="bg-white p-2 rounded border border-emerald-200 font-mono text-[11px] text-emerald-800 break-all">
-                https://bicea.org/14/6946ae9fe140d10b8afbdd2702197503
-              </div>
+            <div className="md:col-span-2 flex items-center gap-2">
+              <input
+                id="enable-adsense-toggle"
+                type="checkbox"
+                checked={settings.enableAdSense}
+                onChange={(e) => setSettings({ ...settings, enableAdSense: e.target.checked })}
+                className="rounded border-[#E8E5E8] text-[#681C35] focus:ring-[#681C35]"
+              />
+              <label htmlFor="enable-adsense-toggle" className="font-semibold text-[#25232A]">
+                Aktifkan penayangan unit iklan Google AdSense
+              </label>
             </div>
 
-            <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-md space-y-2">
-              <div className="flex items-center gap-2 text-emerald-900 font-bold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Adsterra 300×250 Banner Aktif</span>
-              </div>
-              <p className="text-[#504e57] leading-relaxed">
-                Slot iframe 300×250 terpasang di halaman Beranda, Halaman Artikel, dan Sidebar dengan timer hitung mundur 7 detik cepat:
+            <div>
+              <label className="block font-medium text-[#25232A] mb-1">Google AdSense Publisher ID</label>
+              <input
+                type="text"
+                value={settings.adSenseClientId}
+                onChange={(e) => setSettings({ ...settings, adSenseClientId: e.target.value })}
+                placeholder="ca-pub-xxxxxxxxxxxxxxxx"
+                className="w-full bg-[#F8F8FA] border border-[#E8E5E8] rounded p-2 font-mono focus:outline-none focus:border-[#681C35]"
+              />
+              <p className="text-[11px] text-[#777780] mt-1">
+                Pastikan nilai <code className="font-mono">public/ads.txt</code> juga diperbarui sesuai ID publisher asli Anda.
               </p>
-              <div className="bg-white p-2 rounded border border-emerald-200 font-mono text-[11px] text-emerald-800 break-all">
-                dadc3184f70b3e4ec47ba368b8321549 (300×250 iframe)
-              </div>
+            </div>
+
+            <div>
+              <label className="block font-medium text-[#25232A] mb-1">Slot ID Banner Horizontal</label>
+              <input
+                type="text"
+                value={settings.adSenseSlotTop}
+                onChange={(e) => setSettings({ ...settings, adSenseSlotTop: e.target.value })}
+                placeholder="10 digit Slot ID"
+                className="w-full bg-[#F8F8FA] border border-[#E8E5E8] rounded p-2 font-mono focus:outline-none focus:border-[#681C35]"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-[#25232A] mb-1">Slot ID Sidebar Persegi (300&times;250)</label>
+              <input
+                type="text"
+                value={settings.adSenseSlotSidebar}
+                onChange={(e) => setSettings({ ...settings, adSenseSlotSidebar: e.target.value })}
+                placeholder="10 digit Slot ID"
+                className="w-full bg-[#F8F8FA] border border-[#E8E5E8] rounded p-2 font-mono focus:outline-none focus:border-[#681C35]"
+              />
             </div>
           </div>
 
-          <div className="p-4 border border-[#E8E5E8] rounded-md bg-[#FAF9FA] space-y-2 text-xs">
-            <h4 className="font-bold text-[#25232A]">Simulasi Pengujian Iklan</h4>
-            <p className="text-[#777780]">
-              Untuk melihat iklan 300×250 secara langsung dengan animasi hitung mundur 7 detik, buka artikel apa saja di menu <strong>Aviation News</strong> atau lihat di bagian bawah daftar penerbangan beranda.
-            </p>
+          {saveMessage && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs rounded font-medium flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{saveMessage}</span>
+            </div>
+          )}
+
+          <div className="pt-4 border-t border-[#E8E5E8] flex justify-end">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded cursor-pointer"
+            >
+              Simpan Pengaturan AdSense
+            </button>
           </div>
-        </div>
+        </form>
       )}
 
       {/* ======================================================== */}

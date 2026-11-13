@@ -130,8 +130,8 @@ export const Footer: React.FC<Props> = ({ onNavigate }) => {
               </li>
               <li>
                 <a
-                  href="/sitemap"
-                  onClick={(e) => { e.preventDefault(); onNavigate('/sitemap'); }}
+                  href="/site-index"
+                  onClick={(e) => { e.preventDefault(); onNavigate('/site-index'); }}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
                   HTML Site Index

@@ -42,9 +42,10 @@ export const AircraftPage: React.FC<Props> = ({ onNavigate }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {aircraftList.map((ac) => (
-          <div
+          <a
             key={ac.icaoType}
-            onClick={() => onNavigate(`/aircraft/${ac.icaoType.toLowerCase()}`)}
+            href={`/aircraft/${ac.icaoType}`}
+            onClick={(e) => { e.preventDefault(); onNavigate(`/aircraft/${ac.icaoType}`); }}
             className="bg-white border border-[#E8E5E8] rounded-md p-5 hover:border-[#681C35] hover:shadow-xs transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div>
@@ -81,7 +82,9 @@ export const AircraftPage: React.FC<Props> = ({ onNavigate }) => {
               </div>
               <div className="flex justify-between">
                 <span>Cruising Speed:</span>
-                <span className="font-mono text-[#25232A]">{ac.cruisingSpeedKmH} km/h (M0.85)</span>
+                <span className="font-mono text-[#25232A]">
+                  {ac.cruisingSpeedKmH} km/h ({Math.round(ac.cruisingSpeedKmH * 0.539957)} kts)
+                </span>
               </div>
 
               <div className="pt-2 text-right">
@@ -91,7 +94,7 @@ export const AircraftPage: React.FC<Props> = ({ onNavigate }) => {
                 </span>
               </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 

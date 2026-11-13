@@ -46,37 +46,35 @@ export default function App() {
 
   useEffect(() => {
     aviationService.recordPageView(currentPath);
-
-    // Dynamic Canonical & OpenGraph sync for Googlebot and Social crawlers
-    if (typeof document !== 'undefined') {
-      const cleanPath = currentPath.split('?')[0].replace(/\/+$/, '') || '/';
-      const canonicalUrl = `https://manufaktur.biz.id${cleanPath === '/' ? '' : cleanPath}`;
-      
-      let canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
-      }
-      canonicalEl.setAttribute('href', canonicalUrl);
-
-      let ogUrlEl = document.querySelector('meta[property="og:url"]');
-      if (ogUrlEl) {
-        ogUrlEl.setAttribute('content', canonicalUrl);
-      }
-
-      // Ensure Adsterra Social Bar script is always active
-      const scriptSrc = 'https://bicea.org/14/6946ae9fe140d10b8afbdd2702197503';
-      const existing = document.querySelector(`script[src="${scriptSrc}"]`);
-      if (!existing) {
-        const s = document.createElement('script');
-        s.setAttribute('data-cfasync', 'false');
-        s.src = scriptSrc;
-        s.async = true;
-        document.head.appendChild(s);
-      }
-    }
   }, [currentPath]);
+
+  const syncPageMeta = (title: string, description: string, canonicalPath?: string) => {
+    if (typeof document === 'undefined') return;
+    document.title = title;
+
+    const cleanPath = (canonicalPath ?? (currentPath.split('?')[0].replace(/\/+$/, '') || '/'));
+    const canonicalUrl = `https://manufaktur.biz.id${cleanPath === '/' ? '/' : cleanPath}`;
+
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
+    }
+    canonicalEl.setAttribute('href', canonicalUrl);
+
+    const setMeta = (selector: string, content: string) => {
+      const el = document.querySelector(selector);
+      if (el) el.setAttribute('content', content);
+    };
+
+    setMeta('meta[name="description"]', description);
+    setMeta('meta[property="og:title"]', title);
+    setMeta('meta[property="og:description"]', description);
+    setMeta('meta[property="og:url"]', canonicalUrl);
+    setMeta('meta[name="twitter:title"]', title);
+    setMeta('meta[name="twitter:description"]', description);
+  };
 
   const navigate = (path: string) => {
     setCurrentPath(path);
@@ -92,158 +90,285 @@ export default function App() {
 
   // Route Dispatcher
   const renderRoute = () => {
+    const cleanPath = currentPath.split('?')[0].replace(/\/+$/, '') || '/';
     const url = currentPath;
 
     // Homepage
-    if (url === '/' || url === '') {
-      document.title = 'World Flight Schedule – Global Flight Schedules & Aircraft Tracking';
+    if (cleanPath === '/') {
+      syncPageMeta(
+        'Canada Flight Schedules – Canadian Aerodromes Timetables & Radar Tracking',
+        'Explore Canadian flight schedules, aerodrome departures and arrivals across all 10 provinces and 3 territories, Air Canada, WestJet, Porter, and live ADS-B radar tracking.',
+        '/'
+      );
       return <HomePage onNavigate={navigate} onSearchGlobal={handleGlobalSearch} />;
     }
 
     // Flight Schedules
-    if (url === '/flights' || url.startsWith('/flights?')) {
-      document.title = 'Global Flight Schedules Today – World Flight Schedule';
+    if (cleanPath === '/flights') {
+      syncPageMeta(
+        'Global Flight Schedules Today – World Flight Schedule',
+        'Real-time Canadian commercial flight timetables and carrier statuses across NAV CANADA airspace.',
+        '/flights'
+      );
       const searchParam = new URLSearchParams(url.split('?')[1] || '').get('q') || globalQuery;
       return <FlightSchedulesPage initialSearch={searchParam} onNavigate={navigate} />;
     }
 
     // Departures & Arrivals
-    if (url === '/departures') {
-      document.title = 'Airport Live Departures Board – World Flight Schedule';
+    if (cleanPath === '/departures') {
+      syncPageMeta(
+        'Airport Live Departures Board – World Flight Schedule',
+        'Real-time departures board for Canadian international and regional airports.',
+        '/departures'
+      );
       return <DeparturesPage onNavigate={navigate} />;
     }
 
-    if (url === '/arrivals') {
-      document.title = 'Airport Live Arrivals Board – World Flight Schedule';
+    if (cleanPath === '/arrivals') {
+      syncPageMeta(
+        'Airport Live Arrivals Board – World Flight Schedule',
+        'Live inbound arrivals, gate numbers, and baggage claim carousels across Canadian aerodromes.',
+        '/arrivals'
+      );
       return <ArrivalsPage onNavigate={navigate} />;
     }
 
     // Airports
-    if (url === '/airports') {
-      document.title = 'Global Airport Directory (IATA/ICAO) – World Flight Schedule';
+    if (cleanPath === '/airports') {
+      syncPageMeta(
+        'Global Airport Directory (IATA/ICAO) – World Flight Schedule',
+        'Comprehensive directory of Canadian and international airports with runway dimensions and terminal specs.',
+        '/airports'
+      );
       return <AirportsPage onNavigate={navigate} />;
     }
 
-    if (url.startsWith('/airport/')) {
-      const code = url.split('/')[2];
+    if (cleanPath.startsWith('/airport/')) {
+      const code = cleanPath.split('/')[2] || '';
       const airport = aviationService.getAirportByCode(code);
-      document.title = airport
-        ? `${airport.name} (${airport.iata}) Departures & Arrivals – World Flight Schedule`
-        : 'Airport Details – World Flight Schedule';
+      if (airport) {
+        syncPageMeta(
+          `${airport.iata} – ${airport.name} Live Flight Board & Aerodrome Info`,
+          `Live flight departures, arrivals, terminal gates, and weather conditions for ${airport.name} (${airport.iata}) in ${airport.city}.`,
+          `/airport/${airport.iata}`
+        );
+      } else {
+        syncPageMeta(
+          'Airport Not Found – World Flight Schedule',
+          'Requested aerodrome record could not be located in the Canadian aerodrome registry.',
+          cleanPath
+        );
+      }
       return <AirportDetailPage airportCode={code} onNavigate={navigate} />;
     }
 
     // Airlines
-    if (url === '/airlines') {
-      document.title = 'International Airline Directory – World Flight Schedule';
+    if (cleanPath === '/airlines') {
+      syncPageMeta(
+        'International Airline Directory – World Flight Schedule',
+        'Fleet specifications, active routes, and daily scheduled operations for Air Canada, WestJet, Porter, and international airlines.',
+        '/airlines'
+      );
       return <AirlinesPage onNavigate={navigate} />;
     }
 
-    if (url.startsWith('/airline/')) {
-      const code = url.split('/')[2];
+    if (cleanPath.startsWith('/airline/')) {
+      const code = cleanPath.split('/')[2] || '';
       const airline = aviationService.getAirlineByCode(code);
-      document.title = airline
-        ? `${airline.name} (${airline.iata}) Fleet & Schedules – World Flight Schedule`
-        : 'Airline Details – World Flight Schedule';
+      if (airline) {
+        syncPageMeta(
+          `${airline.name} (${airline.iata}) Fleet & Daily Flight Schedules`,
+          `Track active flights, fleet specifications, and route networks for ${airline.name} (${airline.iata}), operating out of ${airline.hubAirports.join(', ')}.`,
+          `/airline/${airline.iata}`
+        );
+      } else {
+        syncPageMeta(
+          'Airline Not Found – World Flight Schedule',
+          'Requested airline record could not be located in the carrier registry.',
+          cleanPath
+        );
+      }
       return <AirlineDetailPage airlineCode={code} onNavigate={navigate} />;
     }
 
     // Aircraft
-    if (url === '/aircraft') {
-      document.title = 'Commercial Aircraft Information Directory – World Flight Schedule';
+    if (cleanPath === '/aircraft') {
+      syncPageMeta(
+        'Commercial Aircraft Information Directory – World Flight Schedule',
+        'Technical specifications, passenger capacities, and cruising speeds for commercial airliners.',
+        '/aircraft'
+      );
       return <AircraftPage onNavigate={navigate} />;
     }
 
-    if (url.startsWith('/aircraft/')) {
-      const code = url.split('/')[2];
+    if (cleanPath.startsWith('/aircraft/')) {
+      const code = cleanPath.split('/')[2] || '';
       const aircraft = aviationService.getAircraftByCode(code);
-      document.title = aircraft
-        ? `${aircraft.model} Specifications & Flight Assignments – World Flight Schedule`
-        : 'Aircraft Details – World Flight Schedule';
+      if (aircraft) {
+        syncPageMeta(
+          `${aircraft.model} (${aircraft.icaoType}) Specifications & Flight Assignments – World Flight Schedule`,
+          `Technical specifications, range (${aircraft.rangeKm.toLocaleString()} km), cruising velocity, and active scheduled flights for the ${aircraft.model}.`,
+          `/aircraft/${aircraft.icaoType}`
+        );
+      } else {
+        syncPageMeta(
+          'Aircraft Type Not Found – World Flight Schedule',
+          'Requested aircraft specifications could not be located in the commercial fleet directory.',
+          cleanPath
+        );
+      }
       return <AircraftDetailPage aircraftCode={code} onNavigate={navigate} />;
     }
 
     // Single Flight Detail
-    if (url.startsWith('/flight/')) {
-      const flightId = url.split('/')[2];
+    if (cleanPath.startsWith('/flight/')) {
+      const flightId = cleanPath.split('/')[2] || '';
       const flight = aviationService.getFlightById(flightId);
-      document.title = flight
-        ? `Flight ${flight.flightNumber} (${flight.departureAirportIata} to ${flight.arrivalAirportIata}) – World Flight Schedule`
-        : 'Flight Detail – World Flight Schedule';
+      if (flight) {
+        syncPageMeta(
+          `Flight ${flight.flightNumber} (${flight.departureAirportIata} to ${flight.arrivalAirportIata}) – World Flight Schedule`,
+          `Live status, scheduled departure and arrival times, terminal gates, and aircraft telemetry for ${flight.airlineName} flight ${flight.flightNumber}.`,
+          `/flight/${flight.flightNumber}`
+        );
+      } else {
+        syncPageMeta(
+          'Flight Record Not Found – World Flight Schedule',
+          'Requested scheduled flight operation could not be located for the current timetable period.',
+          cleanPath
+        );
+      }
       return <FlightDetailPage flightId={flightId} onNavigate={navigate} />;
     }
 
     // Routes
-    if (url === '/routes') {
-      document.title = 'Worldwide Flight Routes Explorer – World Flight Schedule';
+    if (cleanPath === '/routes') {
+      syncPageMeta(
+        'Worldwide Flight Routes Explorer – World Flight Schedule',
+        'Discover major Canadian and transcontinental commercial air routes and typical flight durations.',
+        '/routes'
+      );
       return <RoutesPage onNavigate={navigate} />;
     }
 
     // Live Map
-    if (url === '/map') {
-      document.title = 'Live Aircraft Radar & Transponder Map – World Flight Schedule';
+    if (cleanPath === '/map') {
+      syncPageMeta(
+        'Live Aircraft Radar & Transponder Map – World Flight Schedule',
+        'Live Canadian airspace radar tracking with Mode-S ADS-B transponder altitude and ground speed vectors.',
+        '/map'
+      );
       return <LiveMapPage onNavigate={navigate} />;
     }
 
     // Articles
-    if (url === '/articles') {
-      document.title = 'Aviation News & Travel Insights – World Flight Schedule';
+    if (cleanPath === '/articles') {
+      syncPageMeta(
+        'Aviation News & Technical Operations Guides – World Flight Schedule',
+        'In-depth 1,000+ word aviation research guides covering winter de-icing holdover times, polar radar, aerodynamics, and passenger rights.',
+        '/articles'
+      );
       return <ArticlesPage onNavigate={navigate} />;
     }
 
-    if (url.startsWith('/articles/')) {
-      const slug = url.split('/')[2];
+    if (cleanPath.startsWith('/articles/')) {
+      const slug = cleanPath.split('/')[2] || '';
       const article = aviationService.getArticleBySlug(slug);
-      document.title = article
-        ? `${article.title} – World Flight Schedule`
-        : 'Aviation Editorial – World Flight Schedule';
+      if (article) {
+        syncPageMeta(
+          `${article.title} – World Flight Schedule`,
+          article.excerpt,
+          `/articles/${article.slug}`
+        );
+      } else {
+        syncPageMeta(
+          'Article Not Found – World Flight Schedule',
+          'The requested aviation analysis could not be located or has been archived.',
+          cleanPath
+        );
+      }
       return <ArticleDetailPage slug={slug} onNavigate={navigate} />;
     }
 
     // Legal & Company
-    if (url === '/about') {
-      document.title = 'About Us – World Flight Schedule';
+    if (cleanPath === '/about') {
+      syncPageMeta(
+        'About Us – World Flight Schedule',
+        'Learn about World Flight Schedule and our certified Canadian civil aviation timetable and transponder feeds.',
+        '/about'
+      );
       return <LegalPage pageType="about" onNavigate={navigate} />;
     }
 
-    if (url === '/contact') {
-      document.title = 'Contact Operations & Editorial Desk – World Flight Schedule';
+    if (cleanPath === '/contact') {
+      syncPageMeta(
+        'Contact Operations & Editorial Desk – World Flight Schedule',
+        'Contact our aviation operations desk and editorial fact-checking department.',
+        '/contact'
+      );
       return <LegalPage pageType="contact" onNavigate={navigate} />;
     }
 
-    if (url === '/privacy') {
-      document.title = 'Privacy Policy – World Flight Schedule';
+    if (cleanPath === '/privacy') {
+      syncPageMeta(
+        'Privacy Policy – World Flight Schedule',
+        'Privacy policy and data governance practices for World Flight Schedule.',
+        '/privacy'
+      );
       return <LegalPage pageType="privacy" onNavigate={navigate} />;
     }
 
-    if (url === '/terms') {
-      document.title = 'Terms and Conditions – World Flight Schedule';
+    if (cleanPath === '/terms') {
+      syncPageMeta(
+        'Terms and Conditions – World Flight Schedule',
+        'Terms and conditions for utilizing World Flight Schedule data and timetables.',
+        '/terms'
+      );
       return <LegalPage pageType="terms" onNavigate={navigate} />;
     }
 
-    if (url === '/disclaimer') {
-      document.title = 'Aviation Data Accuracy Disclaimer – World Flight Schedule';
+    if (cleanPath === '/disclaimer') {
+      syncPageMeta(
+        'Aviation Data Accuracy Disclaimer – World Flight Schedule',
+        'Aviation data accuracy statement and flight operational notice.',
+        '/disclaimer'
+      );
       return <LegalPage pageType="disclaimer" onNavigate={navigate} />;
     }
 
-    if (url === '/editorial-policy') {
-      document.title = 'Editorial Policy & Fact-Checking – World Flight Schedule';
+    if (cleanPath === '/editorial-policy') {
+      syncPageMeta(
+        'Editorial Policy & Fact-Checking – World Flight Schedule',
+        'Our rigorous factual standards and verification policies in compliance with Transport Canada directives.',
+        '/editorial-policy'
+      );
       return <LegalPage pageType="editorial-policy" onNavigate={navigate} />;
     }
 
-    if (url === '/sitemap' || url === '/site-index') {
-      document.title = 'HTML Sitemap & Complete Site Index – World Flight Schedule';
+    if (cleanPath === '/sitemap' || cleanPath === '/site-index') {
+      syncPageMeta(
+        'HTML Site Index & Complete Directory – World Flight Schedule',
+        'Complete index of all Canadian flight timetables, 20 aviation research guides, airport boards, carrier fleets, and compliance policies.',
+        '/site-index'
+      );
       return <SitemapPage onNavigate={navigate} />;
     }
 
     // Admin Dashboard
-    if (url === '/admin') {
-      document.title = 'Administrator Operations Console – World Flight Schedule';
+    if (cleanPath === '/admin') {
+      syncPageMeta(
+        'Administrator Operations Console – World Flight Schedule',
+        'Internal operations console for World Flight Schedule.',
+        '/admin'
+      );
       return <AdminDashboard onNavigate={navigate} />;
     }
 
     // 404 Fallback
-    document.title = 'Page Not Found – World Flight Schedule';
+    syncPageMeta(
+      'Page Not Found – World Flight Schedule',
+      'The requested aviation URL or flight identifier does not exist.',
+      cleanPath
+    );
     return <NotFoundPage onNavigate={navigate} />;
   };
 

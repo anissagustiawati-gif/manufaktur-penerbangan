@@ -21,12 +21,16 @@ export const AirlineDetailPage: React.FC<Props> = ({ airlineCode, onNavigate }) 
         <p className="text-xs text-[#777780] mt-1">
           No commercial airline record found for code &quot;{airlineCode}&quot;.
         </p>
-        <button
-          onClick={() => onNavigate('/airlines')}
-          className="mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded"
+        <a
+          href="/airlines"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/airlines');
+          }}
+          className="inline-block mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded"
         >
           Return to Airlines Directory
-        </button>
+        </a>
       </div>
     );
   }
@@ -36,14 +40,18 @@ export const AirlineDetailPage: React.FC<Props> = ({ airlineCode, onNavigate }) 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-6 font-sans">
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => onNavigate('/airlines')}
+        <a
+          href="/airlines"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/airlines');
+          }}
           className="inline-flex items-center gap-1.5 text-xs text-[#777780] hover:text-[#681C35] transition-colors cursor-pointer font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Airlines</span>
-        </button>
-        <span className="text-xs text-[#777780] font-mono">Airline URL: /airline/{airline.iata.toLowerCase()}</span>
+        </a>
+        <span className="text-xs text-[#777780] font-mono">Airline URL: /airline/{airline.iata}</span>
       </div>
 
       <div className="bg-white border border-[#E8E5E8] rounded-md shadow-xs overflow-hidden">
@@ -126,8 +134,8 @@ export const AirlineDetailPage: React.FC<Props> = ({ airlineCode, onNavigate }) 
             totalPages={1}
             onPageChange={() => {}}
             onPageSizeChange={() => {}}
-            onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber.toLowerCase()}`)}
-            onSelectAirport={(iata) => onNavigate(`/airport/${iata.toLowerCase()}`)}
+            onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber}`)}
+            onSelectAirport={(iata) => onNavigate(`/airport/${iata}`)}
           />
         </div>
       </div>

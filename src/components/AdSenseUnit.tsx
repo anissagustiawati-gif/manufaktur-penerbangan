@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { aviationService } from '../services/aviationService';
 
 interface Props {
   slotId?: string;
@@ -6,104 +7,60 @@ interface Props {
   className?: string;
 }
 
-export const AdSenseUnit: React.FC<Props> = ({ slotId, className = '' }) => {
-  // Balanced 3-second countdown: neither too fast nor too slow
-  const [countdown, setCountdown] = useState<number>(3);
-  const [isReady, setIsReady] = useState<boolean>(false);
+const PLACEHOLDER_PUB_ID = 'ca-pub-9920192837461029';
+
+export const AdSenseUnit: React.FC<Props> = ({ slotId, format = 'horizontal', className = '' }) => {
+  const pushedRef = useRef(false);
+  const settings = aviationService.getSettings();
+  const clientId = (settings.adSenseClientId || '').trim();
+  const hasRealPublisherId =
+    settings.enableAdSense &&
+    clientId.startsWith('ca-pub-') &&
+    clientId !== PLACEHOLDER_PUB_ID &&
+    clientId.length >= 15;
+
+  const resolvedSlot =
+    slotId && /^\d+$/.test(slotId)
+      ? slotId
+      : format === 'rectangle'
+        ? settings.adSenseSlotSidebar
+        : settings.adSenseSlotTop;
+
+  const hasValidSlot = !!resolvedSlot && /^\d+$/.test(resolvedSlot) && resolvedSlot !== '9876543210' && resolvedSlot !== '1234567890';
 
   useEffect(() => {
-    setCountdown(3);
-    setIsReady(false);
+    if (!hasRealPublisherId || !hasValidSlot || pushedRef.current) return;
+    try {
+      const win = window as unknown as { adsbygoogle?: unknown[] };
+      win.adsbygoogle = win.adsbygoogle || [];
+      win.adsbygoogle.push({});
+      pushedRef.current = true;
+    } catch {
+      // Ignore AdSense script errors before script loads
+    }
+  }, [hasRealPublisherId, hasValidSlot]);
 
-    // 1-second interval: 3s total
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          setIsReady(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [slotId]);
+  if (!hasRealPublisherId || !hasValidSlot) {
+    return null;
+  }
 
   return (
-    <div className={`my-6 mx-auto w-full flex flex-col items-center justify-center ${className}`}>
-      <div className="w-full max-w-[340px] bg-white border border-[#E8E5E8] rounded-lg p-2.5 shadow-2xs transition-all">
-        {/* Header Label */}
-        <div className="flex items-center justify-between text-[10px] text-[#777780] mb-2 px-1 border-b border-[#ECEBED] pb-1 uppercase tracking-wider font-mono">
-          <span className="font-semibold text-[#681C35]">Sponsor Advertisement</span>
-          <span>
-            {isReady ? (
-              <span className="text-emerald-700 font-bold">● Adsterra Live</span>
-            ) : (
-              <span className="text-amber-600 font-bold">
-                Loading ({countdown}s)
-              </span>
-            )}
-          </span>
-        </div>
-
-        {/* 300x250 Ad Display Box */}
-        <div className="relative w-[300px] h-[250px] mx-auto bg-[#F8F8FA] rounded border border-[#E8E5E8] overflow-hidden flex items-center justify-center">
-          {/* Moderate 4s Countdown Animation */}
-          {!isReady && (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-[#FDFCFC] to-[#F5F4F7] p-4 text-center">
-              {/* Circular Countdown Badge */}
-              <div className="relative flex items-center justify-center w-14 h-14 rounded-full bg-white border-2 border-[#681C35] shadow-xs mb-2.5">
-                <span className="font-mono text-xl font-black text-[#681C35]">
-                  {countdown}
-                </span>
-                <div
-                  className="absolute inset-0 rounded-full border-2 border-[#8A2948] border-t-transparent animate-spin"
-                  style={{ animationDuration: '1s' }}
-                />
-              </div>
-
-              <div className="text-xs font-bold text-[#25232A]">
-                Loading Sponsor Placement...
-              </div>
-              <p className="text-[10px] text-[#777780] mt-0.5 font-mono">
-                Ready in {countdown}s
-              </p>
-
-              {/* Progress Bar for 3 Seconds */}
-              <div className="w-36 h-1.5 bg-[#E8E5E8] rounded-full mt-2.5 overflow-hidden">
-                <div
-                  className="h-full bg-[#681C35] transition-all duration-1000 ease-linear"
-                  style={{ width: `${((3 - countdown) / 3) * 100}%` }}
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setCountdown(0);
-                  setIsReady(true);
-                }}
-                className="mt-2.5 text-[10px] text-[#681C35] hover:text-[#8A2948] underline font-medium cursor-pointer"
-              >
-                Skip countdown &amp; display now
-              </button>
-            </div>
-          )}
-
-          {/* Adsterra 300x250 Banner Iframe served from real static origin */}
-          {isReady && (
-            <iframe
-              title={`adsterra-300x250-${slotId || 'ad'}`}
-              src={`/ad-300x250.html?slot=${slotId || 'ad'}`}
-              width="300"
-              height="250"
-              scrolling="no"
-              className="w-[300px] h-[250px] border-0 overflow-hidden block"
-            />
-          )}
-        </div>
-      </div>
-    </div>
+    <aside
+      aria-label="Advertisement"
+      className={`my-6 mx-auto w-full flex flex-col items-center justify-center ${className}`}
+    >
+      <span className="text-[10px] text-[#777780] uppercase tracking-wider font-mono mb-1">
+        Advertisement
+      </span>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block', width: '100%', minHeight: format === 'rectangle' ? '250px' : '90px' }}
+        data-ad-client={clientId}
+        data-ad-slot={resolvedSlot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    </aside>
   );
 };
+

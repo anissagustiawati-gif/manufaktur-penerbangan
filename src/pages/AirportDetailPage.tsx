@@ -33,12 +33,16 @@ export const AirportDetailPage: React.FC<Props> = ({ airportCode, onNavigate }) 
         <p className="text-xs text-[#777780] mt-1">
           No aerodrome record found for identifier &quot;{airportCode}&quot;.
         </p>
-        <button
-          onClick={() => onNavigate('/airports')}
-          className="mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded"
+        <a
+          href="/airports"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/airports');
+          }}
+          className="inline-block mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded"
         >
           Return to Airports Directory
-        </button>
+        </a>
       </div>
     );
   }
@@ -57,14 +61,18 @@ export const AirportDetailPage: React.FC<Props> = ({ airportCode, onNavigate }) 
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-6 font-sans">
       {/* Back breadcrumb */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => onNavigate('/airports')}
+        <a
+          href="/airports"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('/airports');
+          }}
           className="inline-flex items-center gap-1.5 text-xs text-[#777780] hover:text-[#681C35] transition-colors cursor-pointer font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Airports</span>
-        </button>
-        <span className="text-xs text-[#777780] font-mono">Aerodrome URL: /airport/{airport.iata.toLowerCase()}</span>
+        </a>
+        <span className="text-xs text-[#777780] font-mono">Aerodrome URL: /airport/{airport.iata}</span>
       </div>
 
       {/* Airport Hero Card */}
@@ -166,9 +174,13 @@ export const AirportDetailPage: React.FC<Props> = ({ airportCode, onNavigate }) 
           {/* List of Flights */}
           <div className="divide-y divide-[#E8E5E8]">
             {(activeTab === 'departures' ? departures : arrivals).map((flight) => (
-              <div
+              <a
                 key={flight.id}
-                onClick={() => onNavigate(`/flight/${flight.flightNumber.toLowerCase()}`)}
+                href={`/flight/${flight.flightNumber}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate(`/flight/${flight.flightNumber}`);
+                }}
                 className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#FAF9FA] px-2 rounded transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
@@ -210,7 +222,7 @@ export const AirportDetailPage: React.FC<Props> = ({ airportCode, onNavigate }) 
 
                   <ArrowRight className="w-4 h-4 text-[#777780] hidden sm:block" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

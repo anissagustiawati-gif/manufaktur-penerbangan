@@ -46,17 +46,7 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
 
   useEffect(() => {
     aviationService.recordArticleView(slug);
-    if (article) {
-      document.title = `${article.title} – World Flight Schedule`;
-      let canonical = document.querySelector('link[rel="canonical"]');
-      if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonical);
-      }
-      canonical.setAttribute('href', `https://manufaktur.biz.id/articles/${article.slug}`);
-    }
-  }, [slug, article]);
+  }, [slug]);
 
   // Live flights for the interactive sidebar
   const liveFlightData = aviationService.getFlights({
@@ -72,12 +62,13 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
         <p className="text-xs text-[#777780] mt-1">
           The requested aviation analysis does not exist or has been archived.
         </p>
-        <button
-          onClick={() => onNavigate('/articles')}
-          className="mt-6 px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded cursor-pointer"
+        <a
+          href="/articles"
+          onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
+          className="mt-6 inline-block px-4 py-2 bg-[#681C35] text-white text-xs font-semibold rounded cursor-pointer"
         >
           Return to Aviation News
-        </button>
+        </a>
       </div>
     );
   }
@@ -96,14 +87,17 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
         if (match) {
           const [, label, url] = match;
           return (
-            <button
+            <a
               key={i}
-              type="button"
-              onClick={() => onNavigate(url)}
-              className="text-[#681C35] font-semibold underline decoration-[#681C35]/40 hover:decoration-[#681C35] hover:text-[#8A2948] transition-colors cursor-pointer inline text-left p-0 bg-transparent border-none align-baseline"
+              href={url}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(url);
+              }}
+              className="text-[#681C35] font-semibold underline decoration-[#681C35]/40 hover:decoration-[#681C35] hover:text-[#8A2948] transition-colors cursor-pointer"
             >
               {label}
-            </button>
+            </a>
           );
         }
       }
@@ -121,13 +115,14 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 font-sans">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center justify-between text-xs text-[#777780] mb-6">
-        <button
-          onClick={() => onNavigate('/articles')}
+        <a
+          href="/articles"
+          onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
           className="inline-flex items-center gap-1.5 hover:text-[#681C35] transition-colors cursor-pointer font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Canadian Articles</span>
-        </button>
+        </a>
 
         <div className="flex items-center gap-2">
           <span>{article.category}</span>
@@ -180,9 +175,10 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
             </div>
             <div className="space-y-2 max-h-60 overflow-y-auto">
               {liveFlightData.flights.slice(0, 4).map((f) => (
-                <div
+                <a
                   key={f.id}
-                  onClick={() => onNavigate(`/flight/${f.flightNumber.toLowerCase()}`)}
+                  href={`/flight/${f.flightNumber}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(`/flight/${f.flightNumber}`); }}
                   className="p-2.5 bg-white border border-[#E8E5E8] rounded hover:border-[#681C35] cursor-pointer flex items-center justify-between text-xs"
                 >
                   <div>
@@ -190,7 +186,7 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
                     <div className="text-[11px] text-[#777780]">{f.departureAirportIata} → {f.arrivalAirportIata} ({f.scheduledDepartureLocal})</div>
                   </div>
                   <FlightStatusBadge status={f.status} />
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -392,17 +388,18 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {relatedArticles.map((rel) => (
-              <div
+              <a
                 key={rel.slug}
-                onClick={() => onNavigate(`/articles/${rel.slug}`)}
-                className="bg-white border border-[#E8E5E8] rounded p-3 hover:border-[#681C35] transition-colors cursor-pointer group"
+                href={`/articles/${rel.slug}`}
+                onClick={(e) => { e.preventDefault(); onNavigate(`/articles/${rel.slug}`); }}
+                className="bg-white border border-[#E8E5E8] rounded p-3 hover:border-[#681C35] transition-colors cursor-pointer group block"
               >
                 <div className="text-[10px] text-[#681C35] font-semibold">{rel.category}</div>
                 <h4 className="font-bold text-xs text-[#25232A] mt-1 group-hover:text-[#681C35] line-clamp-2">
                   {rel.title}
                 </h4>
                 <div className="text-[10px] text-[#777780] mt-2">{rel.readTimeMinutes} min read</div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
@@ -412,8 +409,9 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
       {(prevArticle || nextArticle) && (
         <div className="pt-6 border-t border-[#E8E5E8] grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prevArticle && (
-            <button
-              onClick={() => onNavigate(`/articles/${prevArticle.slug}`)}
+            <a
+              href={`/articles/${prevArticle.slug}`}
+              onClick={(e) => { e.preventDefault(); onNavigate(`/articles/${prevArticle.slug}`); }}
               className="p-4 bg-white border border-[#E8E5E8] rounded-md hover:border-[#681C35] hover:bg-[#FAF9FA] text-left transition-all cursor-pointer group flex items-start gap-3 shadow-2xs"
             >
               <div className="w-8 h-8 rounded bg-[#681C35]/10 text-[#681C35] flex items-center justify-center shrink-0 mt-0.5">
@@ -425,12 +423,13 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
                   {prevArticle.title}
                 </div>
               </div>
-            </button>
+            </a>
           )}
 
           {nextArticle && (
-            <button
-              onClick={() => onNavigate(`/articles/${nextArticle.slug}`)}
+            <a
+              href={`/articles/${nextArticle.slug}`}
+              onClick={(e) => { e.preventDefault(); onNavigate(`/articles/${nextArticle.slug}`); }}
               className="p-4 bg-white border border-[#E8E5E8] rounded-md hover:border-[#681C35] hover:bg-[#FAF9FA] text-right transition-all cursor-pointer group flex items-start justify-end gap-3 shadow-2xs sm:col-start-2"
             >
               <div className="min-w-0">
@@ -442,7 +441,7 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
               <div className="w-8 h-8 rounded bg-[#681C35]/10 text-[#681C35] flex items-center justify-center shrink-0 mt-0.5">
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
-            </button>
+            </a>
           )}
         </div>
       )}
@@ -509,10 +508,11 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
             </div>
           ) : (
             liveFlightData.flights.map((flight) => (
-              <div
+              <a
                 key={flight.id}
-                onClick={() => onNavigate(`/flight/${flight.flightNumber.toLowerCase()}`)}
-                className="p-3 bg-[#FAF9FA] hover:bg-white border border-[#E8E5E8] hover:border-[#681C35] rounded transition-all cursor-pointer group shadow-2xs"
+                href={`/flight/${flight.flightNumber}`}
+                onClick={(e) => { e.preventDefault(); onNavigate(`/flight/${flight.flightNumber}`); }}
+                className="p-3 bg-[#FAF9FA] hover:bg-white border border-[#E8E5E8] hover:border-[#681C35] rounded transition-all cursor-pointer group shadow-2xs block"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
@@ -542,27 +542,29 @@ export const ArticleDetailPage: React.FC<Props> = ({ slug, onNavigate }) => {
                   <span>{flight.aircraftModel.split(' ')[0]} {flight.aircraftIcaoType}</span>
                   <span>Gate {flight.gateDeparture || 'Assigned'}</span>
                 </div>
-              </div>
+              </a>
             ))
           )}
         </div>
 
         {/* Quick Hub Navigation Links */}
         <div className="pt-2 border-t border-[#E8E5E8] flex items-center justify-between text-xs">
-          <button
-            onClick={() => onNavigate('/map')}
+          <a
+            href="/map"
+            onClick={(e) => { e.preventDefault(); onNavigate('/map'); }}
             className="text-[#681C35] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
           >
             <Radio className="w-3.5 h-3.5 text-emerald-600" />
             <span>Full Airspace Radar Map</span>
-          </button>
-          <button
-            onClick={() => onNavigate('/flights')}
+          </a>
+          <a
+            href="/flights"
+            onClick={(e) => { e.preventDefault(); onNavigate('/flights'); }}
             className="text-[#777780] hover:text-[#25232A] flex items-center gap-1 cursor-pointer"
           >
             <span>All Flights</span>
             <ArrowRight className="w-3 h-3" />
-          </button>
+          </a>
         </div>
       </div>
 

@@ -37,13 +37,14 @@ export const ExploreMoreSection: React.FC<Props> = ({
             </p>
           </div>
 
-          <button
-            onClick={() => onNavigate('/articles')}
+          <a
+            href="/articles"
+            onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
             className="text-xs font-semibold text-[#681C35] hover:underline flex items-center gap-1 cursor-pointer self-start sm:self-auto"
           >
             <span>View All {allArticles.length} Guides</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -167,10 +168,10 @@ export const ExploreMoreSection: React.FC<Props> = ({
           {CANADIAN_AIRPORTS.slice(0, 6).map((airport) => (
             <a
               key={airport.iata}
-              href={`/airport/${airport.iata.toLowerCase()}`}
+              href={`/airport/${airport.iata}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavigate(`/airport/${airport.iata.toLowerCase()}`);
+                onNavigate(`/airport/${airport.iata}`);
               }}
               className="p-3 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-all cursor-pointer group block"
             >

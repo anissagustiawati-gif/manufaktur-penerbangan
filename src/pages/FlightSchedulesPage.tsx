@@ -81,9 +81,9 @@ export const FlightSchedulesPage: React.FC<Props> = ({ initialSearch, onNavigate
         totalPages={result.totalPages}
         onPageChange={(p) => setFilters({ ...filters, page: p })}
         onPageSizeChange={(s) => setFilters({ ...filters, pageSize: s, page: 1 })}
-        onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber.toLowerCase()}`)}
-        onSelectAirport={(iata) => onNavigate(`/airport/${iata.toLowerCase()}`)}
-        onSelectAirline={(iata) => onNavigate(`/airline/${iata.toLowerCase()}`)}
+        onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber}`)}
+        onSelectAirport={(iata) => onNavigate(`/airport/${iata}`)}
+        onSelectAirline={(iata) => onNavigate(`/airline/${iata}`)}
         lastUpdated={stats.lastSyncTimestamp}
       />
 

@@ -227,13 +227,14 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
 
           <div className="mt-2 text-[11px] text-[#777780] bg-[#FAF9FA] px-3 py-1.5 rounded border border-[#E8E5E8] flex items-center justify-between">
             <span>{stats.coverageNotice}</span>
-            <button
-              onClick={() => onNavigate('/map')}
+            <a
+              href="/map"
+              onClick={(e) => { e.preventDefault(); onNavigate('/map'); }}
               className="text-[#681C35] font-semibold hover:underline flex items-center gap-1"
             >
               <span>View Live Aircraft Map</span>
               <ArrowRight className="w-3 h-3" />
-            </button>
+            </a>
           </div>
         </section>
 
@@ -307,9 +308,9 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
             totalPages={paginatedData.totalPages}
             onPageChange={(p) => setFilters({ ...filters, page: p })}
             onPageSizeChange={(s) => setFilters({ ...filters, pageSize: s, page: 1 })}
-            onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber.toLowerCase()}`)}
-            onSelectAirport={(iata) => onNavigate(`/airport/${iata.toLowerCase()}`)}
-            onSelectAirline={(iata) => onNavigate(`/airline/${iata.toLowerCase()}`)}
+            onSelectFlight={(flightNumber) => onNavigate(`/flight/${flightNumber}`)}
+            onSelectAirport={(iata) => onNavigate(`/airport/${iata}`)}
+            onSelectAirline={(iata) => onNavigate(`/airline/${iata}`)}
             lastUpdated={stats.lastSyncTimestamp}
           />
         </section>
@@ -372,9 +373,10 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
           {/* Quick Board List */}
           <div className="divide-y divide-[#E8E5E8] mt-2">
             {(activeBoardTab === 'departures' ? departures : arrivals).map((flight) => (
-              <div
+              <a
                 key={flight.id}
-                onClick={() => onNavigate(`/flight/${flight.flightNumber.toLowerCase()}`)}
+                href={`/flight/${flight.flightNumber}`}
+                onClick={(e) => { e.preventDefault(); onNavigate(`/flight/${flight.flightNumber}`); }}
                 className="py-3 px-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#FAF9FA] rounded transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-3">
@@ -414,7 +416,7 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
 
                   <ArrowRight className="w-4 h-4 text-[#777780] hidden sm:block" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
 
@@ -422,13 +424,14 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
             <span className="text-[#777780]">
               Showing top operations for {boardAirport === 'ALL' ? 'all Canadian hubs' : boardAirport}
             </span>
-            <button
-              onClick={() => onNavigate(activeBoardTab === 'departures' ? '/departures' : '/arrivals')}
+            <a
+              href={activeBoardTab === 'departures' ? '/departures' : '/arrivals'}
+              onClick={(e) => { e.preventDefault(); onNavigate(activeBoardTab === 'departures' ? '/departures' : '/arrivals'); }}
               className="text-[#681C35] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View full {activeBoardTab} board</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
         </section>
 
@@ -444,21 +447,23 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                 Explore IATA/ICAO runway specifications, terminals, Canadian timezones, and direct flight connections.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate('/airports')}
+            <a
+              href="/airports"
+              onClick={(e) => { e.preventDefault(); onNavigate('/airports'); }}
               className="text-xs font-semibold text-[#681C35] hover:underline flex items-center gap-1"
             >
               <span>Browse All Canadian Aerodromes</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
             {CANADIAN_AIRPORTS.slice(0, 4).map((airport) => (
-              <div
+              <a
                 key={airport.iata}
-                onClick={() => onNavigate(`/airport/${airport.iata.toLowerCase()}`)}
-                className="p-3.5 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-all cursor-pointer group"
+                href={`/airport/${airport.iata}`}
+                onClick={(e) => { e.preventDefault(); onNavigate(`/airport/${airport.iata}`); }}
+                className="p-3.5 border border-[#E8E5E8] rounded hover:border-[#681C35] hover:bg-[#FAF9FA] transition-all cursor-pointer group block"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-bold font-mono text-[#681C35] group-hover:underline">
@@ -478,7 +483,7 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                   <span>{airport.terminals?.length || 1} Terminals</span>
                   <span className="font-mono">UTC {airport.utcOffset >= 0 ? `+${airport.utcOffset}` : airport.utcOffset}</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
@@ -494,13 +499,14 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                 Certified Transport Canada & NAV CANADA operational research, winter holdover times, aerodynamics, and airport connection logistics.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate('/articles')}
+            <a
+              href="/articles"
+              onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
               className="text-xs font-semibold text-[#681C35] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View All {allArticles.length} Articles</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -588,13 +594,14 @@ export const HomePage: React.FC<Props> = ({ onNavigate, onSearchGlobal }) => {
                   {p}
                 </button>
               ))}
-              <button
-                onClick={() => onNavigate('/articles')}
+              <a
+                href="/articles"
+                onClick={(e) => { e.preventDefault(); onNavigate('/articles'); }}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#681C35] hover:bg-[#8A2948] text-white text-xs font-semibold rounded transition-colors cursor-pointer ml-1"
               >
                 <span>Browse All {allArticles.length} Guides</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </a>
             </div>
           </div>
         </section>

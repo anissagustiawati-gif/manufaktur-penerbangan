@@ -574,7 +574,8 @@ class AviationService {
   }
 
   public getAircraftByCode(code: string): Aircraft | undefined {
-    const c = code.toUpperCase();
+    const raw = code.toUpperCase();
+    const c = raw === 'A223' ? 'BCS3' : raw;
     return CANADIAN_AIRCRAFT.find(a =>
       a.icaoType === c ||
       a.model.toLowerCase().replace(/[^a-z0-9]/g, '-') === code.toLowerCase()
@@ -908,22 +909,23 @@ class AviationService {
 
     // Core Pages
     const staticPages = [
-      { path: '/', title: 'Beranda (Home) - Jadwal Penerbangan Kanada Valid Hari Ini', category: 'Core', priority: '1.0', changefreq: 'hourly' },
-      { path: '/flights', title: 'Daftar Lengkap Jadwal Penerbangan Kanada Real-Time', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
-      { path: '/departures', title: 'Papan Jadwal Keberangkatan (Departures Board)', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
-      { path: '/arrivals', title: 'Papan Jadwal Kedatangan (Arrivals Board)', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
-      { path: '/map', title: 'Live Radar & Peta Pesawat Kanada ADS-B Transponder', category: 'Radar', priority: '0.9', changefreq: 'always' },
-      { path: '/airports', title: 'Direktori Bandara Kanada Lengkap (IATA / ICAO)', category: 'Airports', priority: '0.8', changefreq: 'daily' },
-      { path: '/airlines', title: 'Direktori Maskapai Penerbangan Kanada', category: 'Airlines', priority: '0.8', changefreq: 'weekly' },
-      { path: '/aircraft', title: 'Direktori Spesifikasi Armada Pesawat Komersial', category: 'Aircraft', priority: '0.7', changefreq: 'weekly' },
-      { path: '/routes', title: 'Rute Penerbangan Domestik & Internasional Kanada', category: 'Routes', priority: '0.8', changefreq: 'daily' },
-      { path: '/articles', title: 'Kumpulan Berita & Analisis Aviasi (1000+ Kata)', category: 'Editorial', priority: '0.9', changefreq: 'daily' },
-      { path: '/about', title: 'Tentang Kami - World Flight Schedule', category: 'Company', priority: '0.5', changefreq: 'monthly' },
-      { path: '/contact', title: 'Kontak Editorial & Operasional', category: 'Company', priority: '0.5', changefreq: 'monthly' },
-      { path: '/privacy', title: 'Kebijakan Privasi (Privacy Policy)', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
-      { path: '/terms', title: 'Syarat & Ketentuan Layanan (Terms & Conditions)', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
-      { path: '/disclaimer', title: 'Disclaimer Akurasi Data Penerbangan', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
-      { path: '/editorial-policy', title: 'Pedoman Editorial & Fakta Standar', category: 'Legal', priority: '0.5', changefreq: 'yearly' }
+      { path: '/', title: 'Home - Canada Flight Schedules & Canadian Aerodrome Timetables', category: 'Core', priority: '1.0', changefreq: 'hourly' },
+      { path: '/flights', title: 'Canadian Commercial Flight Schedules Directory', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
+      { path: '/departures', title: 'Live Canadian Airport Departures Board', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
+      { path: '/arrivals', title: 'Live Canadian Airport Arrivals Board', category: 'Flights', priority: '0.9', changefreq: 'hourly' },
+      { path: '/map', title: 'Live Canadian Airspace ADS-B Radar Map', category: 'Radar', priority: '0.9', changefreq: 'always' },
+      { path: '/airports', title: 'Canadian Airports Directory (IATA / ICAO)', category: 'Airports', priority: '0.8', changefreq: 'daily' },
+      { path: '/airlines', title: 'Canadian Commercial Airlines Directory', category: 'Airlines', priority: '0.8', changefreq: 'weekly' },
+      { path: '/aircraft', title: 'Commercial Aircraft Fleet Specifications Directory', category: 'Aircraft', priority: '0.7', changefreq: 'weekly' },
+      { path: '/routes', title: 'Canadian Domestic & International Flight Routes Explorer', category: 'Routes', priority: '0.8', changefreq: 'daily' },
+      { path: '/articles', title: 'Canadian Aviation News & Technical Research Guides', category: 'Editorial', priority: '0.9', changefreq: 'daily' },
+      { path: '/site-index', title: 'HTML Site Index & Complete Navigation Directory', category: 'Core', priority: '0.7', changefreq: 'daily' },
+      { path: '/about', title: 'About Us - World Flight Schedule Canada', category: 'Company', priority: '0.5', changefreq: 'monthly' },
+      { path: '/contact', title: 'Contact Editorial & Operations Desk', category: 'Company', priority: '0.5', changefreq: 'monthly' },
+      { path: '/privacy', title: 'Privacy Policy & Cookie Disclosure', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
+      { path: '/terms', title: 'Terms and Conditions', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
+      { path: '/disclaimer', title: 'Aviation Data Accuracy Disclaimer', category: 'Legal', priority: '0.4', changefreq: 'yearly' },
+      { path: '/editorial-policy', title: 'Editorial Standards & Fact-Checking Policy', category: 'Legal', priority: '0.5', changefreq: 'yearly' }
     ];
 
     staticPages.forEach(p => {
@@ -940,7 +942,7 @@ class AviationService {
     CANADIAN_AIRPORTS.forEach(a => {
       urls.push({
         loc: `${origin}/airport/${a.iata}`,
-        title: `${a.name} (${a.iata}/${a.icao}) - Jadwal & Kedatangan/Keberangkatan`,
+        title: `${a.name} (${a.iata}/${a.icao}) - Departures & Arrivals Board`,
         category: 'Airports',
         priority: '0.8',
         changefreq: 'daily'
@@ -951,7 +953,7 @@ class AviationService {
     CANADIAN_AIRLINES.forEach(al => {
       urls.push({
         loc: `${origin}/airline/${al.iata}`,
-        title: `${al.name} (${al.iata}) - Profil Maskapai & Armada`,
+        title: `${al.name} (${al.iata}) - Fleet Profile & Schedules`,
         category: 'Airlines',
         priority: '0.7',
         changefreq: 'weekly'
@@ -962,7 +964,7 @@ class AviationService {
     CANADIAN_AIRCRAFT.forEach(ac => {
       urls.push({
         loc: `${origin}/aircraft/${ac.icaoType}`,
-        title: `${ac.model} (${ac.icaoType}) - Spesifikasi Pesawat`,
+        title: `${ac.model} (${ac.icaoType}) - Aircraft Specifications`,
         category: 'Aircraft',
         priority: '0.7',
         changefreq: 'monthly'
